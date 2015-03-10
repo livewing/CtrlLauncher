@@ -7,32 +7,35 @@
         xmlns:v="clr-namespace:CtrlLauncher.Views"
         xmlns:vm="clr-namespace:CtrlLauncher.ViewModels"
         xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
-        Title="{Binding Title}" Height="600" Width="800" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen"
-        GlowBrush="{DynamicResource AccentColorBrush}" TitleCaps="False">
+        Title="{Binding Title}" Height="600" Width="800" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen" UseLayoutRounding="True"
+        GlowBrush="{DynamicResource AccentColorBrush}" TitleCaps="False" RightWindowCommandsOverlayBehavior="HiddenTitleBar" WindowButtonCommandsOverlayBehavior="HiddenTitleBar">
 
   <Window.DataContext>
     <vm:MainWindowViewModel/>
   </Window.DataContext>
-
+  
   <i:Interaction.Triggers>
-
-    <!--Viewに特別な要件が存在しない限りは、トリガーやアクションの自作にこだわらず積極的にコードビハインドを使いましょう -->
-    <!--Viewのコードビハインドは、基本的にView内で完結するロジックとViewModelからのイベントの受信(専用リスナを使用する)に限るとトラブルが少なくなります -->
-    <!--Livet1.1からはコードビハインドでViewModelのイベントを受信するためのWeakEventLisnterサポートが追加されています -->
-
-    <!--WindowのContentRenderedイベントのタイミングでViewModelのInitializeメソッドが呼ばれます-->
     <i:EventTrigger EventName="ContentRendered">
       <l:LivetCallMethodAction MethodTarget="{Binding}" MethodName="Initialize"/>
     </i:EventTrigger>
-
-    <!--Windowが閉じたタイミングでViewModelのDisposeメソッドが呼ばれます-->
     <i:EventTrigger EventName="Closed">
       <l:DataContextDisposeAction/>
     </i:EventTrigger>
-
-    <!--WindowのCloseキャンセル処理に対応する場合は、WindowCloseCancelBehaviorの使用を検討してください-->
-
   </i:Interaction.Triggers>
+
+  <metro:MetroWindow.RightWindowCommands>
+    <metro:WindowCommands>
+      <Button Content="CTRL Launcher について" Command="{Binding OpenAboutFlyoutCommand}" />
+    </metro:WindowCommands>
+  </metro:MetroWindow.RightWindowCommands>
+  
+  <metro:MetroWindow.Flyouts>
+    <metro:FlyoutsControl>
+      <metro:Flyout Header="CTRL Launcher について" Position="Right" Width="700" IsModal="True" Theme="Adapt" AnimateOpacity="True" IsOpen="{Binding IsOpenAboutFlyout}">
+        <v:AboutContent Margin="60, 0, 0, 0" />
+      </metro:Flyout>
+    </metro:FlyoutsControl>
+  </metro:MetroWindow.Flyouts>
 
   <Grid>
 
