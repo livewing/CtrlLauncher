@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.ComponentModel;
+using System.Windows.Input;
 
 using Livet;
 using Livet.Commands;
@@ -17,19 +18,16 @@ namespace CtrlLauncher.ViewModels
 {
     public class MainWindowViewModel : ViewModel
     {
-        #region Title変更通知プロパティ
-        private string _Title = "CTRL Launcher";
+        #region IsMaintenanceModeプロパティ
+        public bool IsMaintenanceMode { get; private set; }
+        #endregion
 
+        #region Titleプロパティ
         public string Title
         {
             get
-            { return _Title; }
-            set
-            { 
-                if (_Title == value)
-                    return;
-                _Title = value;
-                RaisePropertyChanged();
+            {
+                return "CTRL Launcher" + (IsMaintenanceMode ? " [メンテナンスモード]" : "");
             }
         }
         #endregion
@@ -73,6 +71,20 @@ namespace CtrlLauncher.ViewModels
         }
         #endregion
 
+        public MainWindowViewModel()
+        {
+#if DEBUG
+            if (Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift))
+                IsMaintenanceMode = false;
+            else
+                IsMaintenanceMode = true;
+#else
+            if (Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift))
+                IsMaintenanceMode = true;
+            else
+                IsMaintenanceMode = false;
+#endif
+        }
 
         public void Initialize()
         {

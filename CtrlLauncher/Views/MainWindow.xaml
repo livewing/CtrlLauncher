@@ -38,6 +38,31 @@
   </metro:MetroWindow.Flyouts>
 
   <Grid>
-
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition />
+    </Grid.RowDefinitions>
+    <Menu BorderBrush="LightGray" BorderThickness="0, 0, 0, 1">
+      <Menu.Visibility>
+        <Binding Path="IsMaintenanceMode">
+          <Binding.Converter>
+            <l:VisibilityAndBooleanConverter ConvertWhenFalse="Collapsed" ConvertWhenTrue="Visible" />
+          </Binding.Converter>
+        </Binding>
+      </Menu.Visibility>
+      <MenuItem Header="ファイル(_F)">
+        <MenuItem Header="終了(_X)" InputGestureText="Alt+F4">
+          <i:Interaction.Triggers>
+            <i:EventTrigger EventName="Click">
+              <l:WindowInteractionMessageAction>
+                <l:DirectInteractionMessage>
+                  <l:WindowActionMessage Action="Close" />
+                </l:DirectInteractionMessage>
+              </l:WindowInteractionMessageAction>
+            </i:EventTrigger>
+          </i:Interaction.Triggers>
+        </MenuItem>
+      </MenuItem>
+    </Menu>
   </Grid>
 </metro:MetroWindow>
