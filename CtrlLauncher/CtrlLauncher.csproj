@@ -87,6 +87,9 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="Xceed.Wpf.Toolkit">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.2.4\lib\net40\Xceed.Wpf.Toolkit.dll</HintPath>
+    </Reference>
     <Reference Include="YamlDotNet">
       <HintPath>..\packages\YamlDotNet.3.5.1\lib\net35\YamlDotNet.dll</HintPath>
     </Reference>
@@ -97,6 +100,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Utils.cs" />
+    <Compile Include="ViewModels\AppSpecViewModel.cs" />
     <Compile Include="Win32.cs" />
     <Page Include="Views\AboutContent.xaml">
       <SubType>Designer</SubType>
@@ -181,6 +185,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Licenses\YamlDotNet.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Licenses\ExtendedWPFToolkit.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

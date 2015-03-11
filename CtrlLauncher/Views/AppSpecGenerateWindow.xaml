@@ -4,6 +4,7 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
         xmlns:l="http://schemas.livet-mvvm.net/2011/wpf"
+        xmlns:tk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:v="clr-namespace:CtrlLauncher.Views"
         xmlns:vm="clr-namespace:CtrlLauncher.ViewModels"
         xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
@@ -22,11 +23,27 @@
     <i:EventTrigger EventName="Closed">
       <l:DataContextDisposeAction/>
     </i:EventTrigger>
+
+    <l:InteractionMessageTrigger Messenger="{Binding Messenger}" MessageKey="Information">
+      <l:InformationDialogInteractionMessageAction />
+    </l:InteractionMessageTrigger>
+    <l:InteractionMessageTrigger Messenger="{Binding Messenger}" MessageKey="Confirmation">
+      <l:ConfirmationDialogInteractionMessageAction />
+    </l:InteractionMessageTrigger>
+    <l:InteractionMessageTrigger Messenger="{Binding Messenger}" MessageKey="Close">
+      <l:WindowInteractionMessageAction>
+        <l:DirectInteractionMessage>
+          <l:WindowActionMessage Action="Close" />
+        </l:DirectInteractionMessage>
+      </l:WindowInteractionMessageAction>
+    </l:InteractionMessageTrigger>
   </i:Interaction.Triggers>
 
   <StackPanel Orientation="Vertical" Margin="4">
     <Grid>
       <Grid.RowDefinitions>
+        <RowDefinition />
+        <RowDefinition />
         <RowDefinition />
         <RowDefinition />
         <RowDefinition />
@@ -120,6 +137,23 @@
 
       <TextBlock Grid.Row="9" Grid.Column="0" Text="相対パス:" Foreground="Gray" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="4" />
       <TextBlock Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding RelativeSourceDirectory}" FontFamily="Segoe UI, Lucida Sans Unicode, Verdana" Foreground="Gray" VerticalAlignment="Center" Margin="4" />
+      
+      <TextBlock Grid.Row="10" Grid.Column="0" Text="制限時間:" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="4" />
+      <Grid Grid.Row="10" Grid.Column="1" Grid.ColumnSpan="2" Margin="4">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition />
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <tk:IntegerUpDown Grid.Column="0" Value="{Binding TimeLimitMinutes}" Minimum="0" Maximum="59" />
+        <TextBlock Grid.Column="1" Text="分" Margin="4, 0" VerticalAlignment="Center" />
+        <tk:IntegerUpDown Grid.Column="2" Value="{Binding TimeLimitSeconds}" Minimum="0" Maximum="59" />
+        <TextBlock Grid.Column="3" Text="秒" Margin="4, 0" VerticalAlignment="Center" />
+      </Grid>
+      
+      <TextBlock Grid.Row="11" Grid.Column="1" Text="0 分 0 秒に設定すると制限時間が無効になります" Foreground="Gray" VerticalAlignment="Center" Margin="4" />
     </Grid>
     <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
       <Button Content="生成" Width="100" Margin="4" Command="{Binding GenerateCommand}" Style="{StaticResource AccentedSquareButtonStyle}" />

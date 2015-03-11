@@ -12,6 +12,7 @@ using Livet.EventListeners;
 using Livet.Messaging.Windows;
 
 using CtrlLauncher.Models;
+using System.IO;
 
 namespace CtrlLauncher.ViewModels
 {
@@ -27,7 +28,7 @@ namespace CtrlLauncher.ViewModels
             get
             { return _TargetDirectory; }
             set
-            { 
+            {
                 if (_TargetDirectory == value)
                     return;
                 _TargetDirectory = value;
@@ -35,6 +36,8 @@ namespace CtrlLauncher.ViewModels
                 RaisePropertyChanged("RelativeScreenshotPath");
                 RaisePropertyChanged("RelativeExecutablePath");
                 RaisePropertyChanged("RelativeSourceDirectory");
+
+                GenerateCommand.RaiseCanExecuteChanged();
             }
         }
         #endregion
@@ -47,7 +50,7 @@ namespace CtrlLauncher.ViewModels
             get
             { return _Title; }
             set
-            { 
+            {
                 if (_Title == value)
                     return;
                 _Title = value;
@@ -81,7 +84,7 @@ namespace CtrlLauncher.ViewModels
             get
             { return _ScreenshotPath; }
             set
-            { 
+            {
                 if (_ScreenshotPath == value)
                     return;
                 _ScreenshotPath = value;
@@ -99,7 +102,7 @@ namespace CtrlLauncher.ViewModels
             get
             { return _ExecutablePath; }
             set
-            { 
+            {
                 if (_ExecutablePath == value)
                     return;
                 _ExecutablePath = value;
@@ -117,7 +120,7 @@ namespace CtrlLauncher.ViewModels
             get
             { return _Argument; }
             set
-            { 
+            {
                 if (_Argument == value)
                     return;
                 _Argument = value;
@@ -134,12 +137,46 @@ namespace CtrlLauncher.ViewModels
             get
             { return _SourceDirectory; }
             set
-            { 
+            {
                 if (_SourceDirectory == value)
                     return;
                 _SourceDirectory = value;
                 RaisePropertyChanged();
                 RaisePropertyChanged("RelativeSourceDirectory");
+            }
+        }
+        #endregion
+
+        #region TimeLimitMinutes変更通知プロパティ
+        private int _TimeLimitMinutes = 0;
+
+        public int TimeLimitMinutes
+        {
+            get
+            { return _TimeLimitMinutes; }
+            set
+            { 
+                if (_TimeLimitMinutes == value)
+                    return;
+                _TimeLimitMinutes = value;
+                RaisePropertyChanged();
+            }
+        }
+        #endregion
+
+        #region TimeLimitSeconds変更通知プロパティ
+        private int _TimeLimitSeconds = 0;
+
+        public int TimeLimitSeconds
+        {
+            get
+            { return _TimeLimitSeconds; }
+            set
+            { 
+                if (_TimeLimitSeconds == value)
+                    return;
+                _TimeLimitSeconds = value;
+                RaisePropertyChanged();
             }
         }
         #endregion
@@ -179,6 +216,26 @@ namespace CtrlLauncher.ViewModels
         #endregion
 
 
+        #region IsSaving変更通知プロパティ
+        private bool _IsSaving = false;
+
+        public bool IsSaving
+        {
+            get
+            { return _IsSaving; }
+            set
+            { 
+                if (_IsSaving == value)
+                    return;
+                _IsSaving = value;
+                RaisePropertyChanged();
+                GenerateCommand.RaiseCanExecuteChanged();
+            }
+        }
+        #endregion
+
+
+
         #region SetTargetDirectoryCommand
         private ListenerCommand<FolderSelectionMessage> _SetTargetDirectoryCommand;
 
@@ -197,7 +254,7 @@ namespace CtrlLauncher.ViewModels
         public void SetTargetDirectory(FolderSelectionMessage parameter)
         {
             if (parameter.Response != null)
-                TargetDirectory = parameter.Response;
+                TargetDirectory = parameter.Response + "\\";
         }
         #endregion
 
@@ -263,9 +320,10 @@ namespace CtrlLauncher.ViewModels
         public void SetSourceDirectory(FolderSelectionMessage parameter)
         {
             if (parameter.Response != null)
-                SourceDirectory = parameter.Response;
+                SourceDirectory = parameter.Response + "\\";
         }
         #endregion
+
 
         #region GenerateCommand
         private ViewModelCommand _GenerateCommand;
@@ -276,15 +334,74 @@ namespace CtrlLauncher.ViewModels
             {
                 if (_GenerateCommand == null)
                 {
-                    _GenerateCommand = new ViewModelCommand(Generate);
+                    _GenerateCommand = new ViewModelCommand(Generate, CanGenerate);
                 }
                 return _GenerateCommand;
             }
         }
 
-        public void Generate()
+        public bool CanGenerate()
         {
+            return !IsSaving && !string.IsNullOrEmpty(TargetDirectory);
+        }
 
+        public async void Generate()
+        {
+            if (!CanGenerate()) return;
+
+            if (!Directory.Exists(TargetDirectory))
+            {
+                Messenger.Raise(new InformationMessage("ターゲットディレクトリが存在しません。", "エラー", System.Windows.MessageBoxImage.Error, "Information"));
+                return;
+            }
+
+            var paths = new[] { ScreenshotPath, ExecutablePath, SourceDirectory };
+            var rels = paths.Select(s => { string rel; return Utils.TryGetRelativePath(TargetDirectory, s, out rel) ? rel : null; });
+            if (paths.Concat(rels).Concat(new[] { Title }).Any(s => string.IsNullOrEmpty(s)))
+            {
+                var msg = new ConfirmationMessage("正しく入力されていない項目があります。続行しますか?\r\nこのまま続行した場合、CTRL Launcher に正しく表示されない可能性があります。",
+                    "入力が不十分です", System.Windows.MessageBoxImage.Question, System.Windows.MessageBoxButton.YesNo, "Confirmation");
+                Messenger.Raise(msg);
+                if (!(msg.Response ?? false))
+                    return;
+            }
+            else if (rels.Any(s => s.StartsWith(@"..\")))
+            {
+                var msg = new ConfirmationMessage("ターゲットディレクトリ内に含まれていないパス設定があります。続行しますか?\r\nこのまま続行した場合、CTRL Launcher に正しく表示されない可能性があります。",
+                    "ファイル配置に問題があります", System.Windows.MessageBoxImage.Question, System.Windows.MessageBoxButton.YesNo, "Confirmation");
+                Messenger.Raise(msg);
+                if (!(msg.Response ?? false))
+                    return;
+            }
+
+            try
+            {
+                IsSaving = true;
+
+                AppSpecViewModel spec = new AppSpecViewModel();
+
+                spec.Title = Title;
+                spec.Genre = Genre;
+                spec.ScreenshotPath = rels.ElementAt(0);
+                spec.ExecutablePath = rels.ElementAt(1);
+                spec.Argument = Argument;
+                spec.SourcePath = rels.ElementAt(2);
+                spec.TimeLimit = new TimeSpan(0, TimeLimitMinutes, TimeLimitSeconds);
+
+                await spec.SaveAsync(Path.Combine(TargetDirectory, "spec.yaml"));
+
+                Messenger.Raise(new InformationMessage("保存に成功しました。\r\n" + TargetDirectory + " を zip 圧縮して所定の場所にアップロードしてください。",
+                    "完了", System.Windows.MessageBoxImage.Information, "Information"));
+                Messenger.Raise(new InteractionMessage("Close"));
+            }
+            catch (Exception ex)
+            {
+                Messenger.Raise(new InformationMessage(ex.Message, "エラー", System.Windows.MessageBoxImage.Error, "Information"));
+            }
+            finally
+            {
+                IsSaving = false;
+            }
         }
         #endregion
 
