@@ -47,7 +47,8 @@ namespace CtrlLauncher.Models
                     if (remaining < TimeSpan.Zero)
                     {
                         process.Kill();
-                        timeoutHandler();
+                        if (timeoutHandler != null)
+                            timeoutHandler();
                     }
                     else
                     {
