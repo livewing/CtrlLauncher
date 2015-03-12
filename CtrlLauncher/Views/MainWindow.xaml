@@ -51,18 +51,6 @@
         </Binding>
       </Menu.Visibility>
       <MenuItem Header="ファイル(_F)">
-        <MenuItem Header="spec.yaml ファイルの生成(_S)...">
-          <i:Interaction.Triggers>
-            <i:EventTrigger EventName="Click">
-              <l:TransitionInteractionMessageAction WindowType="{x:Type v:AppSpecGenerateWindow}" Mode="Modal">
-                <l:DirectInteractionMessage>
-                  <l:TransitionMessage />
-                </l:DirectInteractionMessage>
-              </l:TransitionInteractionMessageAction>
-            </i:EventTrigger>
-          </i:Interaction.Triggers>
-        </MenuItem>
-        <Separator />
         <MenuItem Header="終了(_X)" InputGestureText="Alt+F4">
           <i:Interaction.Triggers>
             <i:EventTrigger EventName="Click">
@@ -71,6 +59,19 @@
                   <l:WindowActionMessage Action="Close" />
                 </l:DirectInteractionMessage>
               </l:WindowInteractionMessageAction>
+            </i:EventTrigger>
+          </i:Interaction.Triggers>
+        </MenuItem>
+      </MenuItem>
+      <MenuItem Header="ツール(_T)">
+        <MenuItem Header="spec.yaml ファイルの生成(_S)...">
+          <i:Interaction.Triggers>
+            <i:EventTrigger EventName="Click">
+              <l:TransitionInteractionMessageAction WindowType="{x:Type v:AppSpecGenerateWindow}" Mode="Modal">
+                <l:DirectInteractionMessage>
+                  <l:TransitionMessage />
+                </l:DirectInteractionMessage>
+              </l:TransitionInteractionMessageAction>
             </i:EventTrigger>
           </i:Interaction.Triggers>
         </MenuItem>
