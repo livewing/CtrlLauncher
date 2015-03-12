@@ -87,6 +87,9 @@
           </i:Interaction.Triggers>
         </MenuItem>
       </MenuItem>
+      <MenuItem Header="ヘルプ(_H)">
+        <MenuItem Header="CTRL Launcher について(_A)..." Command="{Binding OpenAboutFlyoutCommand}" />
+      </MenuItem>
     </Menu>
     <Grid Grid.Row="1">
       <Grid.ColumnDefinitions>
