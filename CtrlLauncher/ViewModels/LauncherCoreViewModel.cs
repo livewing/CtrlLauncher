@@ -20,6 +20,8 @@ namespace CtrlLauncher.ViewModels
     {
         private LauncherCore model;
 
+        private bool isLoading = false;
+
         #region Apps変更通知プロパティ
         private ReadOnlyDispatcherCollection<AppInfoViewModel> _Apps;
 
@@ -38,7 +40,7 @@ namespace CtrlLauncher.ViewModels
         #endregion
 
         #region IsAppsEmpty変更通知プロパティ
-        public bool IsAppsEmpty { get { return Apps.Count == 0; } }
+        public bool IsAppsEmpty { get { return !isLoading && Apps.Count == 0; } }
         #endregion
 
         public LauncherCoreViewModel()
@@ -50,7 +52,10 @@ namespace CtrlLauncher.ViewModels
 
         public async Task LoadAppsAsync()
         {
+            isLoading = true;
+            RaisePropertyChanged("IsAppsEmpty");
             await model.LoadAppsAsync();
+            isLoading = false;
             RaisePropertyChanged("IsAppsEmpty");
         }
     }

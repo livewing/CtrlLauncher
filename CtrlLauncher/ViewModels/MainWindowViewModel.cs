@@ -55,7 +55,25 @@ namespace CtrlLauncher.ViewModels
         #endregion
 
         #region IsVisibleNoSelectionText変更通知プロパティ
-        public bool IsVisibleNoSelectionText { get { return !LauncherCoreViewModel.IsAppsEmpty && SelectedAppInfo == null; } }
+        public bool IsVisibleNoSelectionText { get { return !IsLoading && !LauncherCoreViewModel.IsAppsEmpty && SelectedAppInfo == null; } }
+        #endregion
+
+        #region IsLoading変更通知プロパティ
+        private bool _IsLoading;
+
+        public bool IsLoading
+        {
+            get
+            { return _IsLoading; }
+            set
+            { 
+                if (_IsLoading == value)
+                    return;
+                _IsLoading = value;
+                RaisePropertyChanged();
+                RaisePropertyChanged("IsVisibleNoSelectionText");
+            }
+        }
         #endregion
 
         #region IsOpenAboutFlyout変更通知プロパティ
@@ -120,7 +138,9 @@ namespace CtrlLauncher.ViewModels
 
         public async void Initialize()
         {
+            IsLoading = true;
             await LauncherCoreViewModel.LoadAppsAsync();
+            IsLoading = false;
         }
     }
 }

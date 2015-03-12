@@ -92,6 +92,7 @@
           </DataTemplate>
         </ListBox.ItemTemplate>
       </ListBox>
+      <metro:ProgressRing Grid.Column="0" IsActive="{Binding IsLoading}" Width="40" Height="40" />
       <Grid Grid.Column="1">
         <Grid.RowDefinitions>
           <RowDefinition />
