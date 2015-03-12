@@ -58,5 +58,10 @@ namespace CtrlLauncher.ViewModels
             isLoading = false;
             RaisePropertyChanged("IsAppsEmpty");
         }
+
+        public void StartApp(AppInfoViewModel app, Action timeoutHandler)
+        {
+            app.Start(timeoutHandler);
+        }
     }
 }

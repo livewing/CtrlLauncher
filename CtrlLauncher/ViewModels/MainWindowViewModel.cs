@@ -50,6 +50,7 @@ namespace CtrlLauncher.ViewModels
                 _SelectedAppInfo = value;
                 RaisePropertyChanged();
                 RaisePropertyChanged("IsVisibleNoSelectionText");
+                StartCommand.RaiseCanExecuteChanged();
             }
         }
         #endregion
@@ -93,6 +94,47 @@ namespace CtrlLauncher.ViewModels
         }
         #endregion
 
+
+        #region StartCommand
+        private ViewModelCommand _StartCommand;
+
+        public ViewModelCommand StartCommand
+        {
+            get
+            {
+                if (_StartCommand == null)
+                {
+                    _StartCommand = new ViewModelCommand(Start, CanStart);
+                }
+                return _StartCommand;
+            }
+        }
+
+        public bool CanStart()
+        {
+            if (SelectedAppInfo == null) return false;
+            return SelectedAppInfo.IsAvailableExecutable;
+        }
+
+        public void Start()
+        {
+            if (!CanStart()) return;
+            var app = SelectedAppInfo;
+            try
+            {
+                LauncherCoreViewModel.StartApp(app, () => Messenger.Raise(new InteractionMessage("Timeout")));
+            }
+            catch(Exception ex)
+            {
+                if (IsMaintenanceMode)
+                    Messenger.Raise(new InformationMessage(
+                        ex.Message + "\r\n\r\nファイルの配置とアクセス権限を確認して下さい。\r\nディレクトリ: " + app.Path + "\r\n実行ファイル相対パス: " + app.AppSpec.ExecutablePath,
+                        "エラー", System.Windows.MessageBoxImage.Error, "Information"));
+                else
+                    Messenger.Raise(new InformationMessage(ex.Message, "エラー", System.Windows.MessageBoxImage.Error, "Information"));
+            }
+        }
+        #endregion
 
         #region OpenAboutFlyoutCommand
         private ViewModelCommand _OpenAboutFlyoutCommand;

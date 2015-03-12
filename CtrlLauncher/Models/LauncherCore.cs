@@ -61,7 +61,7 @@ namespace CtrlLauncher.Models
                             Apps.Add(new AppInfo(spec, dir));
                         }
                     }
-                    finally { }
+                    catch { }
                 }
             }
         }

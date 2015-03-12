@@ -21,6 +21,17 @@
     <i:EventTrigger EventName="Closed">
       <l:DataContextDisposeAction/>
     </i:EventTrigger>
+
+    <l:InteractionMessageTrigger Messenger="{Binding Messenger}" MessageKey="Information">
+      <l:InformationDialogInteractionMessageAction />
+    </l:InteractionMessageTrigger>
+    <l:InteractionMessageTrigger Messenger="{Binding Messenger}" MessageKey="Timeout">
+      <l:InformationDialogInteractionMessageAction>
+        <l:DirectInteractionMessage>
+          <l:InformationMessage Caption="CTRL Launcher" Text="展示版はここで終了となります。ご利用ありがとうございました。" Image="Information" />
+        </l:DirectInteractionMessage>
+      </l:InformationDialogInteractionMessageAction>
+    </l:InteractionMessageTrigger>
   </i:Interaction.Triggers>
 
   <metro:MetroWindow.RightWindowCommands>
@@ -132,7 +143,7 @@
             <ColumnDefinition />
             <ColumnDefinition />
           </Grid.ColumnDefinitions>
-          <Button Grid.Column="1" Content="開始" FontSize="25" Height="50" Style="{StaticResource AccentedSquareButtonStyle}" Margin="4" />
+          <Button Grid.Column="1" Content="開始" FontSize="25" Height="50" Command="{Binding StartCommand}" Style="{StaticResource AccentedSquareButtonStyle}" Margin="4" />
           <Button Grid.Column="2" Content="ソースコードの表示" FontSize="16" Height="40" Style="{StaticResource SquareButtonStyle}" Margin="4" />
         </Grid>
       </Grid>

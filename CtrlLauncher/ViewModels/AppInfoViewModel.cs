@@ -24,12 +24,23 @@ namespace CtrlLauncher.ViewModels
         public AppSpecViewModel AppSpec { get; private set; }
         #endregion
 
+        #region Pathプロパティ
+        public string Path { get { return model.Path; } }
+        #endregion
+
         public BitmapImage ScreenshotImage { get { return model.ScreenshotImage; } }
+
+        public bool IsAvailableExecutable { get { return !string.IsNullOrEmpty(AppSpec.ExecutablePath); } }
 
         public AppInfoViewModel(AppInfo model)
         {
             this.model = model;
             AppSpec = new AppSpecViewModel(model.AppSpec);
+        }
+
+        public void Start(Action timeoutHandler)
+        {
+            model.Start(timeoutHandler);
         }
     }
 }
