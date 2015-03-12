@@ -31,6 +31,17 @@ namespace CtrlLauncher.Models
 
         }
 
+        public static async Task<AppSpec> LoadAsync(string path)
+        {
+            return await Task.Run<AppSpec>(() =>
+            {
+                using (var sr = new StreamReader(path, Encoding.UTF8))
+                {
+                    return new Deserializer().Deserialize<AppSpec>(sr);
+                }
+            });
+        }
+
         public async Task SaveAsync(string path)
         {
             await Task.Run(() =>

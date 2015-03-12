@@ -13,7 +13,7 @@
   <Window.DataContext>
     <vm:MainWindowViewModel/>
   </Window.DataContext>
-  
+
   <i:Interaction.Triggers>
     <i:EventTrigger EventName="ContentRendered">
       <l:LivetCallMethodAction MethodTarget="{Binding}" MethodName="Initialize"/>
@@ -28,7 +28,7 @@
       <Button Content="CTRL Launcher について" Command="{Binding OpenAboutFlyoutCommand}" />
     </metro:WindowCommands>
   </metro:MetroWindow.RightWindowCommands>
-  
+
   <metro:MetroWindow.Flyouts>
     <metro:FlyoutsControl>
       <metro:Flyout Header="CTRL Launcher について" Position="Right" Width="700" IsModal="True" IsPinned="False" Theme="Adapt" AnimateOpacity="True" IsOpen="{Binding IsOpenAboutFlyout}">
@@ -76,5 +76,64 @@
         </MenuItem>
       </MenuItem>
     </Menu>
+    <Grid Grid.Row="1">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="250" />
+        <ColumnDefinition />
+      </Grid.ColumnDefinitions>
+      <ListBox Grid.Column="0" ItemsSource="{Binding LauncherCoreViewModel.Apps}" SelectedItem="{Binding SelectedAppInfo}" ScrollViewer.VerticalScrollBarVisibility="Visible" Margin="4" BorderBrush="{DynamicResource AccentColorBrush}" BorderThickness="1">
+        <ListBox.ItemTemplate>
+          <DataTemplate>
+            <StackPanel Orientation="Vertical" Margin="5">
+              <TextBlock Text="{Binding AppSpec.Genre}" />
+              <TextBlock Text="{Binding AppSpec.Title}" FontSize="18" />
+            </StackPanel>
+          </DataTemplate>
+        </ListBox.ItemTemplate>
+      </ListBox>
+      <Grid Grid.Column="1">
+        <Grid.RowDefinitions>
+          <RowDefinition />
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Image Grid.Row="0" Source="{Binding SelectedAppInfo.ScreenshotImage}" Width="500" Height="350" />
+
+        <StackPanel Grid.Row="1" Margin="4">
+          <TextBlock Text="{Binding SelectedAppInfo.AppSpec.Genre}" FontSize="18" Foreground="{DynamicResource AccentColorBrush2}" HorizontalAlignment="Center" />
+          <TextBlock Text="{Binding SelectedAppInfo.AppSpec.Title}" FontSize="32" Foreground="{DynamicResource AccentColorBrush}" HorizontalAlignment="Center" />
+        </StackPanel>
+
+        <TextBlock Grid.Row="0" Grid.RowSpan="2" Text="左のリストから作品を選択してください" FontSize="26" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{DynamicResource AccentColorBrush}">
+          <TextBlock.Visibility>
+            <Binding Path="IsVisibleNoSelectionText">
+              <Binding.Converter>
+                <l:VisibilityAndBooleanConverter ConvertWhenFalse="Collapsed" ConvertWhenTrue="Visible" />
+              </Binding.Converter>
+            </Binding>
+          </TextBlock.Visibility>
+        </TextBlock>
+        <TextBlock Grid.Row="0" Grid.RowSpan="2" Text="登録されている作品がありません" FontSize="26" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{DynamicResource AccentColorBrush}">
+          <TextBlock.Visibility>
+            <Binding Path="LauncherCoreViewModel.IsAppsEmpty">
+              <Binding.Converter>
+                <l:VisibilityAndBooleanConverter ConvertWhenFalse="Collapsed" ConvertWhenTrue="Visible" />
+              </Binding.Converter>
+            </Binding>
+          </TextBlock.Visibility>
+        </TextBlock>
+
+        <Grid Grid.Row="2">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+          </Grid.ColumnDefinitions>
+          <Button Grid.Column="1" Content="開始" FontSize="25" Height="50" Style="{StaticResource AccentedSquareButtonStyle}" Margin="4" />
+          <Button Grid.Column="2" Content="ソースコードの表示" FontSize="16" Height="40" Style="{StaticResource SquareButtonStyle}" Margin="4" />
+        </Grid>
+      </Grid>
+    </Grid>
   </Grid>
 </metro:MetroWindow>

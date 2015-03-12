@@ -111,8 +111,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Models\AppInfo.cs" />
+    <Compile Include="Models\LauncherCore.cs" />
     <Compile Include="Utils.cs" />
+    <Compile Include="ViewModels\AppInfoViewModel.cs" />
     <Compile Include="ViewModels\AppSpecViewModel.cs" />
+    <Compile Include="ViewModels\LauncherCoreViewModel.cs" />
     <Compile Include="Win32.cs" />
     <Page Include="Views\AboutContent.xaml">
       <SubType>Designer</SubType>

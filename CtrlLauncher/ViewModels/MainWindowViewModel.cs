@@ -18,6 +18,10 @@ namespace CtrlLauncher.ViewModels
 {
     public class MainWindowViewModel : ViewModel
     {
+        #region LauncherCoreViewModel プロパティ
+        public LauncherCoreViewModel LauncherCoreViewModel { get; private set; }
+        #endregion
+
         #region IsMaintenanceModeプロパティ
         public bool IsMaintenanceMode { get; private set; }
         #endregion
@@ -30,6 +34,28 @@ namespace CtrlLauncher.ViewModels
                 return "CTRL Launcher" + (IsMaintenanceMode ? " [メンテナンスモード]" : "");
             }
         }
+        #endregion
+
+        #region SelectedAppInfo変更通知プロパティ
+        private AppInfoViewModel _SelectedAppInfo = null;
+
+        public AppInfoViewModel SelectedAppInfo
+        {
+            get
+            { return _SelectedAppInfo; }
+            set
+            { 
+                if (_SelectedAppInfo == value)
+                    return;
+                _SelectedAppInfo = value;
+                RaisePropertyChanged();
+                RaisePropertyChanged("IsVisibleNoSelectionText");
+            }
+        }
+        #endregion
+
+        #region IsVisibleNoSelectionText変更通知プロパティ
+        public bool IsVisibleNoSelectionText { get { return !LauncherCoreViewModel.IsAppsEmpty && SelectedAppInfo == null; } }
         #endregion
 
         #region IsOpenAboutFlyout変更通知プロパティ
@@ -84,10 +110,17 @@ namespace CtrlLauncher.ViewModels
             else
                 IsMaintenanceMode = false;
 #endif
+
+            LauncherCoreViewModel = new LauncherCoreViewModel();
+            CompositeDisposable.Add(new PropertyChangedEventListener(LauncherCoreViewModel, (sender, e) =>
+            {
+                if (e.PropertyName == "IsAppsEmpty") RaisePropertyChanged("IsVisibleNoSelectionText");
+            }));
         }
 
-        public void Initialize()
+        public async void Initialize()
         {
+            await LauncherCoreViewModel.LoadAppsAsync();
         }
     }
 }
