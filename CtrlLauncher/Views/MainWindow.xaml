@@ -75,6 +75,8 @@
         </MenuItem>
       </MenuItem>
       <MenuItem Header="ツール(_T)">
+        <MenuItem Header="開始回数を表示(_C)" IsCheckable="True" IsChecked="{Binding IsCheckedVisibleStartCount}" />
+        <Separator />
         <MenuItem Header="spec.yaml ファイルの生成(_S)...">
           <i:Interaction.Triggers>
             <i:EventTrigger EventName="Click">
@@ -96,13 +98,30 @@
         <ColumnDefinition Width="250" />
         <ColumnDefinition />
       </Grid.ColumnDefinitions>
-      <ListBox Grid.Column="0" ItemsSource="{Binding LauncherCoreViewModel.Apps}" SelectedItem="{Binding SelectedAppInfo}" ScrollViewer.VerticalScrollBarVisibility="Visible" Margin="4" BorderBrush="{DynamicResource AccentColorBrush}" BorderThickness="1">
+      <ListBox Grid.Column="0" ItemsSource="{Binding LauncherCoreViewModel.Apps}" SelectedItem="{Binding SelectedAppInfo}" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="4" BorderBrush="{DynamicResource AccentColorBrush}" BorderThickness="1">
         <ListBox.ItemTemplate>
           <DataTemplate>
-            <StackPanel Orientation="Vertical" Margin="5">
-              <TextBlock Text="{Binding AppSpec.Genre}" />
-              <TextBlock Text="{Binding AppSpec.Title}" FontSize="18" />
-            </StackPanel>
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto" />
+              </Grid.ColumnDefinitions>
+              <StackPanel Grid.Column="0" Orientation="Vertical" Margin="5">
+                <TextBlock Text="{Binding AppSpec.Genre}" TextTrimming="CharacterEllipsis" />
+                <TextBlock Text="{Binding AppSpec.Title}" FontSize="18" TextTrimming="CharacterEllipsis" />
+              </StackPanel>
+              <TextBlock Grid.Column="1" VerticalAlignment="Center" Margin="5">
+                <TextBlock.Visibility>
+                  <Binding Path="DataContext.IsVisibleStartCount" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=Window}">
+                    <Binding.Converter>
+                      <l:VisibilityAndBooleanConverter ConvertWhenFalse="Collapsed" ConvertWhenTrue="Visible" />
+                    </Binding.Converter>
+                  </Binding>
+                </TextBlock.Visibility>
+                <Run Text="{Binding StartCount, Mode=OneWay}" />
+                <Run Text="回" />
+              </TextBlock>
+            </Grid>
           </DataTemplate>
         </ListBox.ItemTemplate>
       </ListBox>
@@ -117,8 +136,8 @@
         <Image Grid.Row="0" Source="{Binding SelectedAppInfo.ScreenshotImage}" Width="500" Height="350" />
 
         <StackPanel Grid.Row="1" Margin="4">
-          <TextBlock Text="{Binding SelectedAppInfo.AppSpec.Genre}" FontSize="18" Foreground="{DynamicResource AccentColorBrush2}" HorizontalAlignment="Center" />
-          <TextBlock Text="{Binding SelectedAppInfo.AppSpec.Title}" FontSize="32" Foreground="{DynamicResource AccentColorBrush}" HorizontalAlignment="Center" />
+          <TextBlock Text="{Binding SelectedAppInfo.AppSpec.Genre}" FontSize="18" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource AccentColorBrush2}" HorizontalAlignment="Center" />
+          <TextBlock Text="{Binding SelectedAppInfo.AppSpec.Title}" FontSize="32" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource AccentColorBrush}" HorizontalAlignment="Center" />
         </StackPanel>
 
         <TextBlock Grid.Row="0" Grid.RowSpan="2" Text="左のリストから作品を選択してください" FontSize="26" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{DynamicResource AccentColorBrush}">

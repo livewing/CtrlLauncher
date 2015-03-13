@@ -77,6 +77,28 @@ namespace CtrlLauncher.ViewModels
         }
         #endregion
 
+        #region IsCheckedVisibleStartCount変更通知プロパティ
+        private bool _IsCheckedVisibleStartCount = false;
+
+        public bool IsCheckedVisibleStartCount
+        {
+            get
+            { return _IsCheckedVisibleStartCount; }
+            set
+            { 
+                if (_IsCheckedVisibleStartCount == value)
+                    return;
+                _IsCheckedVisibleStartCount = value;
+                RaisePropertyChanged();
+                RaisePropertyChanged("IsVisibleStartCount");
+            }
+        }
+        #endregion
+
+        #region IsVisibleStartCount変更通知プロパティ
+        public bool IsVisibleStartCount { get { return IsMaintenanceMode && IsCheckedVisibleStartCount; } }
+        #endregion
+
         #region IsOpenAboutFlyout変更通知プロパティ
         private bool _IsOpenAboutFlyout = false;
 

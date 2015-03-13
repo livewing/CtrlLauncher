@@ -28,6 +28,11 @@ namespace CtrlLauncher.ViewModels
         public string Path { get { return model.Path; } }
         #endregion
 
+        #region StartCount変更通知プロパティ
+        public int StartCount { get { return model.StartCount; } }
+        #endregion
+
+
         public BitmapImage ScreenshotImage { get { return model.ScreenshotImage; } }
 
         public bool IsAvailableExecutable { get { return !string.IsNullOrEmpty(AppSpec.ExecutablePath); } }
@@ -36,6 +41,12 @@ namespace CtrlLauncher.ViewModels
         {
             this.model = model;
             AppSpec = new AppSpecViewModel(model.AppSpec);
+
+            CompositeDisposable.Add(new PropertyChangedEventListener(model, (sender, e) =>
+            {
+                if (e.PropertyName == "StartCount")
+                    RaisePropertyChanged("StartCount");
+            }));
         }
 
         public void Start(Action timeoutHandler)

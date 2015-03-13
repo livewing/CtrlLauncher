@@ -12,14 +12,19 @@ namespace CtrlLauncher.Models
 {
     public class AppInfo : NotificationObject
     {
+        private LauncherCore core;
+
         public AppSpec AppSpec { get; private set; }
 
         public string Path { get; private set; }
 
         public BitmapImage ScreenshotImage { get; private set; }
 
-        public AppInfo(AppSpec spec, string path)
+        public int StartCount { get { return core.GetCount(this); } }
+
+        public AppInfo(LauncherCore core, AppSpec spec, string path)
         {
+            this.core = core;
             AppSpec = spec;
             Path = path;
             try
@@ -38,6 +43,9 @@ namespace CtrlLauncher.Models
             process.StartInfo.Arguments = AppSpec.Argument;
             process.StartInfo.WorkingDirectory = System.IO.Path.GetDirectoryName(toAbsolutePath(AppSpec.ExecutablePath));
             process.Start();
+
+            core.SetCount(this, core.GetCount(this) + 1);
+            RaisePropertyChanged("StartCount");
 
             if (AppSpec.TimeLimit > TimeSpan.Zero)
             {
