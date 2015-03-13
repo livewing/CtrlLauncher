@@ -158,6 +158,33 @@ namespace CtrlLauncher.ViewModels
         }
         #endregion
 
+        #region ClearCountCommand
+        private ViewModelCommand _ClearCountCommand;
+
+        public ViewModelCommand ClearCountCommand
+        {
+            get
+            {
+                if (_ClearCountCommand == null)
+                {
+                    _ClearCountCommand = new ViewModelCommand(ClearCount);
+                }
+                return _ClearCountCommand;
+            }
+        }
+
+        public void ClearCount()
+        {
+            var msg = new ConfirmationMessage("開始回数データをすべて消去します。よろしいですか?", "警告", System.Windows.MessageBoxImage.Warning, System.Windows.MessageBoxButton.YesNo, "Confirmation");
+            Messenger.Raise(msg);
+            if (msg.Response ?? false == true)
+            {
+                LauncherCoreViewModel.ClearCount();
+                Initialize();
+            }
+        }
+        #endregion
+
         #region OpenAboutFlyoutCommand
         private ViewModelCommand _OpenAboutFlyoutCommand;
 

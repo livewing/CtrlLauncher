@@ -63,5 +63,10 @@ namespace CtrlLauncher.ViewModels
         {
             app.Start(timeoutHandler);
         }
+
+        public void ClearCount()
+        {
+            model.ClearCount();
+        }
     }
 }

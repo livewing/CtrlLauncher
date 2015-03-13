@@ -112,6 +112,12 @@ namespace CtrlLauncher.Models
             saveCountData();
         }
 
+        public void ClearCount()
+        {
+            countData.Clear();
+            saveCountData();
+        }
+
         private void saveCountData()
         {
             var doc = new XDocument(new XElement("CountData"));
