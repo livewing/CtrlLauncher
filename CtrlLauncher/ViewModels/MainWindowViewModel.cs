@@ -158,6 +158,38 @@ namespace CtrlLauncher.ViewModels
         }
         #endregion
 
+        #region ExportCountDataCommand
+        private ListenerCommand<SavingFileSelectionMessage> _ExportCountDataCommand;
+
+        public ListenerCommand<SavingFileSelectionMessage> ExportCountDataCommand
+        {
+            get
+            {
+                if (_ExportCountDataCommand == null)
+                {
+                    _ExportCountDataCommand = new ListenerCommand<SavingFileSelectionMessage>(ExportCountData);
+                }
+                return _ExportCountDataCommand;
+            }
+        }
+
+        public async void ExportCountData(SavingFileSelectionMessage parameter)
+        {
+            if (parameter.Response.Count() == 1)
+            {
+                try
+                {
+                    await LauncherCoreViewModel.ExportCountDataAsync(parameter.Response[0]);
+                    Messenger.Raise(new InformationMessage("データが保存されました。", "開始回数データをエクスポート", System.Windows.MessageBoxImage.Information, "Information"));
+                }
+                catch (Exception ex)
+                {
+                    Messenger.Raise(new InformationMessage(ex.Message, "エラー", System.Windows.MessageBoxImage.Error, "Information"));
+                }
+            }
+        }
+        #endregion
+
         #region ClearCountCommand
         private ViewModelCommand _ClearCountCommand;
 

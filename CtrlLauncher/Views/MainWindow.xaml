@@ -79,6 +79,17 @@
       </MenuItem>
       <MenuItem Header="ツール(_T)">
         <MenuItem Header="開始回数を表示(_C)" IsCheckable="True" IsChecked="{Binding IsCheckedVisibleStartCount}" />
+        <MenuItem Header="開始回数データをエクスポート(_E)...">
+          <i:Interaction.Triggers>
+            <i:EventTrigger EventName="Click">
+              <l:SaveFileDialogInteractionMessageAction>
+                <l:DirectInteractionMessage CallbackCommand="{Binding ExportCountDataCommand}">
+                  <l:SavingFileSelectionMessage Filter="テキスト ファイル (*.txt)|*.txt|すべてのファイル (*.*)|*.*" AddExtension="True" />
+                </l:DirectInteractionMessage>
+              </l:SaveFileDialogInteractionMessageAction>
+            </i:EventTrigger>
+          </i:Interaction.Triggers>
+        </MenuItem>
         <MenuItem Header="開始回数データを消去(_D)..." Command="{Binding ClearCountCommand}" />
         <Separator />
         <MenuItem Header="spec.yaml ファイルの生成(_S)...">

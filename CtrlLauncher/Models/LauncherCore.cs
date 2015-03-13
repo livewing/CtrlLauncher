@@ -112,6 +112,17 @@ namespace CtrlLauncher.Models
             saveCountData();
         }
 
+        public async Task ExportCountDataAsync(string path)
+        {
+            using (var sw = new StreamWriter(path, false, Encoding.UTF8))
+            {
+                foreach (var item in countData.Where(d => d.Count > 0).OrderByDescending(d => d.Count))
+                {
+                    await sw.WriteLineAsync(item.Title + " " + item.Count.ToString());
+                }
+            }
+        }
+
         public void ClearCount()
         {
             countData.Clear();

@@ -64,6 +64,11 @@ namespace CtrlLauncher.ViewModels
             app.Start(timeoutHandler);
         }
 
+        public async Task ExportCountDataAsync(string path)
+        {
+            await model.ExportCountDataAsync(path);
+        }
+
         public void ClearCount()
         {
             model.ClearCount();
