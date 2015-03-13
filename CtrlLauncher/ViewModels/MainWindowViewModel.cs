@@ -175,7 +175,7 @@ namespace CtrlLauncher.ViewModels
 
         public async void ExportCountData(SavingFileSelectionMessage parameter)
         {
-            if (parameter.Response.Count() == 1)
+            if (parameter.Response != null && parameter.Response.Count() == 1)
             {
                 try
                 {
