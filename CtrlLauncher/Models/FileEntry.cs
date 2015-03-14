@@ -15,6 +15,17 @@ namespace CtrlLauncher.Models
 
         public string Path { get; private set; }
 
+        public bool IsDirectory { get; private set; }
+
+        public long Size
+        {
+            get
+            {
+                if (IsDirectory) return 0;
+                return new FileInfo(Path).Length;
+            }
+        }
+
         #region Childrenプロパティ
         private IEnumerable<FileEntry> _Children = null;
         public IEnumerable<FileEntry> Children
@@ -74,6 +85,11 @@ namespace CtrlLauncher.Models
         {
             Path = path;
             Name = System.IO.Path.GetFileName(path);
+            try
+            {
+                IsDirectory = Directory.Exists(Path);
+            }
+            catch { }
         }
     }
 }

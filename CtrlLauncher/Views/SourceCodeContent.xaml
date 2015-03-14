@@ -3,6 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+             xmlns:l="http://schemas.livet-mvvm.net/2011/wpf"
+             xmlns:ae="http://icsharpcode.net/sharpdevelop/avalonedit"
+             xmlns:b="clr-namespace:CtrlLauncher.Behaviors"
              xmlns:vm="clr-namespace:CtrlLauncher.ViewModels"
              xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d" 
@@ -13,7 +18,12 @@
       <ColumnDefinition Width="Auto" />
       <ColumnDefinition />
     </Grid.ColumnDefinitions>
-    <TreeView Grid.Column="0" ItemsSource="{Binding SourceDirectoryEntry.Children}">
+    <TreeView x:Name="TreeView" Grid.Column="0" ItemsSource="{Binding SourceDirectoryEntry}">
+      <i:Interaction.Triggers>
+        <i:EventTrigger EventName="SelectedItemChanged">
+          <l:LivetCallMethodAction MethodTarget="{Binding}" MethodName="ItemSelected" MethodParameter="{Binding ElementName=TreeView, Path=SelectedItem}" />
+        </i:EventTrigger>
+      </i:Interaction.Triggers>
       <TreeView.ItemTemplate>
         <HierarchicalDataTemplate ItemsSource="{Binding Children}">
           <StackPanel Orientation="Horizontal">
@@ -24,5 +34,34 @@
       </TreeView.ItemTemplate>
     </TreeView>
     <Rectangle Grid.Column="1" Margin="4, 0" Stroke="{DynamicResource AccentColorBrush}" StrokeThickness="1" />
+    <Grid Grid.Column="2">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition />
+      </Grid.RowDefinitions>
+      <TextBlock Text="{Binding FileName}" FontSize="20" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource AccentColorBrush}" Margin="0, 4" />
+      <ae:TextEditor Grid.Row="1" IsReadOnly="True" FontFamily="MS Gothic" FontSize="14" SyntaxHighlighting="{Binding HighlightingDefinition}">
+        <ae:TextEditor.Visibility>
+          <Binding Path="IsVisibleErrorMessage">
+            <Binding.Converter>
+              <l:VisibilityAndBooleanConverter ConvertWhenFalse="Visible" ConvertWhenTrue="Collapsed" />
+            </Binding.Converter>
+          </Binding>
+        </ae:TextEditor.Visibility>
+        <i:Interaction.Behaviors>
+          <b:AvalonEditBindingBehavior Text="{Binding SourceCode}" />
+        </i:Interaction.Behaviors>
+      </ae:TextEditor>
+      <metro:ProgressRing Grid.Row="1" IsActive="{Binding IsLoading}" />
+      <TextBlock Grid.Row="1" Text="{Binding ErrorMessage}" FontSize="20" TextWrapping="Wrap" TextAlignment="Center" Foreground="{DynamicResource AccentColorBrush}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="16">
+        <TextBlock.Visibility>
+          <Binding Path="IsVisibleErrorMessage">
+            <Binding.Converter>
+              <l:VisibilityAndBooleanConverter ConvertWhenFalse="Collapsed" ConvertWhenTrue="Visible" />
+            </Binding.Converter>
+          </Binding>
+        </TextBlock.Visibility>
+      </TextBlock>
+    </Grid>
   </Grid>
 </UserControl>
