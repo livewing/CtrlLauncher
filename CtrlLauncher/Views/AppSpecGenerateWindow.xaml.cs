@@ -24,11 +24,11 @@ namespace CtrlLauncher.Views
      */
 
     /// <summary>
-    /// MainWindow.xaml の相互作用ロジック
+    /// AppSpecGenerateWindow.xaml の相互作用ロジック
     /// </summary>
-    public partial class MainWindow : MetroWindow
+    public partial class AppSpecGenerateWindow : MetroWindow
     {
-        public MainWindow()
+        public AppSpecGenerateWindow()
         {
             InitializeComponent();
         }

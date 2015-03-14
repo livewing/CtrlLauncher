@@ -1,0 +1,83 @@
+﻿<UserControl x:Class="CtrlLauncher.Views.AboutContent"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:vm="clr-namespace:CtrlLauncher.ViewModels"
+             xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
+             mc:Ignorable="d"
+             d:DesignHeight="400" d:DesignWidth="700">
+  <UserControl.DataContext>
+    <vm:AboutContentViewModel />
+  </UserControl.DataContext>
+  <TabControl>
+    <TabItem Header="情報" metro:ControlsHelper.HeaderFontSize="20">
+      <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
+        <StackPanel.Resources>
+          <Style TargetType="TextBlock">
+            <Setter Property="HorizontalAlignment" Value="Center" />
+          </Style>
+        </StackPanel.Resources>
+        <TextBlock Text="CTRL Launcher" FontSize="40" />
+        <TextBlock FontSize="20">
+          <Run Text="Version" />
+          <Run Text="{Binding Version, Mode=OneWay}" />
+        </TextBlock>
+        <TextBlock Margin="0, 10, 0, 10">
+          (C) 2015 りぶ. This software is licensed under
+          <Hyperlink Command="{Binding OpenUriCommand}" CommandParameter="https://github.com/gssequence/CtrlLauncher/raw/develop/LICENSE">
+            The MIT License
+          </Hyperlink>.
+          <Run Text="" />
+        </TextBlock>
+        <TextBlock>
+          Project Home:
+          <Hyperlink Command="{Binding OpenUriCommand}" CommandParameter="https://github.com/gssequence/CtrlLauncher">
+            https://github.com/gssequence/CtrlLauncher
+          </Hyperlink>
+        </TextBlock>
+        <TextBlock>
+          CTRL Website:
+          <Hyperlink Command="{Binding OpenUriCommand}" CommandParameter="http://www.tcu-ctrl.jp/">
+            http://www.tcu-ctrl.jp/
+          </Hyperlink>
+        </TextBlock>
+      </StackPanel>
+    </TabItem>
+    <TabItem Header="ライセンス" metro:ControlsHelper.HeaderFontSize="20">
+      <Grid>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="1*" />
+          <ColumnDefinition Width="3*" />
+        </Grid.ColumnDefinitions>
+        
+        <ListBox ItemsSource="{Binding Licenses}" SelectedIndex="{Binding SelectedLicenseIndex}" Margin="0, 4, 4, 4">
+          <ListBox.ItemTemplate>
+            <DataTemplate>
+              <TextBlock Margin="5" Text="{Binding Item1}" />
+            </DataTemplate>
+          </ListBox.ItemTemplate>
+        </ListBox>
+        <Grid Grid.Column="1" Margin="4, 0, 0, 0">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+          </Grid.RowDefinitions>
+          <TextBlock Grid.Row="0" Text="{Binding SelectedLicense.Item1}" Foreground="{DynamicResource AccentColorBrush}" FontSize="24" />
+          <TextBlock Grid.Row="1">
+            <Hyperlink Command="{Binding OpenUriCommand}" CommandParameter="{Binding SelectedLicense.Item2}">
+              <Run Text="{Binding SelectedLicense.Item2, Mode=OneWay}" />
+            </Hyperlink>
+          </TextBlock>
+          <ScrollViewer Grid.Row="2" Margin="0, 12, 0, 0">
+            <TextBlock Text="{Binding SelectedLicense.Item3}" TextWrapping="Wrap" />
+          </ScrollViewer>
+        </Grid>
+      </Grid>
+    </TabItem>
+  </TabControl>
+</UserControl>

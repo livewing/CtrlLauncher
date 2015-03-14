@@ -1,4 +1,4 @@
-﻿<Window x:Class="CtrlLauncher.Views.MainWindow"
+﻿<metro:MetroWindow x:Class="CtrlLauncher.Views.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
@@ -6,33 +6,190 @@
         xmlns:l="http://schemas.livet-mvvm.net/2011/wpf"
         xmlns:v="clr-namespace:CtrlLauncher.Views"
         xmlns:vm="clr-namespace:CtrlLauncher.ViewModels"
-        Title="MainWindow" Height="350" Width="525">
-    
-    <Window.DataContext>
-        <vm:MainWindowViewModel/>
-    </Window.DataContext>
-    
-    <i:Interaction.Triggers>
-    
-    	<!--Viewに特別な要件が存在しない限りは、トリガーやアクションの自作にこだわらず積極的にコードビハインドを使いましょう -->
-    	<!--Viewのコードビハインドは、基本的にView内で完結するロジックとViewModelからのイベントの受信(専用リスナを使用する)に限るとトラブルが少なくなります -->
-    	<!--Livet1.1からはコードビハインドでViewModelのイベントを受信するためのWeakEventLisnterサポートが追加されています --> 
-        
-        <!--WindowのContentRenderedイベントのタイミングでViewModelのInitializeメソッドが呼ばれます-->
-        <i:EventTrigger EventName="ContentRendered">
-            <l:LivetCallMethodAction MethodTarget="{Binding}" MethodName="Initialize"/>
-        </i:EventTrigger>
+        xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
+        Title="{Binding Title}" Height="600" Width="800" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen" UseLayoutRounding="True"
+        GlowBrush="{DynamicResource AccentColorBrush}" TitleCaps="False" RightWindowCommandsOverlayBehavior="HiddenTitleBar" WindowButtonCommandsOverlayBehavior="HiddenTitleBar">
 
-        <!--Windowが閉じたタイミングでViewModelのDisposeメソッドが呼ばれます-->
-        <i:EventTrigger EventName="Closed">
-            <l:DataContextDisposeAction/>
-        </i:EventTrigger>
+  <Window.DataContext>
+    <vm:MainWindowViewModel/>
+  </Window.DataContext>
 
-        <!--WindowのCloseキャンセル処理に対応する場合は、WindowCloseCancelBehaviorの使用を検討してください-->
+  <i:Interaction.Triggers>
+    <i:EventTrigger EventName="ContentRendered">
+      <l:LivetCallMethodAction MethodTarget="{Binding}" MethodName="Initialize"/>
+    </i:EventTrigger>
+    <i:EventTrigger EventName="Closed">
+      <l:DataContextDisposeAction/>
+    </i:EventTrigger>
 
-    </i:Interaction.Triggers>
-    
-    <Grid>
-        
+    <l:InteractionMessageTrigger Messenger="{Binding Messenger}" MessageKey="Information">
+      <l:InformationDialogInteractionMessageAction />
+    </l:InteractionMessageTrigger>
+    <l:InteractionMessageTrigger Messenger="{Binding Messenger}" MessageKey="Confirmation">
+      <l:ConfirmationDialogInteractionMessageAction />
+    </l:InteractionMessageTrigger>
+    <l:InteractionMessageTrigger Messenger="{Binding Messenger}" MessageKey="Timeout">
+      <l:InformationDialogInteractionMessageAction>
+        <l:DirectInteractionMessage>
+          <l:InformationMessage Caption="CTRL Launcher" Text="展示版はここで終了となります。ご利用ありがとうございました。" Image="Information" />
+        </l:DirectInteractionMessage>
+      </l:InformationDialogInteractionMessageAction>
+    </l:InteractionMessageTrigger>
+  </i:Interaction.Triggers>
+
+  <metro:MetroWindow.RightWindowCommands>
+    <metro:WindowCommands>
+      <Button Content="CTRL Launcher について" Command="{Binding OpenAboutFlyoutCommand}" />
+    </metro:WindowCommands>
+  </metro:MetroWindow.RightWindowCommands>
+
+  <metro:MetroWindow.Flyouts>
+    <metro:FlyoutsControl>
+      <metro:Flyout Header="{Binding SourceCodeContentViewModel.FlyoutHeader}" Position="Right" Width="800" IsModal="True" IsPinned="False" Theme="Adapt" AnimateOpacity="True" IsOpen="{Binding IsOpenSourceCodeFlyout}">
+        <v:SourceCodeContent DataContext="{Binding SourceCodeContentViewModel}" Margin="10" />
+      </metro:Flyout>
+      <metro:Flyout Header="CTRL Launcher について" Position="Right" Width="700" IsModal="True" IsPinned="False" Theme="Adapt" AnimateOpacity="True" IsOpen="{Binding IsOpenAboutFlyout}">
+        <v:AboutContent Margin="60, 0, 0, 0" />
+      </metro:Flyout>
+    </metro:FlyoutsControl>
+  </metro:MetroWindow.Flyouts>
+
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition />
+    </Grid.RowDefinitions>
+    <Menu BorderBrush="LightGray" BorderThickness="0, 0, 0, 1">
+      <Menu.Visibility>
+        <Binding Path="IsMaintenanceMode">
+          <Binding.Converter>
+            <l:VisibilityAndBooleanConverter ConvertWhenFalse="Collapsed" ConvertWhenTrue="Visible" />
+          </Binding.Converter>
+        </Binding>
+      </Menu.Visibility>
+      <MenuItem Header="ファイル(_F)">
+        <MenuItem Header="終了(_X)" InputGestureText="Alt+F4">
+          <i:Interaction.Triggers>
+            <i:EventTrigger EventName="Click">
+              <l:WindowInteractionMessageAction>
+                <l:DirectInteractionMessage>
+                  <l:WindowActionMessage Action="Close" />
+                </l:DirectInteractionMessage>
+              </l:WindowInteractionMessageAction>
+            </i:EventTrigger>
+          </i:Interaction.Triggers>
+        </MenuItem>
+      </MenuItem>
+      <MenuItem Header="ツール(_T)">
+        <MenuItem Header="開始回数を表示(_C)" IsCheckable="True" IsChecked="{Binding IsCheckedVisibleStartCount}" />
+        <MenuItem Header="開始回数データをエクスポート(_E)...">
+          <i:Interaction.Triggers>
+            <i:EventTrigger EventName="Click">
+              <l:SaveFileDialogInteractionMessageAction>
+                <l:DirectInteractionMessage CallbackCommand="{Binding ExportCountDataCommand}">
+                  <l:SavingFileSelectionMessage Filter="テキスト ファイル (*.txt)|*.txt|すべてのファイル (*.*)|*.*" AddExtension="True" />
+                </l:DirectInteractionMessage>
+              </l:SaveFileDialogInteractionMessageAction>
+            </i:EventTrigger>
+          </i:Interaction.Triggers>
+        </MenuItem>
+        <MenuItem Header="開始回数データを消去(_D)..." Command="{Binding ClearCountCommand}" />
+        <Separator />
+        <MenuItem Header="spec.yaml ファイルの生成(_S)...">
+          <i:Interaction.Triggers>
+            <i:EventTrigger EventName="Click">
+              <l:TransitionInteractionMessageAction WindowType="{x:Type v:AppSpecGenerateWindow}" Mode="Modal">
+                <l:DirectInteractionMessage>
+                  <l:TransitionMessage />
+                </l:DirectInteractionMessage>
+              </l:TransitionInteractionMessageAction>
+            </i:EventTrigger>
+          </i:Interaction.Triggers>
+        </MenuItem>
+      </MenuItem>
+      <MenuItem Header="ヘルプ(_H)">
+        <MenuItem Header="CTRL Launcher について(_A)..." Command="{Binding OpenAboutFlyoutCommand}" />
+      </MenuItem>
+    </Menu>
+    <Grid Grid.Row="1">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="250" />
+        <ColumnDefinition />
+      </Grid.ColumnDefinitions>
+      <ListBox Grid.Column="0" ItemsSource="{Binding LauncherCoreViewModel.Apps}" SelectedItem="{Binding SelectedAppInfo}" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="4" BorderBrush="{DynamicResource AccentColorBrush}" BorderThickness="1">
+        <ListBox.ItemTemplate>
+          <DataTemplate>
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto" />
+              </Grid.ColumnDefinitions>
+              <StackPanel Grid.Column="0" Orientation="Vertical" Margin="5">
+                <TextBlock Text="{Binding AppSpec.Genre}" TextTrimming="CharacterEllipsis" />
+                <TextBlock Text="{Binding AppSpec.Title}" FontSize="18" TextTrimming="CharacterEllipsis" />
+              </StackPanel>
+              <TextBlock Grid.Column="1" VerticalAlignment="Center" Margin="5">
+                <TextBlock.Visibility>
+                  <Binding Path="DataContext.IsVisibleStartCount" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=Window}">
+                    <Binding.Converter>
+                      <l:VisibilityAndBooleanConverter ConvertWhenFalse="Collapsed" ConvertWhenTrue="Visible" />
+                    </Binding.Converter>
+                  </Binding>
+                </TextBlock.Visibility>
+                <Run Text="{Binding StartCount, Mode=OneWay}" />
+                <Run Text="回" />
+              </TextBlock>
+            </Grid>
+          </DataTemplate>
+        </ListBox.ItemTemplate>
+      </ListBox>
+      <metro:ProgressRing Grid.Column="0" IsActive="{Binding IsLoading}" Width="40" Height="40" />
+      <Grid Grid.Column="1">
+        <Grid.RowDefinitions>
+          <RowDefinition />
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Image Grid.Row="0" Source="{Binding SelectedAppInfo.ScreenshotImage}" Width="500" Height="350" />
+
+        <StackPanel Grid.Row="1" Margin="4">
+          <TextBlock Text="{Binding SelectedAppInfo.AppSpec.Genre}" FontSize="14" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource AccentColorBrush2}" HorizontalAlignment="Center" />
+          <TextBlock Text="{Binding SelectedAppInfo.AppSpec.Title}" FontSize="30" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource AccentColorBrush}" HorizontalAlignment="Center" />
+          <ScrollViewer VerticalScrollBarVisibility="Auto" Width="500" MaxHeight="80">
+            <TextBlock Text="{Binding SelectedAppInfo.AppSpec.Description}" TextWrapping="Wrap" />
+          </ScrollViewer>
+        </StackPanel>
+
+        <TextBlock Grid.Row="0" Grid.RowSpan="2" Text="左のリストから作品を選択してください" FontSize="26" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{DynamicResource AccentColorBrush}">
+          <TextBlock.Visibility>
+            <Binding Path="IsVisibleNoSelectionText">
+              <Binding.Converter>
+                <l:VisibilityAndBooleanConverter ConvertWhenFalse="Collapsed" ConvertWhenTrue="Visible" />
+              </Binding.Converter>
+            </Binding>
+          </TextBlock.Visibility>
+        </TextBlock>
+        <TextBlock Grid.Row="0" Grid.RowSpan="2" Text="登録されている作品がありません" FontSize="26" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{DynamicResource AccentColorBrush}">
+          <TextBlock.Visibility>
+            <Binding Path="LauncherCoreViewModel.IsAppsEmpty">
+              <Binding.Converter>
+                <l:VisibilityAndBooleanConverter ConvertWhenFalse="Collapsed" ConvertWhenTrue="Visible" />
+              </Binding.Converter>
+            </Binding>
+          </TextBlock.Visibility>
+        </TextBlock>
+
+        <Grid Grid.Row="2">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+          </Grid.ColumnDefinitions>
+          <Button Grid.Column="1" Content="開始" FontSize="25" Height="50" Command="{Binding StartCommand}" Style="{StaticResource AccentedSquareButtonStyle}" Margin="4" />
+          <Button Grid.Column="2" Content="ソースコードの表示" FontSize="16" Height="40" Command="{Binding ShowSourceCodeCommand}" Style="{StaticResource SquareButtonStyle}" Margin="4" />
+        </Grid>
+      </Grid>
     </Grid>
-</Window>
+  </Grid>
+</metro:MetroWindow>
