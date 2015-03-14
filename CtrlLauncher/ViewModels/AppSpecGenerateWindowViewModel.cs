@@ -181,6 +181,23 @@ namespace CtrlLauncher.ViewModels
         }
         #endregion
 
+        #region Description変更通知プロパティ
+        private string _Description;
+
+        public string Description
+        {
+            get
+            { return _Description; }
+            set
+            { 
+                if (_Description == value)
+                    return;
+                _Description = value;
+                RaisePropertyChanged();
+            }
+        }
+        #endregion
+
 
         #region RelativeScreenshotPath変更通知プロパティ
         public string RelativeScreenshotPath
@@ -387,6 +404,7 @@ namespace CtrlLauncher.ViewModels
                 spec.Argument = Argument;
                 spec.SourcePath = rels.ElementAt(2);
                 spec.TimeLimit = new TimeSpan(0, TimeLimitMinutes, TimeLimitSeconds);
+                spec.Description = Description;
 
                 await spec.SaveAsync(Path.Combine(TargetDirectory, "spec.yaml"));
 

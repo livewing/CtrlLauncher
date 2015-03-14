@@ -154,8 +154,11 @@
         <Image Grid.Row="0" Source="{Binding SelectedAppInfo.ScreenshotImage}" Width="500" Height="350" />
 
         <StackPanel Grid.Row="1" Margin="4">
-          <TextBlock Text="{Binding SelectedAppInfo.AppSpec.Genre}" FontSize="18" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource AccentColorBrush2}" HorizontalAlignment="Center" />
-          <TextBlock Text="{Binding SelectedAppInfo.AppSpec.Title}" FontSize="32" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource AccentColorBrush}" HorizontalAlignment="Center" />
+          <TextBlock Text="{Binding SelectedAppInfo.AppSpec.Genre}" FontSize="14" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource AccentColorBrush2}" HorizontalAlignment="Center" />
+          <TextBlock Text="{Binding SelectedAppInfo.AppSpec.Title}" FontSize="30" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource AccentColorBrush}" HorizontalAlignment="Center" />
+          <ScrollViewer VerticalScrollBarVisibility="Auto" Width="500" MaxHeight="80">
+            <TextBlock Text="{Binding SelectedAppInfo.AppSpec.Description}" TextWrapping="Wrap" />
+          </ScrollViewer>
         </StackPanel>
 
         <TextBlock Grid.Row="0" Grid.RowSpan="2" Text="左のリストから作品を選択してください" FontSize="26" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{DynamicResource AccentColorBrush}">

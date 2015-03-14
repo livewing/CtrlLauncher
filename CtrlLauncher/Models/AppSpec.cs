@@ -26,6 +26,8 @@ namespace CtrlLauncher.Models
 
         public TimeSpan TimeLimit { get; set; }
 
+        public string Description { get; set; }
+
         public AppSpec()
         {
 

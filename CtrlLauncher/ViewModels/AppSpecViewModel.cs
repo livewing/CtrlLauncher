@@ -62,6 +62,12 @@ namespace CtrlLauncher.ViewModels
             set { model.TimeLimit = value; }
         }
 
+        public string Description
+        {
+            get { return model.Description; }
+            set { model.Description = value; }
+        }
+
         public AppSpecViewModel()
         {
             this.model = new AppSpec();

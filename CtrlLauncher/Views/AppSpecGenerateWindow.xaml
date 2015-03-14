@@ -54,6 +54,7 @@
         <RowDefinition />
         <RowDefinition />
         <RowDefinition />
+        <RowDefinition />
       </Grid.RowDefinitions>
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="Auto" />
@@ -79,7 +80,7 @@
       <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="4" />
 
       <TextBlock Grid.Row="2" Grid.Column="0" Text="ジャンル:" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="4" />
-      <ComboBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" IsEditable="False" IsReadOnly="False" SelectedIndex="0" Text="{Binding Genre}" VerticalAlignment="Center" Margin="4">
+      <ComboBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" IsEditable="True" IsReadOnly="False" SelectedIndex="0" Text="{Binding Genre}" VerticalAlignment="Center" Margin="4">
         <ComboBoxItem Content="ゲーム" />
         <ComboBoxItem Content="ユーティリティ" />
       </ComboBox>
@@ -153,7 +154,10 @@
         <TextBlock Grid.Column="3" Text="秒" Margin="4, 0" VerticalAlignment="Center" />
       </Grid>
       
-      <TextBlock Grid.Row="11" Grid.Column="1" Text="0 分 0 秒に設定すると制限時間が無効になります" Foreground="Gray" VerticalAlignment="Center" Margin="4" />
+      <TextBlock Grid.Row="11" Grid.Column="1" Text="0 分 0 秒に設定すると制限時間を設けません" Foreground="Gray" VerticalAlignment="Center" Margin="4" />
+      
+      <TextBlock Grid.Row="12" Grid.Column="0" Text="説明文:" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="4" />
+      <TextBox Grid.Row="12" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" Height="50" VerticalAlignment="Center" Margin="4" />
     </Grid>
     <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
       <Button Content="生成" Width="100" Margin="4" Command="{Binding GenerateCommand}" Style="{StaticResource AccentedSquareButtonStyle}" />
