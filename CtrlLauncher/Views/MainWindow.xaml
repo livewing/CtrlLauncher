@@ -45,6 +45,9 @@
 
   <metro:MetroWindow.Flyouts>
     <metro:FlyoutsControl>
+      <metro:Flyout Header="{Binding SourceCodeContentViewModel.FlyoutHeader}" Position="Right" Width="800" IsModal="True" IsPinned="False" Theme="Adapt" AnimateOpacity="True" IsOpen="{Binding IsOpenSourceCodeFlyout}">
+        <v:SourceCodeContent DataContext="{Binding SourceCodeContentViewModel}" Margin="10" />
+      </metro:Flyout>
       <metro:Flyout Header="CTRL Launcher について" Position="Right" Width="700" IsModal="True" IsPinned="False" Theme="Adapt" AnimateOpacity="True" IsOpen="{Binding IsOpenAboutFlyout}">
         <v:AboutContent Margin="60, 0, 0, 0" />
       </metro:Flyout>

@@ -117,6 +117,10 @@
     <Compile Include="ViewModels\AppInfoViewModel.cs" />
     <Compile Include="ViewModels\AppSpecViewModel.cs" />
     <Compile Include="ViewModels\LauncherCoreViewModel.cs" />
+    <Compile Include="ViewModels\SourceCodeContentViewModel.cs" />
+    <Compile Include="Views\SourceCodeContent.xaml.cs">
+      <DependentUpon>SourceCodeContent.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Win32.cs" />
     <Page Include="Views\AboutContent.xaml">
       <SubType>Designer</SubType>
@@ -149,6 +153,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\SourceCodeContent.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

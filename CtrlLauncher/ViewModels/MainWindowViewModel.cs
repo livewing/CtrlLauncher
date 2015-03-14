@@ -22,6 +22,23 @@ namespace CtrlLauncher.ViewModels
         public LauncherCoreViewModel LauncherCoreViewModel { get; private set; }
         #endregion
 
+        #region SourceCodeContentViewModel変更通知プロパティ
+        private SourceCodeContentViewModel _SourceCodeContentViewModel;
+
+        public SourceCodeContentViewModel SourceCodeContentViewModel
+        {
+            get
+            { return _SourceCodeContentViewModel; }
+            set
+            { 
+                if (_SourceCodeContentViewModel == value)
+                    return;
+                _SourceCodeContentViewModel = value;
+                RaisePropertyChanged();
+            }
+        }
+        #endregion
+
         #region IsMaintenanceModeプロパティ
         public bool IsMaintenanceMode { get; private set; }
         #endregion
@@ -98,6 +115,23 @@ namespace CtrlLauncher.ViewModels
 
         #region IsVisibleStartCount変更通知プロパティ
         public bool IsVisibleStartCount { get { return IsMaintenanceMode && IsCheckedVisibleStartCount; } }
+        #endregion
+
+        #region IsOpenSourceCodeFlyout変更通知プロパティ
+        private bool _IsOpenSourceCodeFlyout;
+
+        public bool IsOpenSourceCodeFlyout
+        {
+            get
+            { return _IsOpenSourceCodeFlyout; }
+            set
+            { 
+                if (_IsOpenSourceCodeFlyout == value)
+                    return;
+                _IsOpenSourceCodeFlyout = value;
+                RaisePropertyChanged();
+            }
+        }
         #endregion
 
         #region IsOpenAboutFlyout変更通知プロパティ
@@ -182,7 +216,9 @@ namespace CtrlLauncher.ViewModels
 
         public void ShowSourceCode()
         {
-
+            if (!CanShowSourceCode()) return;
+            SourceCodeContentViewModel.AppInfoViewModel = SelectedAppInfo;
+            IsOpenSourceCodeFlyout = true;
         }
         #endregion
 
@@ -285,6 +321,8 @@ namespace CtrlLauncher.ViewModels
             {
                 if (e.PropertyName == "IsAppsEmpty") RaisePropertyChanged("IsVisibleNoSelectionText");
             }));
+
+            SourceCodeContentViewModel = new SourceCodeContentViewModel();
         }
 
         public async void Initialize()
