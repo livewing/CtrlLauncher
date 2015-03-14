@@ -51,6 +51,7 @@ namespace CtrlLauncher.ViewModels
                 RaisePropertyChanged();
                 RaisePropertyChanged("IsVisibleNoSelectionText");
                 StartCommand.RaiseCanExecuteChanged();
+                ShowSourceCodeCommand.RaiseCanExecuteChanged();
             }
         }
         #endregion
@@ -155,6 +156,33 @@ namespace CtrlLauncher.ViewModels
                 else
                     Messenger.Raise(new InformationMessage(ex.Message, "エラー", System.Windows.MessageBoxImage.Error, "Information"));
             }
+        }
+        #endregion
+
+        #region ShowSourceCodeCommand
+        private ViewModelCommand _ShowSourceCodeCommand;
+
+        public ViewModelCommand ShowSourceCodeCommand
+        {
+            get
+            {
+                if (_ShowSourceCodeCommand == null)
+                {
+                    _ShowSourceCodeCommand = new ViewModelCommand(ShowSourceCode, CanShowSourceCode);
+                }
+                return _ShowSourceCodeCommand;
+            }
+        }
+
+        public bool CanShowSourceCode()
+        {
+            if (SelectedAppInfo == null) return false;
+            return SelectedAppInfo.IsAvailableSourceCode;
+        }
+
+        public void ShowSourceCode()
+        {
+
         }
         #endregion
 

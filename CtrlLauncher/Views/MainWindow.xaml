@@ -181,7 +181,7 @@
             <ColumnDefinition />
           </Grid.ColumnDefinitions>
           <Button Grid.Column="1" Content="開始" FontSize="25" Height="50" Command="{Binding StartCommand}" Style="{StaticResource AccentedSquareButtonStyle}" Margin="4" />
-          <Button Grid.Column="2" Content="ソースコードの表示" FontSize="16" Height="40" Style="{StaticResource SquareButtonStyle}" Margin="4" />
+          <Button Grid.Column="2" Content="ソースコードの表示" FontSize="16" Height="40" Command="{Binding ShowSourceCodeCommand}" Style="{StaticResource SquareButtonStyle}" Margin="4" />
         </Grid>
       </Grid>
     </Grid>

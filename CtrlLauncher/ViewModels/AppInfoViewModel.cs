@@ -37,6 +37,8 @@ namespace CtrlLauncher.ViewModels
 
         public bool IsAvailableExecutable { get { return !string.IsNullOrEmpty(AppSpec.ExecutablePath); } }
 
+        public bool IsAvailableSourceCode { get { return !string.IsNullOrEmpty(AppSpec.SourcePath); } }
+
         public AppInfoViewModel(AppInfo model)
         {
             this.model = model;
