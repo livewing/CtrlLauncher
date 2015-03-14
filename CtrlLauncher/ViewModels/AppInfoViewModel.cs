@@ -39,6 +39,8 @@ namespace CtrlLauncher.ViewModels
 
         public bool IsAvailableSourceCode { get { return !string.IsNullOrEmpty(AppSpec.SourcePath); } }
 
+        public string SourceAbsolutePath { get { return model.SourceAbsolutePath; } }
+
         public AppInfoViewModel(AppInfo model)
         {
             this.model = model;

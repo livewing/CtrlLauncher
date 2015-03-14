@@ -72,5 +72,13 @@ namespace CtrlLauncher
                     Marshal.FreeCoTaskMem(buffer);
             }
         }
+
+        public static IntPtr GetIconHandle(string path)
+        {
+            Win32.SHFILEINFO shinfo = new Win32.SHFILEINFO();
+            IntPtr hSuccess = Win32.SHGetFileInfo(path, 0, ref shinfo, (uint)Marshal.SizeOf(shinfo), Win32.SHGFI_ICON | Win32.SHGFI_SMALLICON);
+            if (hSuccess == IntPtr.Zero) return IntPtr.Zero;
+            else return shinfo.hIcon;
+        }
     }
 }

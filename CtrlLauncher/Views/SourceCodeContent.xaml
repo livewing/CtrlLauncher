@@ -13,10 +13,13 @@
       <ColumnDefinition Width="Auto" />
       <ColumnDefinition />
     </Grid.ColumnDefinitions>
-    <TreeView Grid.Column="0">
+    <TreeView Grid.Column="0" ItemsSource="{Binding SourceDirectoryEntry.Children}">
       <TreeView.ItemTemplate>
-        <HierarchicalDataTemplate>
-          
+        <HierarchicalDataTemplate ItemsSource="{Binding Children}">
+          <StackPanel Orientation="Horizontal">
+            <Image Source="{Binding IconImage}" Width="16" Height="16" VerticalAlignment="Center" Margin="2, 0" />
+            <TextBlock Text="{Binding Name}" Margin="2, 0" />
+          </StackPanel>
         </HierarchicalDataTemplate>
       </TreeView.ItemTemplate>
     </TreeView>

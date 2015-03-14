@@ -76,6 +76,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Reactive.Core">
       <HintPath>..\packages\Rx-Core.2.2.5\lib\net45\System.Reactive.Core.dll</HintPath>
     </Reference>
@@ -115,10 +116,12 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Models\AppInfo.cs" />
+    <Compile Include="Models\FileEntry.cs" />
     <Compile Include="Models\LauncherCore.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="ViewModels\AppInfoViewModel.cs" />
     <Compile Include="ViewModels\AppSpecViewModel.cs" />
+    <Compile Include="ViewModels\FileEntryViewModel.cs" />
     <Compile Include="ViewModels\LauncherCoreViewModel.cs" />
     <Compile Include="ViewModels\SourceCodeContentViewModel.cs" />
     <Compile Include="Views\SourceCodeContent.xaml.cs">

@@ -22,6 +22,8 @@ namespace CtrlLauncher.Models
 
         public int StartCount { get { return core.GetCount(this); } }
 
+        public string SourceAbsolutePath { get { return toAbsolutePath(AppSpec.SourcePath); } }
+
         public AppInfo(LauncherCore core, AppSpec spec, string path)
         {
             this.core = core;
