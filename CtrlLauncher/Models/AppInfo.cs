@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Reactive.Linq;
@@ -41,7 +42,8 @@ namespace CtrlLauncher.Models
         {
             var process = new Process();
             process.StartInfo.ErrorDialog = false;
-            process.StartInfo.FileName = toAbsolutePath(AppSpec.ExecutablePath);
+            var exec = toAbsolutePath(AppSpec.ExecutablePath);
+            process.StartInfo.FileName = File.Exists(exec) ? exec : AppSpec.ExecutablePath;
             process.StartInfo.Arguments = AppSpec.Argument;
             process.StartInfo.WorkingDirectory = System.IO.Path.GetDirectoryName(toAbsolutePath(AppSpec.ExecutablePath));
             process.Start();
@@ -51,7 +53,21 @@ namespace CtrlLauncher.Models
 
             if (AppSpec.TimeLimit > TimeSpan.Zero)
             {
-                var timer = Observable.Interval(TimeSpan.FromMilliseconds(100)).Where(_ => !process.HasExited).Subscribe(_ =>
+                IDisposable d = null;
+                var s = Observable.Interval(TimeSpan.FromMilliseconds(100)).Where(_ =>
+                {
+                    try
+                    {
+                        return !process.HasExited;
+                    }
+                    catch
+                    {
+                        if (d != null)
+                            d.Dispose();
+                        return false;
+                    }
+                });
+                d = s.Subscribe(_ =>
                 {
                     var remaining = AppSpec.TimeLimit - (DateTime.Now - process.StartTime);
                     if (remaining < TimeSpan.Zero)
@@ -74,7 +90,11 @@ namespace CtrlLauncher.Models
                     }
                 });
 
-                process.Exited += (_, __) => timer.Dispose();
+                process.Exited += (_, __) =>
+                {
+                    if (d != null)
+                        d.Dispose();
+                };
             }
         }
 
