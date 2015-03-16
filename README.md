@@ -1,4 +1,4 @@
-# CTRL Launcher
+# CTRL Launcher [![Build status](https://ci.appveyor.com/api/projects/status/88e9p55f7uqkdl8j?svg=true)](https://ci.appveyor.com/project/gssequence/ctrllauncher)
 Windows アプリケーション展示用のランチャーです。
 
 ## ダウンロード
