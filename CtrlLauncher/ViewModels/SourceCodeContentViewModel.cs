@@ -183,21 +183,30 @@ namespace CtrlLauncher.ViewModels
                 var def = HighlightingManager.Instance.GetDefinitionByExtension(Path.GetExtension(entry.Path));
                 HighlightingDefinition = def;
 
-                using (var sr = new StreamReader(entry.Path))
+                // ファイルを読み込む
+                byte[] data;
+                using (var fs = new FileStream(entry.Path, FileMode.Open, FileAccess.Read))
                 {
-                    var sb = new StringBuilder((int)size);
-                    while (!sr.EndOfStream)
-                    {
-                        var str = await sr.ReadLineAsync();
-                        if (str.AsEnumerable().Contains('\0')) // バイナリ簡易判定
-                        {
-                            ErrorMessage = "(バイナリファイル)";
-                            return;
-                        }
-                        sb.AppendLine(str);
-                    }
-                    SourceCode = sb.ToString();
+                    data = new byte[fs.Length];
+                    await fs.ReadAsync(data, 0, data.Length);
                 }
+
+                // とりあえず UTF-8 として読み込んで NUL があったらバイナリ (簡易判定)
+                if (Encoding.UTF8.GetString(data).Contains('\0'))
+                {
+                    ErrorMessage = "(バイナリファイル)";
+                    return;
+                }
+
+                // 実際に判定する
+                var encoding = Utils.GetEncoding(data);
+                if (encoding == null)
+                {
+                    ErrorMessage = "(バイナリファイル)";
+                    return;
+                }
+                SourceCode = encoding.GetString(data);
+
             }
             catch (Exception ex)
             {
