@@ -78,6 +78,15 @@ namespace CtrlLauncher.Models
             }
         }
 
+        public void OpenDirectory()
+        {
+            try
+            {
+                Process.Start("explorer.exe", Path);
+            }
+            catch { }
+        }
+
         private string toAbsolutePath(string relative)
         {
             return new Uri(new Uri(Path + "\\"), relative).LocalPath;

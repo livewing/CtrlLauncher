@@ -57,5 +57,10 @@ namespace CtrlLauncher.ViewModels
         {
             model.Start(timeoutHandler);
         }
+
+        public void OpenDirectory()
+        {
+            model.OpenDirectory();
+        }
     }
 }
