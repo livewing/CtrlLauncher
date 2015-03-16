@@ -12,7 +12,7 @@ using System.Windows;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("CtrlLauncher")]
-[assembly: AssemblyCopyright("Copyright (C) 2011 りぶ.")]
+[assembly: AssemblyCopyright("Copyright (C) 2015 りぶ.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
