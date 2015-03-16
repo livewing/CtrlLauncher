@@ -69,6 +69,7 @@ namespace CtrlLauncher.ViewModels
                 RaisePropertyChanged("IsVisibleNoSelectionText");
                 StartCommand.RaiseCanExecuteChanged();
                 ShowSourceCodeCommand.RaiseCanExecuteChanged();
+                OpenDirectoryCommand.RaiseCanExecuteChanged();
             }
         }
         #endregion
@@ -219,6 +220,32 @@ namespace CtrlLauncher.ViewModels
             if (!CanShowSourceCode()) return;
             SourceCodeContentViewModel.AppInfoViewModel = SelectedAppInfo;
             IsOpenSourceCodeFlyout = true;
+        }
+        #endregion
+
+        #region OpenDirectoryCommand
+        private ViewModelCommand _OpenDirectoryCommand;
+
+        public ViewModelCommand OpenDirectoryCommand
+        {
+            get
+            {
+                if (_OpenDirectoryCommand == null)
+                {
+                    _OpenDirectoryCommand = new ViewModelCommand(OpenDirectory, CanOpenDirectory);
+                }
+                return _OpenDirectoryCommand;
+            }
+        }
+
+        public bool CanOpenDirectory()
+        {
+            return SelectedAppInfo != null;
+        }
+
+        public void OpenDirectory()
+        {
+            SelectedAppInfo.OpenDirectory();
         }
         #endregion
 
