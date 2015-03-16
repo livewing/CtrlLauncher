@@ -81,6 +81,14 @@
         </MenuItem>
       </MenuItem>
       <MenuItem Header="ツール(_T)">
+        <MenuItem Header="再読み込み(_R)">
+          <i:Interaction.Triggers>
+            <i:EventTrigger EventName="Click">
+              <l:LivetCallMethodAction MethodTarget="{Binding}" MethodName="Initialize" />
+            </i:EventTrigger>
+          </i:Interaction.Triggers>
+        </MenuItem>
+        <Separator />
         <MenuItem Header="開始回数を表示(_C)" IsCheckable="True" IsChecked="{Binding IsCheckedVisibleStartCount}" />
         <MenuItem Header="開始回数データをエクスポート(_E)...">
           <i:Interaction.Triggers>
