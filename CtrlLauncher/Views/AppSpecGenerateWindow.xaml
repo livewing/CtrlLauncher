@@ -80,9 +80,11 @@
       <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="4" />
 
       <TextBlock Grid.Row="2" Grid.Column="0" Text="ジャンル:" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="4" />
-      <ComboBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" IsEditable="True" IsReadOnly="False" SelectedIndex="0" Text="{Binding Genre}" VerticalAlignment="Center" Margin="4">
+      <ComboBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" SelectedIndex="0" Text="{Binding Genre}" VerticalAlignment="Center" Margin="4">
         <ComboBoxItem Content="ゲーム" />
-        <ComboBoxItem Content="ユーティリティ" />
+        <ComboBoxItem Content="ツール" />
+        <ComboBoxItem Content="Web アプリケーション" />
+        <ComboBoxItem Content="その他" />
       </ComboBox>
 
       <TextBlock Grid.Row="3" Grid.Column="0" Text="スクリーンショット:" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="4" />
