@@ -80,7 +80,7 @@ namespace CtrlLauncher.Models
                 {
                     try
                     {
-                        var yamlPath = new[] { Path.Combine(dir, "spec.yml"), Path.Combine(dir, "spec.yaml") }.FirstOrDefault(p => File.Exists(p));
+                        var yamlPath = new[] { "spec.yml", "spec.yaml" }.Select(p => Path.Combine(dir, p)).FirstOrDefault(p => File.Exists(p));
                         if (!string.IsNullOrEmpty(yamlPath))
                         {
                             var spec = await AppSpec.LoadAsync(yamlPath);
