@@ -406,7 +406,7 @@ namespace CtrlLauncher.ViewModels
                 spec.TimeLimit = new TimeSpan(0, TimeLimitMinutes, TimeLimitSeconds);
                 spec.Description = Description;
 
-                await spec.SaveAsync(Path.Combine(TargetDirectory, "spec.yaml"));
+                await spec.SaveAsync(Path.Combine(TargetDirectory, "spec.yml"));
 
                 Messenger.Raise(new InformationMessage("保存に成功しました。\r\n" + TargetDirectory + " を zip 圧縮して所定の場所にアップロードしてください。",
                     "完了", System.Windows.MessageBoxImage.Information, "Information"));

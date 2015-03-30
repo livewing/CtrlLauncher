@@ -8,7 +8,7 @@
         xmlns:v="clr-namespace:CtrlLauncher.Views"
         xmlns:vm="clr-namespace:CtrlLauncher.ViewModels"
         xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
-        Title="spec.yaml ファイルの生成" Width="500" ResizeMode="NoResize" SizeToContent="Height"
+        Title="spec.yml ファイルの生成" Width="500" ResizeMode="NoResize" SizeToContent="Height"
         WindowStartupLocation="CenterOwner" ShowInTaskbar="False" UseLayoutRounding="True"
         GlowBrush="{DynamicResource AccentColorBrush}" TitleCaps="False">
 

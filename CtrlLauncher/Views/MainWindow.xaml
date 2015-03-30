@@ -103,7 +103,7 @@
         </MenuItem>
         <MenuItem Header="開始回数データを消去(_D)..." Command="{Binding ClearCountCommand}" />
         <Separator />
-        <MenuItem Header="spec.yaml ファイルの生成(_S)...">
+        <MenuItem Header="spec.yml ファイルの生成(_S)...">
           <i:Interaction.Triggers>
             <i:EventTrigger EventName="Click">
               <l:TransitionInteractionMessageAction WindowType="{x:Type v:AppSpecGenerateWindow}" Mode="Modal">
