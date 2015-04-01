@@ -15,13 +15,13 @@ CtrlLauncer
 ┣ *.dll
 ┣ Data
 ┃┣ 作品1
-┃┃┣ spec.yaml
+┃┃┣ spec.yml
 ┃┃┗ その他ファイル・ディレクトリ
 ┃┣ 作品2
-┃┃┣ spec.yaml
+┃┃┣ spec.yml
 ┃┃┗ その他ファイル・ディレクトリ
 ┃┣ 作品3
-┃┃┣ spec.yaml
+┃┃┣ spec.yml
 ┃┃┗ その他ファイル・ディレクトリ
    .
    .
