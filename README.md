@@ -1,6 +1,10 @@
-# CTRL Launcher [![Build status](https://ci.appveyor.com/api/projects/status/88e9p55f7uqkdl8j?svg=true)](https://ci.appveyor.com/project/gssequence/ctrllauncher)
-Windows アプリケーション展示用のランチャーです。
+# CTRL Launcher
 
+[![Build status](https://img.shields.io/appveyor/ci/gssequence/ctrllauncher.svg?style=flat-square)](https://ci.appveyor.com/project/gssequence/ctrllauncher)
+[![Release](https://img.shields.io/github/release/gssequence/ctrllauncher.svg?style=flat-square)](https://github.com/gssequence/CtrlLauncher/releases/latest)
+[![License](https://img.shields.io/badge/license-MIT-lightgrey.svg?style=flat-square)](LICENSE)
+
+Windows アプリケーション展示用のランチャーです。
 ## ダウンロード
 [Releases](https://github.com/gssequence/CtrlLauncher/releases) からダウンロードしてください。
 
