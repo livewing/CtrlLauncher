@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.ComponentModel;
+using System.Windows;
 using System.Windows.Input;
 
 using Livet;
@@ -13,6 +14,7 @@ using Livet.EventListeners;
 using Livet.Messaging.Windows;
 
 using CtrlLauncher.Models;
+using System.Diagnostics;
 
 namespace CtrlLauncher.ViewModels
 {
@@ -357,6 +359,12 @@ namespace CtrlLauncher.ViewModels
             IsLoading = true;
             await LauncherCoreViewModel.LoadAppsAsync();
             IsLoading = false;
+        }
+
+        public void Restart()
+        {
+            Application.Current.Shutdown();
+            Process.Start(Application.ResourceAssembly.Location);
         }
     }
 }
