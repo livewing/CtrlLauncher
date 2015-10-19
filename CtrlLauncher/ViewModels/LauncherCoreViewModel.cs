@@ -53,10 +53,10 @@ namespace CtrlLauncher.ViewModels
         public async Task LoadAppsAsync()
         {
             isLoading = true;
-            RaisePropertyChanged("IsAppsEmpty");
+            RaisePropertyChanged(nameof(IsAppsEmpty));
             await model.LoadAppsAsync();
             isLoading = false;
-            RaisePropertyChanged("IsAppsEmpty");
+            RaisePropertyChanged(nameof(IsAppsEmpty));
         }
 
         public void StartApp(AppInfoViewModel app, Action timeoutHandler)

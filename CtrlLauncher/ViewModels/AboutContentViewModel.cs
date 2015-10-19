@@ -52,7 +52,7 @@ namespace CtrlLauncher.ViewModels
                     return;
                 _SelectedLicenseIndex = value;
                 RaisePropertyChanged();
-                RaisePropertyChanged("SelectedLicense");
+                RaisePropertyChanged(nameof(SelectedLicense));
             }
         }
         #endregion
