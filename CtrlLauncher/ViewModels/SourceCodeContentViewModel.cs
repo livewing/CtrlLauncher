@@ -130,7 +130,7 @@ namespace CtrlLauncher.ViewModels
                     return;
                 _ErrorMessage = value;
                 RaisePropertyChanged();
-                RaisePropertyChanged("IsVisibleErrorMessage");
+                RaisePropertyChanged(nameof(IsVisibleErrorMessage));
             }
         }
         #endregion
@@ -156,7 +156,7 @@ namespace CtrlLauncher.ViewModels
                 ErrorMessage = "左のツリーからコードファイルを選択してください";
 
                 RaisePropertyChanged();
-                RaisePropertyChanged("FlyoutHeader");
+                RaisePropertyChanged(nameof(FlyoutHeader));
             }
         }
         #endregion

@@ -68,7 +68,7 @@ namespace CtrlLauncher.ViewModels
                     return;
                 _SelectedAppInfo = value;
                 RaisePropertyChanged();
-                RaisePropertyChanged("IsVisibleNoSelectionText");
+                RaisePropertyChanged(nameof(IsVisibleNoSelectionText));
                 StartCommand.RaiseCanExecuteChanged();
                 ShowSourceCodeCommand.RaiseCanExecuteChanged();
                 OpenDirectoryCommand.RaiseCanExecuteChanged();
@@ -93,7 +93,7 @@ namespace CtrlLauncher.ViewModels
                     return;
                 _IsLoading = value;
                 RaisePropertyChanged();
-                RaisePropertyChanged("IsVisibleNoSelectionText");
+                RaisePropertyChanged(nameof(IsVisibleNoSelectionText));
             }
         }
         #endregion
@@ -111,7 +111,7 @@ namespace CtrlLauncher.ViewModels
                     return;
                 _IsCheckedVisibleStartCount = value;
                 RaisePropertyChanged();
-                RaisePropertyChanged("IsVisibleStartCount");
+                RaisePropertyChanged(nameof(IsVisibleStartCount));
             }
         }
         #endregion
@@ -348,7 +348,7 @@ namespace CtrlLauncher.ViewModels
             LauncherCoreViewModel = new LauncherCoreViewModel();
             CompositeDisposable.Add(new PropertyChangedEventListener(LauncherCoreViewModel, (sender, e) =>
             {
-                if (e.PropertyName == "IsAppsEmpty") RaisePropertyChanged("IsVisibleNoSelectionText");
+                if (e.PropertyName == "IsAppsEmpty") RaisePropertyChanged(nameof(IsVisibleNoSelectionText));
             }));
 
             SourceCodeContentViewModel = new SourceCodeContentViewModel();

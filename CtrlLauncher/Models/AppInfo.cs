@@ -49,7 +49,7 @@ namespace CtrlLauncher.Models
             process.Start();
 
             core.SetCount(this, core.GetCount(this) + 1);
-            RaisePropertyChanged("StartCount");
+            RaisePropertyChanged(nameof(StartCount));
 
             if (AppSpec.TimeLimit > TimeSpan.Zero)
             {

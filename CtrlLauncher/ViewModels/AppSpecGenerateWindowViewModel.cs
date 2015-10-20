@@ -33,9 +33,9 @@ namespace CtrlLauncher.ViewModels
                     return;
                 _TargetDirectory = value;
                 RaisePropertyChanged();
-                RaisePropertyChanged("RelativeScreenshotPath");
-                RaisePropertyChanged("RelativeExecutablePath");
-                RaisePropertyChanged("RelativeSourceDirectory");
+                RaisePropertyChanged(nameof(RelativeScreenshotPath));
+                RaisePropertyChanged(nameof(RelativeExecutablePath));
+                RaisePropertyChanged(nameof(RelativeSourceDirectory));
 
                 GenerateCommand.RaiseCanExecuteChanged();
             }
@@ -89,7 +89,7 @@ namespace CtrlLauncher.ViewModels
                     return;
                 _ScreenshotPath = value;
                 RaisePropertyChanged();
-                RaisePropertyChanged("RelativeScreenshotPath");
+                RaisePropertyChanged(nameof(RelativeScreenshotPath));
             }
         }
         #endregion
@@ -107,7 +107,7 @@ namespace CtrlLauncher.ViewModels
                     return;
                 _ExecutablePath = value;
                 RaisePropertyChanged();
-                RaisePropertyChanged("RelativeExecutablePath");
+                RaisePropertyChanged(nameof(RelativeExecutablePath));
             }
         }
         #endregion
@@ -142,7 +142,7 @@ namespace CtrlLauncher.ViewModels
                     return;
                 _SourceDirectory = value;
                 RaisePropertyChanged();
-                RaisePropertyChanged("RelativeSourceDirectory");
+                RaisePropertyChanged(nameof(RelativeSourceDirectory));
             }
         }
         #endregion
