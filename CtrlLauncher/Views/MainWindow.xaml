@@ -31,7 +31,7 @@
     <l:InteractionMessageTrigger Messenger="{Binding Messenger}" MessageKey="Timeout">
       <l:InformationDialogInteractionMessageAction>
         <l:DirectInteractionMessage>
-          <l:InformationMessage Caption="CTRL Launcher" Text="展示版はここで終了となります。ご利用ありがとうございました。" Image="Information" />
+          <l:InformationMessage Caption="SSPN Launcher" Text="展示版はここで終了となります。ご利用ありがとうございました。" Image="Information" />
         </l:DirectInteractionMessage>
       </l:InformationDialogInteractionMessageAction>
     </l:InteractionMessageTrigger>
@@ -39,7 +39,7 @@
 
   <metro:MetroWindow.RightWindowCommands>
     <metro:WindowCommands>
-      <Button Content="CTRL Launcher について" Command="{Binding OpenAboutFlyoutCommand}" />
+      <Button Content="SSPN Launcher について" Command="{Binding OpenAboutFlyoutCommand}" />
     </metro:WindowCommands>
   </metro:MetroWindow.RightWindowCommands>
 
@@ -48,7 +48,7 @@
       <metro:Flyout Header="{Binding SourceCodeContentViewModel.FlyoutHeader}" Position="Right" Width="800" IsModal="True" IsPinned="False" Theme="Adapt" AnimateOpacity="True" IsOpen="{Binding IsOpenSourceCodeFlyout}">
         <v:SourceCodeContent DataContext="{Binding SourceCodeContentViewModel}" Margin="10" />
       </metro:Flyout>
-      <metro:Flyout Header="CTRL Launcher について" Position="Right" Width="700" IsModal="True" IsPinned="False" Theme="Adapt" AnimateOpacity="True" IsOpen="{Binding IsOpenAboutFlyout}">
+      <metro:Flyout Header="SSPN Launcher について" Position="Right" Width="700" IsModal="True" IsPinned="False" Theme="Adapt" AnimateOpacity="True" IsOpen="{Binding IsOpenAboutFlyout}">
         <v:AboutContent Margin="60, 0, 0, 0" />
       </metro:Flyout>
     </metro:FlyoutsControl>
@@ -123,7 +123,7 @@
         </MenuItem>
       </MenuItem>
       <MenuItem Header="ヘルプ(_H)">
-        <MenuItem Header="CTRL Launcher について(_A)..." Command="{Binding OpenAboutFlyoutCommand}" />
+        <MenuItem Header="SSPN Launcher について(_A)..." Command="{Binding OpenAboutFlyoutCommand}" />
       </MenuItem>
     </Menu>
     <Grid Grid.Row="1">

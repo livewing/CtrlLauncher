@@ -18,7 +18,7 @@
             <Setter Property="HorizontalAlignment" Value="Center" />
           </Style>
         </StackPanel.Resources>
-        <TextBlock Text="CTRL Launcher" FontSize="40" />
+        <TextBlock Text="SSPN Launcher" FontSize="40" />
         <TextBlock FontSize="20">
           <Run Text="Version" />
           <Run Text="{Binding Version, Mode=OneWay}" />

@@ -376,7 +376,7 @@ namespace CtrlLauncher.ViewModels
             var rels = paths.Select(s => { string rel; return Utils.TryGetRelativePath(TargetDirectory, s, out rel) ? rel : null; });
             if (paths.Concat(rels).Concat(new[] { Title }).Any(s => string.IsNullOrEmpty(s)))
             {
-                var msg = new ConfirmationMessage("正しく入力されていない項目があります。続行しますか?\r\nこのまま続行した場合、CTRL Launcher に正しく表示されない可能性があります。",
+                var msg = new ConfirmationMessage("正しく入力されていない項目があります。続行しますか?\r\nこのまま続行した場合、SSPN Launcher に正しく表示されない可能性があります。",
                     "入力が不十分です", System.Windows.MessageBoxImage.Question, System.Windows.MessageBoxButton.YesNo, "Confirmation");
                 Messenger.Raise(msg);
                 if (!(msg.Response ?? false))
@@ -384,7 +384,7 @@ namespace CtrlLauncher.ViewModels
             }
             else if (rels.Any(s => s.StartsWith(@"..\")))
             {
-                var msg = new ConfirmationMessage("ターゲットディレクトリ内に含まれていないパス設定があります。続行しますか?\r\nこのまま続行した場合、CTRL Launcher に正しく表示されない可能性があります。",
+                var msg = new ConfirmationMessage("ターゲットディレクトリ内に含まれていないパス設定があります。続行しますか?\r\nこのまま続行した場合、SSPN Launcher に正しく表示されない可能性があります。",
                     "ファイル配置に問題があります", System.Windows.MessageBoxImage.Question, System.Windows.MessageBoxButton.YesNo, "Confirmation");
                 Messenger.Raise(msg);
                 if (!(msg.Response ?? false))

@@ -50,7 +50,7 @@ namespace CtrlLauncher.ViewModels
         {
             get
             {
-                return "CTRL Launcher" + (IsMaintenanceMode ? " [メンテナンスモード]" : "");
+                return "SSPN Launcher" + (IsMaintenanceMode ? " [メンテナンスモード]" : "");
             }
         }
         #endregion
