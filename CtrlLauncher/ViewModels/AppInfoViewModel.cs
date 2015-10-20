@@ -48,8 +48,8 @@ namespace CtrlLauncher.ViewModels
 
             CompositeDisposable.Add(new PropertyChangedEventListener(model, (sender, e) =>
             {
-                if (e.PropertyName == "StartCount")
-                    RaisePropertyChanged("StartCount");
+                if (e.PropertyName == nameof(StartCount))
+                    RaisePropertyChanged(nameof(StartCount));
             }));
         }
 

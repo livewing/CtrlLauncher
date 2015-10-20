@@ -68,6 +68,13 @@
         </Binding>
       </Menu.Visibility>
       <MenuItem Header="ファイル(_F)">
+        <MenuItem Header="再起動(_R)">
+          <i:Interaction.Triggers>
+            <i:EventTrigger EventName="Click">
+              <l:LivetCallMethodAction MethodTarget="{Binding}" MethodName="Restart" />
+            </i:EventTrigger>
+          </i:Interaction.Triggers>
+        </MenuItem>
         <MenuItem Header="終了(_X)" InputGestureText="Alt+F4">
           <i:Interaction.Triggers>
             <i:EventTrigger EventName="Click">

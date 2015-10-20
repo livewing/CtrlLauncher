@@ -19,7 +19,7 @@ namespace CtrlLauncher.Behaviors
 
         // Using a DependencyProperty as the backing store for Text.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty TextProperty =
-            DependencyProperty.Register("Text", typeof(string), typeof(AvalonEditBindingBehavior), new FrameworkPropertyMetadata(default(string), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, PropertyChangedCallback));
+            DependencyProperty.Register(nameof(Text), typeof(string), typeof(AvalonEditBindingBehavior), new FrameworkPropertyMetadata(default(string), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, PropertyChangedCallback));
 
         protected override void OnAttached()
         {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.ComponentModel;
+using System.Windows;
 using System.Windows.Input;
 
 using Livet;
@@ -13,6 +14,7 @@ using Livet.EventListeners;
 using Livet.Messaging.Windows;
 
 using CtrlLauncher.Models;
+using System.Diagnostics;
 
 namespace CtrlLauncher.ViewModels
 {
@@ -66,7 +68,7 @@ namespace CtrlLauncher.ViewModels
                     return;
                 _SelectedAppInfo = value;
                 RaisePropertyChanged();
-                RaisePropertyChanged("IsVisibleNoSelectionText");
+                RaisePropertyChanged(nameof(IsVisibleNoSelectionText));
                 StartCommand.RaiseCanExecuteChanged();
                 ShowSourceCodeCommand.RaiseCanExecuteChanged();
                 OpenDirectoryCommand.RaiseCanExecuteChanged();
@@ -91,7 +93,7 @@ namespace CtrlLauncher.ViewModels
                     return;
                 _IsLoading = value;
                 RaisePropertyChanged();
-                RaisePropertyChanged("IsVisibleNoSelectionText");
+                RaisePropertyChanged(nameof(IsVisibleNoSelectionText));
             }
         }
         #endregion
@@ -109,7 +111,7 @@ namespace CtrlLauncher.ViewModels
                     return;
                 _IsCheckedVisibleStartCount = value;
                 RaisePropertyChanged();
-                RaisePropertyChanged("IsVisibleStartCount");
+                RaisePropertyChanged(nameof(IsVisibleStartCount));
             }
         }
         #endregion
@@ -346,7 +348,7 @@ namespace CtrlLauncher.ViewModels
             LauncherCoreViewModel = new LauncherCoreViewModel();
             CompositeDisposable.Add(new PropertyChangedEventListener(LauncherCoreViewModel, (sender, e) =>
             {
-                if (e.PropertyName == "IsAppsEmpty") RaisePropertyChanged("IsVisibleNoSelectionText");
+                if (e.PropertyName == "IsAppsEmpty") RaisePropertyChanged(nameof(IsVisibleNoSelectionText));
             }));
 
             SourceCodeContentViewModel = new SourceCodeContentViewModel();
@@ -357,6 +359,12 @@ namespace CtrlLauncher.ViewModels
             IsLoading = true;
             await LauncherCoreViewModel.LoadAppsAsync();
             IsLoading = false;
+        }
+
+        public void Restart()
+        {
+            Application.Current.Shutdown();
+            Process.Start(Application.ResourceAssembly.Location);
         }
     }
 }
