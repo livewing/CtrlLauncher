@@ -12,20 +12,14 @@ namespace CtrlLauncher.Models
 {
     public class About : NotificationObject
     {
-        public string Version { get; private set; }
+        public string Version => Assembly.GetExecutingAssembly().GetName().Version.ToString(3);
 
-        public IEnumerable<Tuple<string, string, string>> Licenses { get; private set; }
+        public IEnumerable<Tuple<string, string, string>> Licenses { get; }
 
-        public void OpenUri(string uriString)
-        {
-            Process.Start(uriString);
-        }
+        public void OpenUri(string uriString) => Process.Start(uriString);
 
         public About()
         {
-            // バージョンを取得
-            Version = Assembly.GetExecutingAssembly().GetName().Version.ToString(3);
-
             // 埋め込まれたライセンス条項ファイルの読み込み
             var asm = Assembly.GetExecutingAssembly();
             var licenses = asm.GetManifestResourceNames().Where(n => n.StartsWith("CtrlLauncher.Resources.Licenses."));

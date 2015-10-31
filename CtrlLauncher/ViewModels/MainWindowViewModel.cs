@@ -20,9 +20,7 @@ namespace CtrlLauncher.ViewModels
 {
     public class MainWindowViewModel : ViewModel
     {
-        #region LauncherCoreViewModel プロパティ
-        public LauncherCoreViewModel LauncherCoreViewModel { get; private set; }
-        #endregion
+        public LauncherCoreViewModel LauncherCoreViewModel { get; }
 
         #region SourceCodeContentViewModel変更通知プロパティ
         private SourceCodeContentViewModel _SourceCodeContentViewModel;
@@ -41,19 +39,9 @@ namespace CtrlLauncher.ViewModels
         }
         #endregion
 
-        #region IsMaintenanceModeプロパティ
-        public bool IsMaintenanceMode { get; private set; }
-        #endregion
+        public bool IsMaintenanceMode { get; }
 
-        #region Titleプロパティ
-        public string Title
-        {
-            get
-            {
-                return "CTRL Launcher" + (IsMaintenanceMode ? " [メンテナンスモード]" : "");
-            }
-        }
-        #endregion
+        public string Title => "CTRL Launcher" + (IsMaintenanceMode ? " [メンテナンスモード]" : "");
 
         #region SelectedAppInfo変更通知プロパティ
         private AppInfoViewModel _SelectedAppInfo = null;
@@ -76,9 +64,7 @@ namespace CtrlLauncher.ViewModels
         }
         #endregion
 
-        #region IsVisibleNoSelectionText変更通知プロパティ
-        public bool IsVisibleNoSelectionText { get { return !IsLoading && !LauncherCoreViewModel.IsAppsEmpty && SelectedAppInfo == null; } }
-        #endregion
+        public bool IsVisibleNoSelectionText => !IsLoading && !LauncherCoreViewModel.IsAppsEmpty && SelectedAppInfo == null;
 
         #region IsLoading変更通知プロパティ
         private bool _IsLoading;
@@ -116,9 +102,7 @@ namespace CtrlLauncher.ViewModels
         }
         #endregion
 
-        #region IsVisibleStartCount変更通知プロパティ
-        public bool IsVisibleStartCount { get { return IsMaintenanceMode && IsCheckedVisibleStartCount; } }
-        #endregion
+        public bool IsVisibleStartCount => IsMaintenanceMode && IsCheckedVisibleStartCount;
 
         #region IsOpenSourceCodeFlyout変更通知プロパティ
         private bool _IsOpenSourceCodeFlyout;
@@ -157,24 +141,9 @@ namespace CtrlLauncher.ViewModels
 
         #region StartCommand
         private ViewModelCommand _StartCommand;
+        public ViewModelCommand StartCommand => _StartCommand ?? (_StartCommand = new ViewModelCommand(Start, CanStart));
 
-        public ViewModelCommand StartCommand
-        {
-            get
-            {
-                if (_StartCommand == null)
-                {
-                    _StartCommand = new ViewModelCommand(Start, CanStart);
-                }
-                return _StartCommand;
-            }
-        }
-
-        public bool CanStart()
-        {
-            if (SelectedAppInfo == null) return false;
-            return SelectedAppInfo.IsAvailableExecutable;
-        }
+        public bool CanStart() => SelectedAppInfo == null ? false : SelectedAppInfo.IsAvailableExecutable;
 
         public void Start()
         {
@@ -199,23 +168,8 @@ namespace CtrlLauncher.ViewModels
         #region ShowSourceCodeCommand
         private ViewModelCommand _ShowSourceCodeCommand;
 
-        public ViewModelCommand ShowSourceCodeCommand
-        {
-            get
-            {
-                if (_ShowSourceCodeCommand == null)
-                {
-                    _ShowSourceCodeCommand = new ViewModelCommand(ShowSourceCode, CanShowSourceCode);
-                }
-                return _ShowSourceCodeCommand;
-            }
-        }
-
-        public bool CanShowSourceCode()
-        {
-            if (SelectedAppInfo == null) return false;
-            return SelectedAppInfo.IsAvailableSourceCode;
-        }
+        public ViewModelCommand ShowSourceCodeCommand => _ShowSourceCodeCommand ?? (_ShowSourceCodeCommand = new ViewModelCommand(ShowSourceCode, CanShowSourceCode));
+        public bool CanShowSourceCode() => SelectedAppInfo == null ? false : SelectedAppInfo.IsAvailableSourceCode;
 
         public void ShowSourceCode()
         {
@@ -227,44 +181,16 @@ namespace CtrlLauncher.ViewModels
 
         #region OpenDirectoryCommand
         private ViewModelCommand _OpenDirectoryCommand;
+        public ViewModelCommand OpenDirectoryCommand => _OpenDirectoryCommand ?? (_OpenDirectoryCommand = new ViewModelCommand(OpenDirectory, CanOpenDirectory));
 
-        public ViewModelCommand OpenDirectoryCommand
-        {
-            get
-            {
-                if (_OpenDirectoryCommand == null)
-                {
-                    _OpenDirectoryCommand = new ViewModelCommand(OpenDirectory, CanOpenDirectory);
-                }
-                return _OpenDirectoryCommand;
-            }
-        }
+        public bool CanOpenDirectory() => SelectedAppInfo != null;
 
-        public bool CanOpenDirectory()
-        {
-            return SelectedAppInfo != null;
-        }
-
-        public void OpenDirectory()
-        {
-            SelectedAppInfo.OpenDirectory();
-        }
+        public void OpenDirectory() => SelectedAppInfo.OpenDirectory();
         #endregion
 
         #region ExportCountDataCommand
         private ListenerCommand<SavingFileSelectionMessage> _ExportCountDataCommand;
-
-        public ListenerCommand<SavingFileSelectionMessage> ExportCountDataCommand
-        {
-            get
-            {
-                if (_ExportCountDataCommand == null)
-                {
-                    _ExportCountDataCommand = new ListenerCommand<SavingFileSelectionMessage>(ExportCountData);
-                }
-                return _ExportCountDataCommand;
-            }
-        }
+        public ListenerCommand<SavingFileSelectionMessage> ExportCountDataCommand => _ExportCountDataCommand ?? (_ExportCountDataCommand = new ListenerCommand<SavingFileSelectionMessage>(ExportCountData));
 
         public async void ExportCountData(SavingFileSelectionMessage parameter)
         {
@@ -285,18 +211,7 @@ namespace CtrlLauncher.ViewModels
 
         #region ClearCountCommand
         private ViewModelCommand _ClearCountCommand;
-
-        public ViewModelCommand ClearCountCommand
-        {
-            get
-            {
-                if (_ClearCountCommand == null)
-                {
-                    _ClearCountCommand = new ViewModelCommand(ClearCount);
-                }
-                return _ClearCountCommand;
-            }
-        }
+        public ViewModelCommand ClearCountCommand => _ClearCountCommand ?? (_ClearCountCommand = new ViewModelCommand(ClearCount));
 
         public void ClearCount()
         {
@@ -312,23 +227,9 @@ namespace CtrlLauncher.ViewModels
 
         #region OpenAboutFlyoutCommand
         private ViewModelCommand _OpenAboutFlyoutCommand;
+        public ViewModelCommand OpenAboutFlyoutCommand => _OpenAboutFlyoutCommand ?? (_OpenAboutFlyoutCommand = new ViewModelCommand(OpenAboutFlyout));
 
-        public ViewModelCommand OpenAboutFlyoutCommand
-        {
-            get
-            {
-                if (_OpenAboutFlyoutCommand == null)
-                {
-                    _OpenAboutFlyoutCommand = new ViewModelCommand(OpenAboutFlyout);
-                }
-                return _OpenAboutFlyoutCommand;
-            }
-        }
-
-        public void OpenAboutFlyout()
-        {
-            IsOpenAboutFlyout = true;
-        }
+        public void OpenAboutFlyout() => IsOpenAboutFlyout = true;
         #endregion
 
         public MainWindowViewModel()

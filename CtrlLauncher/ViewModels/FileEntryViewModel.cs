@@ -21,39 +21,17 @@ namespace CtrlLauncher.ViewModels
         private FileEntry model;
         private string customName = null;
 
-        public string Name
-        {
-            get
-            {
-                if (customName != null) return customName;
-                return model.Name;
-            }
-        }
+        public string Name => customName ?? model.Name;
 
-        public string Path
-        {
-            get { return model.Path; }
-        }
+        public string Path => model.Path;
 
-        public bool IsDirectory
-        {
-            get { return model.IsDirectory; }
-        }
+        public bool IsDirectory => model.IsDirectory;
 
-        public long Size
-        {
-            get { return model.Size; }
-        }
+        public long Size => model.Size;
 
-        public IEnumerable<FileEntryViewModel> Children
-        {
-            get { return model.Children.Select(m => new FileEntryViewModel(m)); }
-        }
+        public IEnumerable<FileEntryViewModel> Children => model.Children.Select(m => new FileEntryViewModel(m));
 
-        public BitmapSource IconImage
-        {
-            get { return model.IconImage; }
-        }
+        public BitmapSource IconImage => model.IconImage;
 
         public FileEntryViewModel(string path) : this(path, null) { }
         public FileEntryViewModel(string path, string customName)

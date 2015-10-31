@@ -11,20 +11,13 @@ namespace CtrlLauncher.Models
 {
     public class FileEntry
     {
-        public string Name { get; private set; }
+        public string Name { get; }
 
-        public string Path { get; private set; }
+        public string Path { get; }
 
-        public bool IsDirectory { get; private set; }
+        public bool IsDirectory { get; }
 
-        public long Size
-        {
-            get
-            {
-                if (IsDirectory) return 0;
-                return new FileInfo(Path).Length;
-            }
-        }
+        public long Size => IsDirectory ? 0 : new FileInfo(Path).Length;
 
         #region Childrenプロパティ
         private IEnumerable<FileEntry> _Children = null;
