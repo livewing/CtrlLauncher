@@ -252,21 +252,9 @@ namespace CtrlLauncher.ViewModels
         #endregion
 
 
-
         #region SetTargetDirectoryCommand
         private ListenerCommand<FolderSelectionMessage> _SetTargetDirectoryCommand;
-
-        public ListenerCommand<FolderSelectionMessage> SetTargetDirectoryCommand
-        {
-            get
-            {
-                if (_SetTargetDirectoryCommand == null)
-                {
-                    _SetTargetDirectoryCommand = new ListenerCommand<FolderSelectionMessage>(SetTargetDirectory);
-                }
-                return _SetTargetDirectoryCommand;
-            }
-        }
+        public ListenerCommand<FolderSelectionMessage> SetTargetDirectoryCommand => _SetTargetDirectoryCommand ?? (_SetTargetDirectoryCommand = new ListenerCommand<FolderSelectionMessage>(SetTargetDirectory));
 
         public void SetTargetDirectory(FolderSelectionMessage parameter)
         {
@@ -277,18 +265,7 @@ namespace CtrlLauncher.ViewModels
 
         #region SetScreenshotPathCommand
         private ListenerCommand<OpeningFileSelectionMessage> _SetScreenshotPathCommand;
-
-        public ListenerCommand<OpeningFileSelectionMessage> SetScreenshotPathCommand
-        {
-            get
-            {
-                if (_SetScreenshotPathCommand == null)
-                {
-                    _SetScreenshotPathCommand = new ListenerCommand<OpeningFileSelectionMessage>(SetScreenshotPath);
-                }
-                return _SetScreenshotPathCommand;
-            }
-        }
+        public ListenerCommand<OpeningFileSelectionMessage> SetScreenshotPathCommand => _SetScreenshotPathCommand ?? (_SetScreenshotPathCommand = new ListenerCommand<OpeningFileSelectionMessage>(SetScreenshotPath));
 
         public void SetScreenshotPath(OpeningFileSelectionMessage parameter)
         {
@@ -299,18 +276,7 @@ namespace CtrlLauncher.ViewModels
 
         #region SetExecutablePathCommand
         private ListenerCommand<OpeningFileSelectionMessage> _SetExecutablePathCommand;
-
-        public ListenerCommand<OpeningFileSelectionMessage> SetExecutablePathCommand
-        {
-            get
-            {
-                if (_SetExecutablePathCommand == null)
-                {
-                    _SetExecutablePathCommand = new ListenerCommand<OpeningFileSelectionMessage>(SetExecutablePath);
-                }
-                return _SetExecutablePathCommand;
-            }
-        }
+        public ListenerCommand<OpeningFileSelectionMessage> SetExecutablePathCommand => _SetExecutablePathCommand ?? (_SetExecutablePathCommand = new ListenerCommand<OpeningFileSelectionMessage>(SetExecutablePath));
 
         public void SetExecutablePath(OpeningFileSelectionMessage parameter)
         {
@@ -321,18 +287,7 @@ namespace CtrlLauncher.ViewModels
 
         #region SetSourceDirectoryCommand
         private ListenerCommand<FolderSelectionMessage> _SetSourceDirectoryCommand;
-
-        public ListenerCommand<FolderSelectionMessage> SetSourceDirectoryCommand
-        {
-            get
-            {
-                if (_SetSourceDirectoryCommand == null)
-                {
-                    _SetSourceDirectoryCommand = new ListenerCommand<FolderSelectionMessage>(SetSourceDirectory);
-                }
-                return _SetSourceDirectoryCommand;
-            }
-        }
+        public ListenerCommand<FolderSelectionMessage> SetSourceDirectoryCommand => _SetSourceDirectoryCommand ?? (_SetSourceDirectoryCommand = new ListenerCommand<FolderSelectionMessage>(SetSourceDirectory));
 
         public void SetSourceDirectory(FolderSelectionMessage parameter)
         {
@@ -341,26 +296,11 @@ namespace CtrlLauncher.ViewModels
         }
         #endregion
 
-
         #region GenerateCommand
         private ViewModelCommand _GenerateCommand;
+        public ViewModelCommand GenerateCommand => _GenerateCommand ?? (_GenerateCommand = new ViewModelCommand(Generate, CanGenerate));
 
-        public ViewModelCommand GenerateCommand
-        {
-            get
-            {
-                if (_GenerateCommand == null)
-                {
-                    _GenerateCommand = new ViewModelCommand(Generate, CanGenerate);
-                }
-                return _GenerateCommand;
-            }
-        }
-
-        public bool CanGenerate()
-        {
-            return !IsSaving && !string.IsNullOrEmpty(TargetDirectory);
-        }
+        public bool CanGenerate() => !IsSaving && !string.IsNullOrEmpty(TargetDirectory);
 
         public async void Generate()
         {

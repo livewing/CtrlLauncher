@@ -68,19 +68,13 @@ namespace CtrlLauncher.ViewModels
             set { model.Description = value; }
         }
 
-        public AppSpecViewModel()
-        {
-            this.model = new AppSpec();
-        }
+        public AppSpecViewModel() : this(new AppSpec()) { }
 
         public AppSpecViewModel(AppSpec model)
         {
             this.model = model;
         }
 
-        public async Task SaveAsync(string path)
-        {
-            await model.SaveAsync(path);
-        }
+        public async Task SaveAsync(string path) => await model.SaveAsync(path);
     }
 }

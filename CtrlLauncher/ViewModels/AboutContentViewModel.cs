@@ -19,25 +19,9 @@ namespace CtrlLauncher.ViewModels
     {
         private About model;
 
-        #region Versionプロパティ
-        public string Version
-        {
-            get
-            {
-                return model.Version;
-            }
-        }
-        #endregion
+        public string Version =>  model.Version;
 
-        #region Licensesプロパティ
-        public IEnumerable<Tuple<string, string, string>> Licenses
-        {
-            get
-            {
-                return model.Licenses;
-            }
-        }
-        #endregion
+        public IEnumerable<Tuple<string, string, string>> Licenses => model.Licenses;
 
         #region SelectedLicenseIndex変更通知プロパティ
         private int _SelectedLicenseIndex = 0;
@@ -57,36 +41,12 @@ namespace CtrlLauncher.ViewModels
         }
         #endregion
 
-        #region SelectedLicense変更通知プロパティ
-        public Tuple<string, string, string> SelectedLicense
-        {
-            get
-            {
-                return Licenses.ElementAtOrDefault(SelectedLicenseIndex);
-            }
-        }
-        #endregion
+        public Tuple<string, string, string> SelectedLicense => Licenses.ElementAtOrDefault(SelectedLicenseIndex);
 
-        #region OpenUriCommand
         private ListenerCommand<string> _OpenUriCommand;
+        public ListenerCommand<string> OpenUriCommand => _OpenUriCommand ?? (_OpenUriCommand = new ListenerCommand<string>(OpenUri));
 
-        public ListenerCommand<string> OpenUriCommand
-        {
-            get
-            {
-                if (_OpenUriCommand == null)
-                {
-                    _OpenUriCommand = new ListenerCommand<string>(OpenUri);
-                }
-                return _OpenUriCommand;
-            }
-        }
-
-        public void OpenUri(string parameter)
-        {
-            model.OpenUri(parameter);
-        }
-        #endregion
+        public void OpenUri(string parameter) => model.OpenUri(parameter);
 
         public AboutContentViewModel()
         {

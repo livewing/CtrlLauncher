@@ -73,15 +73,7 @@ namespace CtrlLauncher.ViewModels
         }
         #endregion
 
-        #region FlyoutHeader変更通知プロパティ
-        public string FlyoutHeader
-        {
-            get
-            {
-                return "ソースコードビューア" + (AppInfoViewModel == null ? "" : string.IsNullOrEmpty(AppInfoViewModel.AppSpec.Title) ? "" : " - " + AppInfoViewModel.AppSpec.Title);
-            }
-        }
-        #endregion
+        public string FlyoutHeader => "ソースコードビューア" + (AppInfoViewModel == null ? "" : string.IsNullOrEmpty(AppInfoViewModel.AppSpec.Title) ? "" : " - " + AppInfoViewModel.AppSpec.Title);
 
         #region FileName変更通知プロパティ
         private string _FileName;
@@ -135,9 +127,7 @@ namespace CtrlLauncher.ViewModels
         }
         #endregion
 
-        #region IsVisibleErrorMessage変更通知プロパティ
-        public bool IsVisibleErrorMessage { get { return !string.IsNullOrEmpty(ErrorMessage); } }
-        #endregion
+        public bool IsVisibleErrorMessage => !string.IsNullOrEmpty(ErrorMessage);
 
         #region AppInfoViewModel変更通知プロパティ
         private AppInfoViewModel _AppInfoViewModel;

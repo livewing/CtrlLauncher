@@ -15,21 +15,9 @@ namespace CtrlLauncher.Models
 {
     public class LauncherCore : NotificationObject
     {
-        public string DataDirectoryPath
-        {
-            get
-            {
-                return Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Data");
-            }
-        }
+        public string DataDirectoryPath => Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Data");
 
-        public string CountFilePath
-        {
-            get
-            {
-                return Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "count.dat");
-            }
-        }
+        public string CountFilePath => Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "count.dat");
 
         #region Apps変更通知プロパティ
         private ObservableCollection<AppInfo> _Apps = new ObservableCollection<AppInfo>();
@@ -146,9 +134,9 @@ namespace CtrlLauncher.Models
 
         private class CountData
         {
-            public int DirectoryNameHash { get; private set; }
+            public int DirectoryNameHash { get; }
 
-            public string Title { get; private set; }
+            public string Title { get; }
 
             public int Count { get; set; }
 
@@ -165,14 +153,10 @@ namespace CtrlLauncher.Models
                 Count = int.Parse(e.Attribute("Count").Value);
             }
 
-            public XElement ToXElement()
-            {
-                return new XElement("Data",
+            public XElement ToXElement() => new XElement("Data",
                     new XAttribute("Hash", DirectoryNameHash),
                     new XAttribute("Title", Title ?? ""),
-                    new XAttribute("Count", Count)
-                );
-            }
+                    new XAttribute("Count", Count));
         }
     }
 }

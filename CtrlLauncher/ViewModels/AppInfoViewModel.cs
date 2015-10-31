@@ -20,26 +20,20 @@ namespace CtrlLauncher.ViewModels
     {
         private AppInfo model;
 
-        #region AppSpecプロパティ
-        public AppSpecViewModel AppSpec { get; private set; }
-        #endregion
+        public AppSpecViewModel AppSpec { get; }
 
-        #region Pathプロパティ
-        public string Path { get { return model.Path; } }
-        #endregion
+        public string Path => model.Path;
 
-        #region StartCount変更通知プロパティ
-        public int StartCount { get { return model.StartCount; } }
-        #endregion
+        public int StartCount => model.StartCount;
 
 
-        public BitmapImage ScreenshotImage { get { return model.ScreenshotImage; } }
+        public BitmapImage ScreenshotImage => model.ScreenshotImage;
 
-        public bool IsAvailableExecutable { get { return !string.IsNullOrEmpty(AppSpec.ExecutablePath); } }
+        public bool IsAvailableExecutable => !string.IsNullOrEmpty(AppSpec.ExecutablePath);
 
-        public bool IsAvailableSourceCode { get { return !string.IsNullOrEmpty(AppSpec.SourcePath); } }
+        public bool IsAvailableSourceCode => !string.IsNullOrEmpty(AppSpec.SourcePath);
 
-        public string SourceAbsolutePath { get { return model.SourceAbsolutePath; } }
+        public string SourceAbsolutePath => model.SourceAbsolutePath;
 
         public AppInfoViewModel(AppInfo model)
         {
@@ -53,14 +47,8 @@ namespace CtrlLauncher.ViewModels
             }));
         }
 
-        public void Start(Action timeoutHandler)
-        {
-            model.Start(timeoutHandler);
-        }
+        public void Start(Action timeoutHandler) => model.Start(timeoutHandler);
 
-        public void OpenDirectory()
-        {
-            model.OpenDirectory();
-        }
+        public void OpenDirectory() => model.OpenDirectory();
     }
 }

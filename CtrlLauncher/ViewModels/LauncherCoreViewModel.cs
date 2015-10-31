@@ -39,9 +39,7 @@ namespace CtrlLauncher.ViewModels
         }
         #endregion
 
-        #region IsAppsEmpty変更通知プロパティ
-        public bool IsAppsEmpty { get { return !isLoading && Apps.Count == 0; } }
-        #endregion
+        public bool IsAppsEmpty => !isLoading && Apps.Count == 0;
 
         public LauncherCoreViewModel()
         {
@@ -59,19 +57,10 @@ namespace CtrlLauncher.ViewModels
             RaisePropertyChanged(nameof(IsAppsEmpty));
         }
 
-        public void StartApp(AppInfoViewModel app, Action timeoutHandler)
-        {
-            app.Start(timeoutHandler);
-        }
+        public void StartApp(AppInfoViewModel app, Action timeoutHandler) => app.Start(timeoutHandler);
 
-        public async Task ExportCountDataAsync(string path)
-        {
-            await model.ExportCountDataAsync(path);
-        }
+        public async Task ExportCountDataAsync(string path) => await model.ExportCountDataAsync(path);
 
-        public void ClearCount()
-        {
-            model.ClearCount();
-        }
+        public void ClearCount() => model.ClearCount();
     }
 }

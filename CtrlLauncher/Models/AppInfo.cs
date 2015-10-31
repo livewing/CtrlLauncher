@@ -15,15 +15,15 @@ namespace CtrlLauncher.Models
     {
         private LauncherCore core;
 
-        public AppSpec AppSpec { get; private set; }
+        public AppSpec AppSpec { get; }
 
-        public string Path { get; private set; }
+        public string Path { get; }
 
-        public BitmapImage ScreenshotImage { get; private set; }
+        public BitmapImage ScreenshotImage { get; }
 
-        public int StartCount { get { return core.GetCount(this); } }
+        public int StartCount => core.GetCount(this);
 
-        public string SourceAbsolutePath { get { return toAbsolutePath(AppSpec.SourcePath); } }
+        public string SourceAbsolutePath => toAbsolutePath(AppSpec.SourcePath);
 
         public AppInfo(LauncherCore core, AppSpec spec, string path)
         {
@@ -107,9 +107,6 @@ namespace CtrlLauncher.Models
             catch { }
         }
 
-        private string toAbsolutePath(string relative)
-        {
-            return new Uri(new Uri(Path + "\\"), relative).LocalPath;
-        }
+        private string toAbsolutePath(string relative) => new Uri(new Uri(Path + "\\"), relative).LocalPath;
     }
 }
