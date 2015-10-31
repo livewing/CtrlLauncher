@@ -22,6 +22,10 @@
       <l:DataContextDisposeAction/>
     </i:EventTrigger>
 
+    <ei:KeyTrigger Key="Return">
+      <i:InvokeCommandAction Command="{Binding StartCommand}" />
+    </ei:KeyTrigger>
+
     <l:InteractionMessageTrigger Messenger="{Binding Messenger}" MessageKey="Information">
       <l:InformationDialogInteractionMessageAction />
     </l:InteractionMessageTrigger>
