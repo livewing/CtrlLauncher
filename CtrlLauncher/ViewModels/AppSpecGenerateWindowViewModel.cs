@@ -16,190 +16,102 @@ using System.IO;
 
 namespace CtrlLauncher.ViewModels
 {
-    public class AppSpecGenerateWindowViewModel : ViewModel
+    public class AppSpecGenerateWindowViewModel : ViewModelBase
     {
         private AppSpec model;
 
-        #region TargetDirectory変更通知プロパティ
         private string _TargetDirectory = "";
-
         public string TargetDirectory
         {
-            get
-            { return _TargetDirectory; }
+            get { return _TargetDirectory; }
             set
             {
-                if (_TargetDirectory == value)
-                    return;
-                _TargetDirectory = value;
-                RaisePropertyChanged();
-                RaisePropertyChanged(nameof(RelativeScreenshotPath));
-                RaisePropertyChanged(nameof(RelativeExecutablePath));
-                RaisePropertyChanged(nameof(RelativeSourceDirectory));
+                if (SetProperty(ref _TargetDirectory, value))
+                {
+                    RaisePropertyChanged(nameof(RelativeScreenshotPath));
+                    RaisePropertyChanged(nameof(RelativeExecutablePath));
+                    RaisePropertyChanged(nameof(RelativeSourceDirectory));
 
-                GenerateCommand.RaiseCanExecuteChanged();
+                    GenerateCommand.RaiseCanExecuteChanged();
+                }
             }
         }
-        #endregion
 
-        #region Title変更通知プロパティ
         private string _Title = "";
-
         public string Title
         {
-            get
-            { return _Title; }
-            set
-            {
-                if (_Title == value)
-                    return;
-                _Title = value;
-                RaisePropertyChanged();
-            }
+            get { return _Title; }
+            set { SetProperty(ref _Title, value); }
         }
-        #endregion
 
-        #region Genre変更通知プロパティ
         private string _Genre;
-
         public string Genre
         {
-            get
-            { return _Genre; }
-            set
-            {
-                if (_Genre == value)
-                    return;
-                _Genre = value;
-                RaisePropertyChanged();
-            }
+            get { return _Genre; }
+            set { SetProperty(ref _Genre, value); }
         }
-        #endregion
 
-        #region ScreenshotPath変更通知プロパティ
         private string _ScreenshotPath = "";
-
         public string ScreenshotPath
         {
-            get
-            { return _ScreenshotPath; }
+            get { return _ScreenshotPath; }
             set
             {
-                if (_ScreenshotPath == value)
-                    return;
-                _ScreenshotPath = value;
-                RaisePropertyChanged();
-                RaisePropertyChanged(nameof(RelativeScreenshotPath));
+                if (SetProperty(ref _ScreenshotPath, value))
+                    RaisePropertyChanged(nameof(RelativeScreenshotPath));
             }
         }
-        #endregion
 
-        #region ExecutablePath変更通知プロパティ
         private string _ExecutablePath = "";
-
         public string ExecutablePath
         {
-            get
-            { return _ExecutablePath; }
+            get { return _ExecutablePath; }
             set
             {
-                if (_ExecutablePath == value)
-                    return;
-                _ExecutablePath = value;
-                RaisePropertyChanged();
-                RaisePropertyChanged(nameof(RelativeExecutablePath));
+                if (SetProperty(ref _ExecutablePath, value))
+                    RaisePropertyChanged(nameof(RelativeExecutablePath));
             }
         }
-        #endregion
 
-        #region Argument変更通知プロパティ
         private string _Argument = "";
-
         public string Argument
         {
-            get
-            { return _Argument; }
-            set
-            {
-                if (_Argument == value)
-                    return;
-                _Argument = value;
-                RaisePropertyChanged();
-            }
+            get { return _Argument; }
+            set { SetProperty(ref _Argument, value); }
         }
-        #endregion
 
-        #region SourceDirectory変更通知プロパティ
         private string _SourceDirectory = "";
-
         public string SourceDirectory
         {
-            get
-            { return _SourceDirectory; }
+            get { return _SourceDirectory; }
             set
             {
-                if (_SourceDirectory == value)
-                    return;
-                _SourceDirectory = value;
-                RaisePropertyChanged();
-                RaisePropertyChanged(nameof(RelativeSourceDirectory));
+                if (SetProperty(ref _SourceDirectory, value))
+                    RaisePropertyChanged(nameof(RelativeSourceDirectory));
             }
         }
-        #endregion
 
-        #region TimeLimitMinutes変更通知プロパティ
         private int _TimeLimitMinutes = 0;
-
         public int TimeLimitMinutes
         {
-            get
-            { return _TimeLimitMinutes; }
-            set
-            { 
-                if (_TimeLimitMinutes == value)
-                    return;
-                _TimeLimitMinutes = value;
-                RaisePropertyChanged();
-            }
+            get { return _TimeLimitMinutes; }
+            set { SetProperty(ref _TimeLimitMinutes, value); }
         }
-        #endregion
 
-        #region TimeLimitSeconds変更通知プロパティ
         private int _TimeLimitSeconds = 0;
-
         public int TimeLimitSeconds
         {
-            get
-            { return _TimeLimitSeconds; }
-            set
-            { 
-                if (_TimeLimitSeconds == value)
-                    return;
-                _TimeLimitSeconds = value;
-                RaisePropertyChanged();
-            }
+            get { return _TimeLimitSeconds; }
+            set { SetProperty(ref _TimeLimitSeconds, value); }
         }
-        #endregion
 
-        #region Description変更通知プロパティ
         private string _Description;
-
         public string Description
         {
-            get
-            { return _Description; }
-            set
-            { 
-                if (_Description == value)
-                    return;
-                _Description = value;
-                RaisePropertyChanged();
-            }
+            get { return _Description; }
+            set { SetProperty(ref _Description, value); }
         }
-        #endregion
 
-
-        #region RelativeScreenshotPath変更通知プロパティ
         public string RelativeScreenshotPath
         {
             get
@@ -208,9 +120,7 @@ namespace CtrlLauncher.ViewModels
                 return Utils.TryGetRelativePath(TargetDirectory, ScreenshotPath, out result) ? result : "?";
             }
         }
-        #endregion
 
-        #region RelativeExecutablePath変更通知プロパティ
         public string RelativeExecutablePath
         {
             get
@@ -219,9 +129,7 @@ namespace CtrlLauncher.ViewModels
                 return Utils.TryGetRelativePath(TargetDirectory, ExecutablePath, out result) ? result : "?";
             }
         }
-        #endregion
 
-        #region RelativeSourceDirectory変更通知プロパティ
         public string RelativeSourceDirectory
         {
             get
@@ -230,26 +138,17 @@ namespace CtrlLauncher.ViewModels
                 return Utils.TryGetRelativePath(TargetDirectory, SourceDirectory, out result) ? result : "?";
             }
         }
-        #endregion
 
-
-        #region IsSaving変更通知プロパティ
         private bool _IsSaving = false;
-
         public bool IsSaving
         {
-            get
-            { return _IsSaving; }
+            get { return _IsSaving; }
             set
             { 
-                if (_IsSaving == value)
-                    return;
-                _IsSaving = value;
-                RaisePropertyChanged();
-                GenerateCommand.RaiseCanExecuteChanged();
+                if (SetProperty(ref _IsSaving, value))
+                    GenerateCommand.RaiseCanExecuteChanged();
             }
         }
-        #endregion
 
 
         #region SetTargetDirectoryCommand

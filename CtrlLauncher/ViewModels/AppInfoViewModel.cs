@@ -16,28 +16,25 @@ using CtrlLauncher.Models;
 
 namespace CtrlLauncher.ViewModels
 {
-    public class AppInfoViewModel : ViewModel
+    public class AppInfoViewModel : ViewModelBase<AppInfo>
     {
-        private AppInfo model;
-
         public AppSpecViewModel AppSpec { get; }
 
-        public string Path => model.Path;
+        public string Path => Model.Path;
 
-        public int StartCount => model.StartCount;
+        public int StartCount => Model.StartCount;
 
 
-        public BitmapImage ScreenshotImage => model.ScreenshotImage;
+        public BitmapImage ScreenshotImage => Model.ScreenshotImage;
 
         public bool IsAvailableExecutable => !string.IsNullOrEmpty(AppSpec.ExecutablePath);
 
         public bool IsAvailableSourceCode => !string.IsNullOrEmpty(AppSpec.SourcePath);
 
-        public string SourceAbsolutePath => model.SourceAbsolutePath;
+        public string SourceAbsolutePath => Model.SourceAbsolutePath;
 
-        public AppInfoViewModel(AppInfo model)
+        public AppInfoViewModel(AppInfo model) : base(model, false)
         {
-            this.model = model;
             AppSpec = new AppSpecViewModel(model.AppSpec);
 
             CompositeDisposable.Add(new PropertyChangedEventListener(model, (sender, e) =>
@@ -47,8 +44,8 @@ namespace CtrlLauncher.ViewModels
             }));
         }
 
-        public void Start(Action timeoutHandler) => model.Start(timeoutHandler);
+        public void Start(Action timeoutHandler) => Model.Start(timeoutHandler);
 
-        public void OpenDirectory() => model.OpenDirectory();
+        public void OpenDirectory() => Model.OpenDirectory();
     }
 }

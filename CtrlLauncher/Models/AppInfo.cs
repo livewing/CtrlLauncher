@@ -11,7 +11,7 @@ using Livet;
 
 namespace CtrlLauncher.Models
 {
-    public class AppInfo : NotificationObject
+    public class AppInfo : BindableBase
     {
         private LauncherCore core;
 

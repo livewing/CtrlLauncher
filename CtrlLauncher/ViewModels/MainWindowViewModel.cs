@@ -18,125 +18,71 @@ using System.Diagnostics;
 
 namespace CtrlLauncher.ViewModels
 {
-    public class MainWindowViewModel : ViewModel
+    public class MainWindowViewModel : ViewModelBase
     {
         public LauncherCoreViewModel LauncherCoreViewModel { get; }
 
-        #region SourceCodeContentViewModel変更通知プロパティ
-        private SourceCodeContentViewModel _SourceCodeContentViewModel;
-
-        public SourceCodeContentViewModel SourceCodeContentViewModel
-        {
-            get
-            { return _SourceCodeContentViewModel; }
-            set
-            { 
-                if (_SourceCodeContentViewModel == value)
-                    return;
-                _SourceCodeContentViewModel = value;
-                RaisePropertyChanged();
-            }
-        }
-        #endregion
+        public SourceCodeContentViewModel SourceCodeContentViewModel { get; } = new SourceCodeContentViewModel();
 
         public bool IsMaintenanceMode { get; }
 
         public string Title => "CTRL Launcher" + (IsMaintenanceMode ? " [メンテナンスモード]" : "");
 
-        #region SelectedAppInfo変更通知プロパティ
         private AppInfoViewModel _SelectedAppInfo = null;
-
         public AppInfoViewModel SelectedAppInfo
         {
-            get
-            { return _SelectedAppInfo; }
+            get { return _SelectedAppInfo; }
             set
-            { 
-                if (_SelectedAppInfo == value)
-                    return;
-                _SelectedAppInfo = value;
-                RaisePropertyChanged();
-                RaisePropertyChanged(nameof(IsVisibleNoSelectionText));
-                StartCommand.RaiseCanExecuteChanged();
-                ShowSourceCodeCommand.RaiseCanExecuteChanged();
-                OpenDirectoryCommand.RaiseCanExecuteChanged();
+            {
+                if (SetProperty(ref _SelectedAppInfo, value))
+                {
+                    RaisePropertyChanged(nameof(IsVisibleNoSelectionText));
+                    StartCommand.RaiseCanExecuteChanged();
+                    ShowSourceCodeCommand.RaiseCanExecuteChanged();
+                    OpenDirectoryCommand.RaiseCanExecuteChanged();
+                }
             }
         }
-        #endregion
 
         public bool IsVisibleNoSelectionText => !IsLoading && !LauncherCoreViewModel.IsAppsEmpty && SelectedAppInfo == null;
 
-        #region IsLoading変更通知プロパティ
         private bool _IsLoading;
-
         public bool IsLoading
         {
-            get
-            { return _IsLoading; }
+            get { return _IsLoading; }
             set
             { 
-                if (_IsLoading == value)
-                    return;
-                _IsLoading = value;
-                RaisePropertyChanged();
-                RaisePropertyChanged(nameof(IsVisibleNoSelectionText));
+                if (SetProperty(ref _IsLoading, value))
+                    RaisePropertyChanged(nameof(IsVisibleNoSelectionText));
             }
         }
-        #endregion
 
-        #region IsCheckedVisibleStartCount変更通知プロパティ
         private bool _IsCheckedVisibleStartCount = false;
-
         public bool IsCheckedVisibleStartCount
         {
-            get
-            { return _IsCheckedVisibleStartCount; }
+            get { return _IsCheckedVisibleStartCount; }
             set
-            { 
-                if (_IsCheckedVisibleStartCount == value)
-                    return;
-                _IsCheckedVisibleStartCount = value;
-                RaisePropertyChanged();
-                RaisePropertyChanged(nameof(IsVisibleStartCount));
+            {
+                if (SetProperty(ref _IsCheckedVisibleStartCount, value))
+                    RaisePropertyChanged(nameof(IsVisibleStartCount));
             }
         }
-        #endregion
 
         public bool IsVisibleStartCount => IsMaintenanceMode && IsCheckedVisibleStartCount;
 
-        #region IsOpenSourceCodeFlyout変更通知プロパティ
         private bool _IsOpenSourceCodeFlyout;
-
         public bool IsOpenSourceCodeFlyout
         {
-            get
-            { return _IsOpenSourceCodeFlyout; }
-            set
-            { 
-                if (_IsOpenSourceCodeFlyout == value)
-                    return;
-                _IsOpenSourceCodeFlyout = value;
-                RaisePropertyChanged();
-            }
+            get { return _IsOpenSourceCodeFlyout; }
+            set { SetProperty(ref _IsOpenSourceCodeFlyout, value); }
         }
-        #endregion
 
-        #region IsOpenAboutFlyout変更通知プロパティ
         private bool _IsOpenAboutFlyout = false;
-
         public bool IsOpenAboutFlyout
         {
-            get
-            { return _IsOpenAboutFlyout; }
-            set
-            { 
-                if (_IsOpenAboutFlyout == value)
-                    return;
-                _IsOpenAboutFlyout = value;
-                RaisePropertyChanged();
-            }
+            get { return _IsOpenAboutFlyout; }
+            set { SetProperty(ref _IsOpenAboutFlyout, value); }
         }
-        #endregion
 
 
         #region StartCommand
@@ -158,7 +104,7 @@ namespace CtrlLauncher.ViewModels
                 if (IsMaintenanceMode)
                     Messenger.Raise(new InformationMessage(
                         ex.Message + "\r\n\r\nファイルの配置とアクセス権限を確認して下さい。\r\nディレクトリ: " + app.Path + "\r\n実行ファイル相対パス: " + app.AppSpec.ExecutablePath,
-                        "エラー", System.Windows.MessageBoxImage.Error, "Information"));
+                        "エラー", MessageBoxImage.Error, "Information"));
                 else
                     Messenger.Raise(new InformationMessage(ex.Message, "エラー", System.Windows.MessageBoxImage.Error, "Information"));
             }

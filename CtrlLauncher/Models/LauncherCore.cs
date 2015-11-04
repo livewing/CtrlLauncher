@@ -13,28 +13,13 @@ using Livet;
 
 namespace CtrlLauncher.Models
 {
-    public class LauncherCore : NotificationObject
+    public class LauncherCore : BindableBase
     {
         public string DataDirectoryPath => Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Data");
 
         public string CountFilePath => Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "count.dat");
 
-        #region Apps変更通知プロパティ
-        private ObservableCollection<AppInfo> _Apps = new ObservableCollection<AppInfo>();
-
-        public ObservableCollection<AppInfo> Apps
-        {
-            get
-            { return _Apps; }
-            set
-            {
-                if (_Apps == value)
-                    return;
-                _Apps = value;
-                RaisePropertyChanged();
-            }
-        }
-        #endregion
+        public ObservableCollection<AppInfo> Apps { get; } = new ObservableCollection<AppInfo>();
 
         private List<CountData> countData = new List<CountData>();
 

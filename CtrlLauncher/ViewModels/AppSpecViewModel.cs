@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace CtrlLauncher.ViewModels
 {
-    public class AppSpecViewModel : ViewModel
+    public class AppSpecViewModel : ViewModelBase
     {
         private AppSpec model;
 

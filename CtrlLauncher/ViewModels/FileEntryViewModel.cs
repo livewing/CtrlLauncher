@@ -16,7 +16,7 @@ using CtrlLauncher.Models;
 
 namespace CtrlLauncher.ViewModels
 {
-    public class FileEntryViewModel : ViewModel
+    public class FileEntryViewModel : ViewModelBase
     {
         private FileEntry model;
         private string customName = null;

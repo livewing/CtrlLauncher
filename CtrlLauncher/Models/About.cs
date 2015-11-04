@@ -10,7 +10,7 @@ using System.IO;
 
 namespace CtrlLauncher.Models
 {
-    public class About : NotificationObject
+    public class About
     {
         public string Version => Assembly.GetExecutingAssembly().GetName().Version.ToString(3);
 

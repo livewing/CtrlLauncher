@@ -16,35 +16,22 @@ using CtrlLauncher.Models;
 
 namespace CtrlLauncher.ViewModels
 {
-    public class LauncherCoreViewModel : ViewModel
+    public class LauncherCoreViewModel : ViewModelBase<LauncherCore>
     {
-        private LauncherCore model;
-
         private bool isLoading = false;
 
-        #region Apps変更通知プロパティ
         private ReadOnlyDispatcherCollection<AppInfoViewModel> _Apps;
-
         public ReadOnlyDispatcherCollection<AppInfoViewModel> Apps
         {
-            get
-            { return _Apps; }
-            set
-            { 
-                if (_Apps == value)
-                    return;
-                _Apps = value;
-                RaisePropertyChanged();
-            }
+            get { return _Apps; }
+            set { SetProperty(ref _Apps, value); }
         }
-        #endregion
 
         public bool IsAppsEmpty => !isLoading && Apps.Count == 0;
 
-        public LauncherCoreViewModel()
+        public LauncherCoreViewModel() : base(new LauncherCore())
         {
-            model = new LauncherCore();
-            Apps = ViewModelHelper.CreateReadOnlyDispatcherCollection(model.Apps, (ai) => new AppInfoViewModel(ai), DispatcherHelper.UIDispatcher);
+            Apps = ViewModelHelper.CreateReadOnlyDispatcherCollection(Model.Apps, (ai) => new AppInfoViewModel(ai), DispatcherHelper.UIDispatcher);
             CompositeDisposable.Add(() => Apps.Dispose());
         }
 
@@ -52,15 +39,15 @@ namespace CtrlLauncher.ViewModels
         {
             isLoading = true;
             RaisePropertyChanged(nameof(IsAppsEmpty));
-            await model.LoadAppsAsync();
+            await Model.LoadAppsAsync();
             isLoading = false;
             RaisePropertyChanged(nameof(IsAppsEmpty));
         }
 
         public void StartApp(AppInfoViewModel app, Action timeoutHandler) => app.Start(timeoutHandler);
 
-        public async Task ExportCountDataAsync(string path) => await model.ExportCountDataAsync(path);
+        public async Task ExportCountDataAsync(string path) => await Model.ExportCountDataAsync(path);
 
-        public void ClearCount() => model.ClearCount();
+        public void ClearCount() => Model.ClearCount();
     }
 }

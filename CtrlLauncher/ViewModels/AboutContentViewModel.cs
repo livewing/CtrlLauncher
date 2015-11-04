@@ -15,7 +15,7 @@ using CtrlLauncher.Models;
 
 namespace CtrlLauncher.ViewModels
 {
-    public class AboutContentViewModel : ViewModel
+    public class AboutContentViewModel : ViewModelBase
     {
         private About model;
 
@@ -23,23 +23,16 @@ namespace CtrlLauncher.ViewModels
 
         public IEnumerable<Tuple<string, string, string>> Licenses => model.Licenses;
 
-        #region SelectedLicenseIndex変更通知プロパティ
         private int _SelectedLicenseIndex = 0;
-
         public int SelectedLicenseIndex
         {
-            get
-            { return _SelectedLicenseIndex; }
+            get { return _SelectedLicenseIndex; }
             set
-            { 
-                if (_SelectedLicenseIndex == value)
-                    return;
-                _SelectedLicenseIndex = value;
-                RaisePropertyChanged();
-                RaisePropertyChanged(nameof(SelectedLicense));
+            {
+                if (SetProperty(ref _SelectedLicenseIndex, value))
+                    RaisePropertyChanged(nameof(SelectedLicense));
             }
         }
-        #endregion
 
         public Tuple<string, string, string> SelectedLicense => Licenses.ElementAtOrDefault(SelectedLicenseIndex);
 
@@ -48,7 +41,7 @@ namespace CtrlLauncher.ViewModels
 
         public void OpenUri(string parameter) => model.OpenUri(parameter);
 
-        public AboutContentViewModel()
+        public AboutContentViewModel() : base()
         {
             model = new About();
         }

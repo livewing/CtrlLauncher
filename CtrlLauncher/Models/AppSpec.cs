@@ -10,7 +10,7 @@ using System.IO;
 
 namespace CtrlLauncher.Models
 {
-    public class AppSpec : NotificationObject
+    public class AppSpec
     {
         public string Title { get; set; }
 
