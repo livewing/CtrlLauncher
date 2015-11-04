@@ -1,20 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.ComponentModel;
-using System.Windows;
-using System.Windows.Input;
-
-using Livet;
-using Livet.Commands;
+﻿using Livet.Commands;
+using Livet.EventListeners;
 using Livet.Messaging;
 using Livet.Messaging.IO;
-using Livet.EventListeners;
-using Livet.Messaging.Windows;
-
-using CtrlLauncher.Models;
+using System;
 using System.Diagnostics;
+using System.Linq;
+using System.Windows;
+using System.Windows.Input;
 
 namespace CtrlLauncher.ViewModels
 {
