@@ -44,6 +44,7 @@ CTRL Launcer に表示される情報を定義する`spec.yml`ファイルを以
 以下の内容のテキストファイルを作成します。
 
 ```yaml
+Id: "アプリケーション ID"
 Title: "タイトル"
 Genre: "ジャンル"
 ScreenshotPath: "スクリーンショットまでの\\相対パス.png"
