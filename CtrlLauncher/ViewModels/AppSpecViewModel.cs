@@ -20,6 +20,12 @@ namespace CtrlLauncher.ViewModels
     {
         private AppSpec model;
 
+        public string Id
+        {
+            get { return model.Id; }
+            set { model.Id = value; }
+        }
+
         public string Title
         {
             get { return model.Title; }

@@ -12,6 +12,8 @@ namespace CtrlLauncher.Models
 {
     public class AppSpec
     {
+        public string Id { get; set; }
+
         public string Title { get; set; }
 
         public string Genre { get; set; }

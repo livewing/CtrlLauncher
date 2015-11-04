@@ -37,6 +37,17 @@ namespace CtrlLauncher.ViewModels
             }
         }
 
+        private string _Id = "";
+        public string Id
+        {
+            get { return _Id; }
+            set
+            {
+                if (SetProperty(ref _Id, value))
+                    GenerateCommand.RaiseCanExecuteChanged();
+            }
+        }
+
         private string _Title = "";
         public string Title
         {
@@ -199,7 +210,7 @@ namespace CtrlLauncher.ViewModels
         private ViewModelCommand _GenerateCommand;
         public ViewModelCommand GenerateCommand => _GenerateCommand ?? (_GenerateCommand = new ViewModelCommand(Generate, CanGenerate));
 
-        public bool CanGenerate() => !IsSaving && !string.IsNullOrEmpty(TargetDirectory);
+        public bool CanGenerate() => !IsSaving && !string.IsNullOrEmpty(TargetDirectory) && !string.IsNullOrWhiteSpace(Id);
 
         public async void Generate()
         {
@@ -236,6 +247,7 @@ namespace CtrlLauncher.ViewModels
 
                 AppSpecViewModel spec = new AppSpecViewModel();
 
+                spec.Id = Id.Trim();
                 spec.Title = Title;
                 spec.Genre = Genre;
                 spec.ScreenshotPath = rels.ElementAt(0);
