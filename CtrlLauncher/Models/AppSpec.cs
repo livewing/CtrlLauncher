@@ -26,6 +26,8 @@ namespace CtrlLauncher.Models
 
         public string Description { get; set; }
 
+        public bool IsLate { get; set; } = false;
+
         public AppSpec()
         {
 

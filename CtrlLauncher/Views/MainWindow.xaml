@@ -182,6 +182,25 @@
           <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
+        <Rectangle Grid.RowSpan="3">
+          <Rectangle.Fill>
+            <VisualBrush Stretch="None" TileMode="Tile" Viewport="0,0,46,26" ViewportUnits="Absolute" Viewbox="0,0,1,1">
+              <VisualBrush.Visual>
+                <StackPanel Orientation="Vertical">
+                  <TextBlock Text="遅刻" Foreground="#40FF0000" FontSize="20" />
+                </StackPanel>
+              </VisualBrush.Visual>
+            </VisualBrush>
+          </Rectangle.Fill>
+          <Rectangle.Visibility>
+            <Binding Path="IsVisibleLate">
+              <Binding.Converter>
+                <l:VisibilityAndBooleanConverter ConvertWhenFalse="Hidden" ConvertWhenTrue="Visible" />
+              </Binding.Converter>
+            </Binding>
+          </Rectangle.Visibility>
+        </Rectangle>
+
         <Image Grid.Row="0" Source="{Binding SelectedAppInfo.ScreenshotImage}" Width="500" Height="350" />
 
         <StackPanel Grid.Row="1" Margin="4">

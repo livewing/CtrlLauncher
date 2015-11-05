@@ -62,6 +62,12 @@ namespace CtrlLauncher.ViewModels
             set { model.Description = value; }
         }
 
+        public bool IsLate
+        {
+            get { return model.IsLate; }
+            set { model.IsLate = value; }
+        }
+
         public AppSpecViewModel() : this(new AppSpec()) { }
 
         public AppSpecViewModel(AppSpec model)

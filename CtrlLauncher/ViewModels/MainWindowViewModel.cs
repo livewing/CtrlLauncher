@@ -29,6 +29,7 @@ namespace CtrlLauncher.ViewModels
                 if (SetProperty(ref _SelectedAppInfo, value))
                 {
                     RaisePropertyChanged(nameof(IsVisibleNoSelectionText));
+                    RaisePropertyChanged(nameof(IsVisibleLate));
                     StartCommand.RaiseCanExecuteChanged();
                     ShowSourceCodeCommand.RaiseCanExecuteChanged();
                     OpenDirectoryCommand.RaiseCanExecuteChanged();
@@ -61,6 +62,8 @@ namespace CtrlLauncher.ViewModels
         }
 
         public bool IsVisibleStartCount => IsMaintenanceMode && IsCheckedVisibleStartCount;
+
+        public bool IsVisibleLate => SelectedAppInfo != null && SelectedAppInfo.AppSpec.IsLate;
 
         private bool _IsOpenSourceCodeFlyout;
         public bool IsOpenSourceCodeFlyout
