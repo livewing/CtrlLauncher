@@ -220,7 +220,7 @@ namespace CtrlLauncher.ViewModels
         public async void Initialize()
         {
             IsLoading = true;
-            await LauncherCoreViewModel.LoadAppsAsync();
+            await LauncherCoreViewModel.InitializeAsync();
             IsLoading = false;
         }
 
@@ -228,6 +228,11 @@ namespace CtrlLauncher.ViewModels
         {
             Application.Current.Shutdown();
             Process.Start(Application.ResourceAssembly.Location);
+        }
+
+        public void OpenSettingsWindow()
+        {
+            Messenger.Raise(new TransitionMessage(new SettingsWindowViewModel(LauncherCoreViewModel), "OpenSettings"));
         }
     }
 }

@@ -47,7 +47,24 @@ namespace CtrlLauncher.Models
             core.SetCount(this, core.GetCount(this) + 1);
             RaisePropertyChanged(nameof(StartCount));
 
-            if (AppSpec.TimeLimit > TimeSpan.Zero)
+            TimeSpan timeLimit;
+            switch (core.Settings.GlobalTimeLimitMode)
+            {
+                case Settings.TimeLimitMode.Default:
+                    timeLimit = (AppSpec.TimeLimit == TimeSpan.Zero) ? core.Settings.GlobalTimeLimit : AppSpec.TimeLimit;
+                    break;
+                case Settings.TimeLimitMode.Enabled:
+                    timeLimit = (AppSpec.TimeLimit == TimeSpan.Zero || AppSpec.TimeLimit > core.Settings.GlobalTimeLimit) ? core.Settings.GlobalTimeLimit : AppSpec.TimeLimit;
+                    break;
+                case Settings.TimeLimitMode.Forced:
+                    timeLimit = core.Settings.GlobalTimeLimit;
+                    break;
+                default:
+                    timeLimit = AppSpec.TimeLimit;
+                    break;
+            }
+
+            if (timeLimit > TimeSpan.Zero)
             {
                 IDisposable d = null;
                 var s = Observable.Interval(TimeSpan.FromMilliseconds(100)).Where(_ =>
@@ -65,7 +82,7 @@ namespace CtrlLauncher.Models
                 });
                 d = s.Subscribe(_ =>
                 {
-                    var remaining = AppSpec.TimeLimit - (DateTime.Now - process.StartTime);
+                    var remaining = timeLimit - (DateTime.Now - process.StartTime);
                     if (remaining < TimeSpan.Zero)
                     {
                         process.Kill();

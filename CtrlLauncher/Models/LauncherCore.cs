@@ -16,6 +16,10 @@ namespace CtrlLauncher.Models
 
         public string CountFilePath => Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "count.dat");
 
+        public string SettingsFilePath => Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "settings.yml");
+
+        public Settings Settings { get; private set; }
+
         public ObservableCollection<AppInfo> Apps { get; } = new ObservableCollection<AppInfo>();
 
         private List<CountData> countData = new List<CountData>();
@@ -24,6 +28,19 @@ namespace CtrlLauncher.Models
         {
 
         }
+
+        public async Task LoadSettingsAsync()
+        {
+            if (File.Exists(SettingsFilePath))
+                Settings = await Settings.LoadAsync(SettingsFilePath);
+            else
+            {
+                Settings = new Settings();
+                await SaveSettingsAsync();
+            }
+        }
+
+        public async Task SaveSettingsAsync() => await Settings.SaveAsync(SettingsFilePath);
 
         public async Task LoadAppsAsync()
         {

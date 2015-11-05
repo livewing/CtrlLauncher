@@ -120,6 +120,7 @@
     <Compile Include="Models\AppInfo.cs" />
     <Compile Include="Models\FileEntry.cs" />
     <Compile Include="Models\LauncherCore.cs" />
+    <Compile Include="Models\Settings.cs" />
     <Compile Include="Utils\BindableBase.cs" />
     <Compile Include="Utils\Utils.cs" />
     <Compile Include="Utils\ViewModelBase.cs" />
@@ -127,7 +128,12 @@
     <Compile Include="ViewModels\AppSpecViewModel.cs" />
     <Compile Include="ViewModels\FileEntryViewModel.cs" />
     <Compile Include="ViewModels\LauncherCoreViewModel.cs" />
+    <Compile Include="ViewModels\SettingsViewModel.cs" />
+    <Compile Include="ViewModels\SettingsWindowViewModel.cs" />
     <Compile Include="ViewModels\SourceCodeContentViewModel.cs" />
+    <Compile Include="Views\SettingsWindow.xaml.cs">
+      <DependentUpon>SettingsWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SourceCodeContent.xaml.cs">
       <DependentUpon>SourceCodeContent.xaml</DependentUpon>
     </Compile>
@@ -163,6 +169,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\SettingsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\SourceCodeContent.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

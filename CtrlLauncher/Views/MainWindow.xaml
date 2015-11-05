@@ -39,6 +39,9 @@
         </l:DirectInteractionMessage>
       </l:InformationDialogInteractionMessageAction>
     </l:InteractionMessageTrigger>
+    <l:InteractionMessageTrigger Messenger="{Binding Messenger}" MessageKey="OpenSettings">
+      <l:TransitionInteractionMessageAction WindowType="{x:Type v:SettingsWindow}" Mode="Modal" />
+    </l:InteractionMessageTrigger>
   </i:Interaction.Triggers>
 
   <metro:MetroWindow.RightWindowCommands>
@@ -134,6 +137,14 @@
                   <l:TransitionMessage />
                 </l:DirectInteractionMessage>
               </l:TransitionInteractionMessageAction>
+            </i:EventTrigger>
+          </i:Interaction.Triggers>
+        </MenuItem>
+        <Separator />
+        <MenuItem Header="設定(_P)...">
+          <i:Interaction.Triggers>
+            <i:EventTrigger EventName="Click">
+              <l:LivetCallMethodAction MethodTarget="{Binding}" MethodName="OpenSettingsWindow" />
             </i:EventTrigger>
           </i:Interaction.Triggers>
         </MenuItem>

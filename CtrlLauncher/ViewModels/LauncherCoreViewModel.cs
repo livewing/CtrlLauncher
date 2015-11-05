@@ -9,6 +9,8 @@ namespace CtrlLauncher.ViewModels
     {
         private bool isLoading = false;
 
+        public SettingsViewModel SettingsViewModel { get; private set; }
+
         private ReadOnlyDispatcherCollection<AppInfoViewModel> _Apps;
         public ReadOnlyDispatcherCollection<AppInfoViewModel> Apps
         {
@@ -23,6 +25,17 @@ namespace CtrlLauncher.ViewModels
             Apps = ViewModelHelper.CreateReadOnlyDispatcherCollection(Model.Apps, (ai) => new AppInfoViewModel(ai), DispatcherHelper.UIDispatcher);
             CompositeDisposable.Add(() => Apps.Dispose());
         }
+
+        public async Task InitializeAsync()
+        {
+            await LoadSettingsAsync();
+            await LoadAppsAsync();
+            SettingsViewModel = new SettingsViewModel(Model.Settings);
+        }
+
+        public async Task LoadSettingsAsync() => await Model.LoadSettingsAsync();
+
+        public async Task SaveSettingsAsync() => await Model.SaveSettingsAsync();
 
         public async Task LoadAppsAsync()
         {
