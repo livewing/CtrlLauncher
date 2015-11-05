@@ -93,6 +93,14 @@ namespace CtrlLauncher.Models
             }
         }
 
+        public async Task ExportApplicationIdAsync(string path)
+        {
+            using (var sw = new StreamWriter(path, false, Encoding.UTF8))
+            {
+                await sw.WriteLineAsync(Apps.Select(a => a.AppSpec.Id).OrderBy(s => s).Aggregate((str, s) => $"{str} {s}"));
+            }
+        }
+
         public void ClearCount()
         {
             countData.Clear();

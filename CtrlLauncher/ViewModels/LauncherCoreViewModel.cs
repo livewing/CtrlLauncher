@@ -37,6 +37,8 @@ namespace CtrlLauncher.ViewModels
 
         public async Task ExportCountDataAsync(string path) => await Model.ExportCountDataAsync(path);
 
+        public async Task ExportApplicationIdAsync(string path) => await Model.ExportApplicationIdAsync(path);
+
         public void ClearCount() => Model.ClearCount();
     }
 }

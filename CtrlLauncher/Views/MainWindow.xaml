@@ -114,6 +114,18 @@
         </MenuItem>
         <MenuItem Header="開始回数データを消去(_D)..." Command="{Binding ClearCountCommand}" />
         <Separator />
+        <MenuItem Header="アプリケーション ID リストをエクスポート(_I)...">
+          <i:Interaction.Triggers>
+            <i:EventTrigger EventName="Click">
+              <l:SaveFileDialogInteractionMessageAction>
+                <l:DirectInteractionMessage CallbackCommand="{Binding ExportApplicationIdCommand}">
+                  <l:SavingFileSelectionMessage Filter="テキスト ファイル (*.txt)|*.txt|すべてのファイル (*.*)|*.*" AddExtension="True" />
+                </l:DirectInteractionMessage>
+              </l:SaveFileDialogInteractionMessageAction>
+            </i:EventTrigger>
+          </i:Interaction.Triggers>
+        </MenuItem>
+        <Separator />
         <MenuItem Header="spec.yml ファイルの生成(_S)...">
           <i:Interaction.Triggers>
             <i:EventTrigger EventName="Click">
