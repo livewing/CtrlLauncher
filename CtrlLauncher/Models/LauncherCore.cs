@@ -97,7 +97,7 @@ namespace CtrlLauncher.Models
         {
             using (var sw = new StreamWriter(path, false, Encoding.UTF8))
             {
-                await sw.WriteLineAsync(Apps.Select(a => a.AppSpec.Id).OrderBy(s => s).Aggregate((str, s) => $"{str} {s}"));
+                await sw.WriteLineAsync(Apps.Select(a => a.AppSpec.Id.Replace(" ", "").Replace("　", "").Replace("\t", "")).OrderBy(s => s).Aggregate((str, s) => $"{str} {s}"));
             }
         }
 
