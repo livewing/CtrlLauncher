@@ -237,7 +237,7 @@ namespace CtrlLauncher.ViewModels
             {
                 IsSaving = true;
 
-                AppSpecViewModel spec = new AppSpecViewModel();
+                var spec = new AppSpecViewModel();
 
                 spec.Id = Id.Trim();
                 spec.Title = Title;

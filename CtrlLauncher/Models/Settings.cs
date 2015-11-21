@@ -12,11 +12,6 @@ namespace CtrlLauncher.Models
 
         public TimeSpan GlobalTimeLimit { get; set; } = TimeSpan.FromMinutes(5);
 
-        public Settings()
-        {
-
-        }
-
         public static async Task<Settings> LoadAsync(string path)
         {
             return await Task.Run(() =>

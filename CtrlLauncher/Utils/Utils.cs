@@ -12,13 +12,12 @@ namespace CtrlLauncher
             string result;
             if (TryGetRelativePath(basePath, targetPath, out result))
                 return result;
-            else
-                throw new Exception("相対パスを取得できませんでした。");
+            throw new Exception("相対パスを取得できませんでした。");
         }
 
         public static bool TryGetRelativePath(string basePath, string targetPath, out string result)
         {
-            StringBuilder sb = new StringBuilder(1024);
+            var sb = new StringBuilder(1024);
             var ret = Win32.PathRelativePathTo(sb, basePath, FileAttributes.Directory, targetPath, FileAttributes.Normal);
             if (ret)
             {
@@ -105,19 +104,19 @@ namespace CtrlLauncher
                         //JIS
                         return System.Text.Encoding.GetEncoding(50220);
                     }
-                    else if (b2 == bDollar && b3 == bB)
+                    if (b2 == bDollar && b3 == bB)
                     {
                         //JIS_0208 1983
                         //JIS
                         return System.Text.Encoding.GetEncoding(50220);
                     }
-                    else if (b2 == bOpen && (b3 == bB || b3 == bJ))
+                    if (b2 == bOpen && (b3 == bB || b3 == bJ))
                     {
                         //JIS_ASC
                         //JIS
                         return System.Text.Encoding.GetEncoding(50220);
                     }
-                    else if (b2 == bOpen && b3 == bI)
+                    if (b2 == bOpen && b3 == bI)
                     {
                         //JIS_KANA
                         //JIS
@@ -217,12 +216,12 @@ namespace CtrlLauncher
                 //EUC
                 return System.Text.Encoding.GetEncoding(51932);
             }
-            else if (sjis > euc && sjis > utf8)
+            if (sjis > euc && sjis > utf8)
             {
                 //SJIS
                 return System.Text.Encoding.GetEncoding(932);
             }
-            else if (utf8 > euc && utf8 > sjis)
+            if (utf8 > euc && utf8 > sjis)
             {
                 //UTF8
                 return System.Text.Encoding.UTF8;
@@ -270,10 +269,10 @@ namespace CtrlLauncher
 
         public static IntPtr GetIconHandle(string path)
         {
-            Win32.SHFILEINFO shinfo = new Win32.SHFILEINFO();
+            var shinfo = new Win32.SHFILEINFO();
             IntPtr hSuccess = Win32.SHGetFileInfo(path, 0, ref shinfo, (uint)Marshal.SizeOf(shinfo), Win32.SHGFI_ICON | Win32.SHGFI_SMALLICON);
             if (hSuccess == IntPtr.Zero) return IntPtr.Zero;
-            else return shinfo.hIcon;
+            return shinfo.hIcon;
         }
     }
 }

@@ -26,7 +26,7 @@ namespace CtrlLauncher.Models
             {
                 if (_Children != null)
                     return _Children;
-                else if (Directory.Exists(Path))
+                if (Directory.Exists(Path))
                 {
                     IEnumerable<string> dirs = Enumerable.Empty<string>();
                     IEnumerable<string> files = Enumerable.Empty<string>();

@@ -84,7 +84,7 @@ namespace CtrlLauncher.ViewModels
         private ViewModelCommand _StartCommand;
         public ViewModelCommand StartCommand => _StartCommand ?? (_StartCommand = new ViewModelCommand(Start, CanStart));
 
-        public bool CanStart() => SelectedAppInfo == null ? false : SelectedAppInfo.IsAvailableExecutable;
+        public bool CanStart() => SelectedAppInfo != null && SelectedAppInfo.IsAvailableExecutable;
 
         public void Start()
         {
@@ -110,7 +110,7 @@ namespace CtrlLauncher.ViewModels
         private ViewModelCommand _ShowSourceCodeCommand;
 
         public ViewModelCommand ShowSourceCodeCommand => _ShowSourceCodeCommand ?? (_ShowSourceCodeCommand = new ViewModelCommand(ShowSourceCode, CanShowSourceCode));
-        public bool CanShowSourceCode() => SelectedAppInfo == null ? false : SelectedAppInfo.IsAvailableSourceCode;
+        public bool CanShowSourceCode() => SelectedAppInfo != null && SelectedAppInfo.IsAvailableSourceCode;
 
         public void ShowSourceCode()
         {
@@ -179,7 +179,7 @@ namespace CtrlLauncher.ViewModels
         {
             var msg = new ConfirmationMessage("開始回数データをすべて消去します。よろしいですか?", "警告", System.Windows.MessageBoxImage.Warning, System.Windows.MessageBoxButton.YesNo, "Confirmation");
             Messenger.Raise(msg);
-            if (msg.Response ?? false == true)
+            if (msg.Response ?? false)
             {
                 LauncherCoreViewModel.ClearCount();
                 Initialize();

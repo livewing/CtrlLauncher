@@ -24,11 +24,6 @@ namespace CtrlLauncher.Models
 
         private List<CountData> countData = new List<CountData>();
 
-        public LauncherCore()
-        {
-
-        }
-
         public async Task LoadSettingsAsync()
         {
             if (File.Exists(SettingsFilePath))
@@ -67,7 +62,7 @@ namespace CtrlLauncher.Models
                 {
                     try
                     {
-                        var yamlPath = new[] { "spec.yml", "spec.yaml" }.Select(p => Path.Combine(dir, p)).FirstOrDefault(p => File.Exists(p));
+                        var yamlPath = new[] { "spec.yml", "spec.yaml" }.Select(p => Path.Combine(dir, p)).FirstOrDefault(File.Exists);
                         if (!string.IsNullOrEmpty(yamlPath))
                         {
                             var spec = await AppSpec.LoadAsync(yamlPath);
@@ -84,8 +79,7 @@ namespace CtrlLauncher.Models
             var data = countData.FirstOrDefault(d => d.DirectoryNameHash == Path.GetFileName(info.Path).GetHashCode() && d.Title == info.AppSpec.Title);
             if (data != null)
                 return data.Count;
-            else
-                return 0;
+            return 0;
         }
 
         public void SetCount(AppInfo info, int value)

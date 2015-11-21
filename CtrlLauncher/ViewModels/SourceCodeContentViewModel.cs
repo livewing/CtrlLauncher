@@ -133,9 +133,5 @@ namespace CtrlLauncher.ViewModels
                 IsLoading = false;
             }
         }
-
-        public SourceCodeContentViewModel()
-        {
-        }
     }
 }

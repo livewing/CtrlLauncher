@@ -32,8 +32,7 @@ namespace CtrlLauncher.ViewModels
 
         public void OpenUri(string parameter) => model.OpenUri(parameter);
 
-        public AboutContentViewModel() : base()
-        {
+        public AboutContentViewModel() {
             model = new About();
         }
     }

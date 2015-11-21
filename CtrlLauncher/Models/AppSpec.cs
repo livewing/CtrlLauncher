@@ -28,11 +28,6 @@ namespace CtrlLauncher.Models
 
         public bool IsLate { get; set; } = false;
 
-        public AppSpec()
-        {
-
-        }
-
         public static async Task<AppSpec> LoadAsync(string path)
         {
             return await Task.Run<AppSpec>(() =>
