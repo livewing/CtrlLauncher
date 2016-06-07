@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
+﻿using Livet;
+using System;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Windows;
-
-using Livet;
 
 namespace CtrlLauncher
 {
@@ -20,11 +15,11 @@ namespace CtrlLauncher
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             DispatcherHelper.UIDispatcher = Dispatcher;
-            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
         }
 
         // 集約エラーハンドラ
-        private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             try
             {

@@ -3,11 +3,11 @@
 namespace CtrlLauncher.Views
 {
     /// <summary>
-    /// AppSpecGenerateWindow.xaml の相互作用ロジック
+    /// SettingsWindow.xaml の相互作用ロジック
     /// </summary>
-    public partial class AppSpecGenerateWindow : MetroWindow
+    public partial class SettingsWindow : MetroWindow
     {
-        public AppSpecGenerateWindow()
+        public SettingsWindow()
         {
             InitializeComponent();
         }

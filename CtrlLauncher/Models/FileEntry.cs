@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media.Imaging;
@@ -11,20 +10,13 @@ namespace CtrlLauncher.Models
 {
     public class FileEntry
     {
-        public string Name { get; private set; }
+        public string Name { get; }
 
-        public string Path { get; private set; }
+        public string Path { get; }
 
-        public bool IsDirectory { get; private set; }
+        public bool IsDirectory { get; }
 
-        public long Size
-        {
-            get
-            {
-                if (IsDirectory) return 0;
-                return new FileInfo(Path).Length;
-            }
-        }
+        public long Size => IsDirectory ? 0 : new FileInfo(Path).Length;
 
         #region Childrenプロパティ
         private IEnumerable<FileEntry> _Children = null;
@@ -34,7 +26,7 @@ namespace CtrlLauncher.Models
             {
                 if (_Children != null)
                     return _Children;
-                else if (Directory.Exists(Path))
+                if (Directory.Exists(Path))
                 {
                     IEnumerable<string> dirs = Enumerable.Empty<string>();
                     IEnumerable<string> files = Enumerable.Empty<string>();

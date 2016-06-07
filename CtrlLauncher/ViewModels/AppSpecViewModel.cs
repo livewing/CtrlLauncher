@@ -1,24 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.ComponentModel;
-
-using Livet;
-using Livet.Commands;
-using Livet.Messaging;
-using Livet.Messaging.IO;
-using Livet.EventListeners;
-using Livet.Messaging.Windows;
-
-using CtrlLauncher.Models;
+﻿using CtrlLauncher.Models;
+using System;
 using System.Threading.Tasks;
 
 namespace CtrlLauncher.ViewModels
 {
-    public class AppSpecViewModel : ViewModel
+    public class AppSpecViewModel : ViewModelBase
     {
         private AppSpec model;
+
+        public string Id
+        {
+            get { return model.Id; }
+            set { model.Id = value; }
+        }
 
         public string Title
         {
@@ -68,19 +62,19 @@ namespace CtrlLauncher.ViewModels
             set { model.Description = value; }
         }
 
-        public AppSpecViewModel()
+        public bool IsLate
         {
-            this.model = new AppSpec();
+            get { return model.IsLate; }
+            set { model.IsLate = value; }
         }
+
+        public AppSpecViewModel() : this(new AppSpec()) { }
 
         public AppSpecViewModel(AppSpec model)
         {
             this.model = model;
         }
 
-        public async Task SaveAsync(string path)
-        {
-            await model.SaveAsync(path);
-        }
+        public async Task SaveAsync(string path) => await model.SaveAsync(path);
     }
 }

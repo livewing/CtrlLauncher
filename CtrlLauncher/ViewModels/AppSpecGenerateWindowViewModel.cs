@@ -1,205 +1,120 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.ComponentModel;
-
-using Livet;
+﻿using CtrlLauncher.Models;
 using Livet.Commands;
 using Livet.Messaging;
 using Livet.Messaging.IO;
-using Livet.EventListeners;
-using Livet.Messaging.Windows;
-
-using CtrlLauncher.Models;
+using System;
 using System.IO;
+using System.Linq;
 
 namespace CtrlLauncher.ViewModels
 {
-    public class AppSpecGenerateWindowViewModel : ViewModel
+    public class AppSpecGenerateWindowViewModel : ViewModelBase
     {
         private AppSpec model;
 
-        #region TargetDirectory変更通知プロパティ
         private string _TargetDirectory = "";
-
         public string TargetDirectory
         {
-            get
-            { return _TargetDirectory; }
+            get { return _TargetDirectory; }
             set
             {
-                if (_TargetDirectory == value)
-                    return;
-                _TargetDirectory = value;
-                RaisePropertyChanged();
-                RaisePropertyChanged(nameof(RelativeScreenshotPath));
-                RaisePropertyChanged(nameof(RelativeExecutablePath));
-                RaisePropertyChanged(nameof(RelativeSourceDirectory));
+                if (SetProperty(ref _TargetDirectory, value))
+                {
+                    RaisePropertyChanged(nameof(RelativeScreenshotPath));
+                    RaisePropertyChanged(nameof(RelativeExecutablePath));
+                    RaisePropertyChanged(nameof(RelativeSourceDirectory));
 
-                GenerateCommand.RaiseCanExecuteChanged();
+                    GenerateCommand.RaiseCanExecuteChanged();
+                }
             }
         }
-        #endregion
 
-        #region Title変更通知プロパティ
+        private string _Id = "";
+        public string Id
+        {
+            get { return _Id; }
+            set
+            {
+                if (SetProperty(ref _Id, value))
+                    GenerateCommand.RaiseCanExecuteChanged();
+            }
+        }
+
         private string _Title = "";
-
         public string Title
         {
-            get
-            { return _Title; }
-            set
-            {
-                if (_Title == value)
-                    return;
-                _Title = value;
-                RaisePropertyChanged();
-            }
+            get { return _Title; }
+            set { SetProperty(ref _Title, value); }
         }
-        #endregion
 
-        #region Genre変更通知プロパティ
         private string _Genre;
-
         public string Genre
         {
-            get
-            { return _Genre; }
-            set
-            {
-                if (_Genre == value)
-                    return;
-                _Genre = value;
-                RaisePropertyChanged();
-            }
+            get { return _Genre; }
+            set { SetProperty(ref _Genre, value); }
         }
-        #endregion
 
-        #region ScreenshotPath変更通知プロパティ
         private string _ScreenshotPath = "";
-
         public string ScreenshotPath
         {
-            get
-            { return _ScreenshotPath; }
+            get { return _ScreenshotPath; }
             set
             {
-                if (_ScreenshotPath == value)
-                    return;
-                _ScreenshotPath = value;
-                RaisePropertyChanged();
-                RaisePropertyChanged(nameof(RelativeScreenshotPath));
+                if (SetProperty(ref _ScreenshotPath, value))
+                    RaisePropertyChanged(nameof(RelativeScreenshotPath));
             }
         }
-        #endregion
 
-        #region ExecutablePath変更通知プロパティ
         private string _ExecutablePath = "";
-
         public string ExecutablePath
         {
-            get
-            { return _ExecutablePath; }
+            get { return _ExecutablePath; }
             set
             {
-                if (_ExecutablePath == value)
-                    return;
-                _ExecutablePath = value;
-                RaisePropertyChanged();
-                RaisePropertyChanged(nameof(RelativeExecutablePath));
+                if (SetProperty(ref _ExecutablePath, value))
+                    RaisePropertyChanged(nameof(RelativeExecutablePath));
             }
         }
-        #endregion
 
-        #region Argument変更通知プロパティ
         private string _Argument = "";
-
         public string Argument
         {
-            get
-            { return _Argument; }
-            set
-            {
-                if (_Argument == value)
-                    return;
-                _Argument = value;
-                RaisePropertyChanged();
-            }
+            get { return _Argument; }
+            set { SetProperty(ref _Argument, value); }
         }
-        #endregion
 
-        #region SourceDirectory変更通知プロパティ
         private string _SourceDirectory = "";
-
         public string SourceDirectory
         {
-            get
-            { return _SourceDirectory; }
+            get { return _SourceDirectory; }
             set
             {
-                if (_SourceDirectory == value)
-                    return;
-                _SourceDirectory = value;
-                RaisePropertyChanged();
-                RaisePropertyChanged(nameof(RelativeSourceDirectory));
+                if (SetProperty(ref _SourceDirectory, value))
+                    RaisePropertyChanged(nameof(RelativeSourceDirectory));
             }
         }
-        #endregion
 
-        #region TimeLimitMinutes変更通知プロパティ
         private int _TimeLimitMinutes = 0;
-
         public int TimeLimitMinutes
         {
-            get
-            { return _TimeLimitMinutes; }
-            set
-            { 
-                if (_TimeLimitMinutes == value)
-                    return;
-                _TimeLimitMinutes = value;
-                RaisePropertyChanged();
-            }
+            get { return _TimeLimitMinutes; }
+            set { SetProperty(ref _TimeLimitMinutes, value); }
         }
-        #endregion
 
-        #region TimeLimitSeconds変更通知プロパティ
         private int _TimeLimitSeconds = 0;
-
         public int TimeLimitSeconds
         {
-            get
-            { return _TimeLimitSeconds; }
-            set
-            { 
-                if (_TimeLimitSeconds == value)
-                    return;
-                _TimeLimitSeconds = value;
-                RaisePropertyChanged();
-            }
+            get { return _TimeLimitSeconds; }
+            set { SetProperty(ref _TimeLimitSeconds, value); }
         }
-        #endregion
 
-        #region Description変更通知プロパティ
         private string _Description;
-
         public string Description
         {
-            get
-            { return _Description; }
-            set
-            { 
-                if (_Description == value)
-                    return;
-                _Description = value;
-                RaisePropertyChanged();
-            }
+            get { return _Description; }
+            set { SetProperty(ref _Description, value); }
         }
-        #endregion
 
-
-        #region RelativeScreenshotPath変更通知プロパティ
         public string RelativeScreenshotPath
         {
             get
@@ -208,9 +123,7 @@ namespace CtrlLauncher.ViewModels
                 return Utils.TryGetRelativePath(TargetDirectory, ScreenshotPath, out result) ? result : "?";
             }
         }
-        #endregion
 
-        #region RelativeExecutablePath変更通知プロパティ
         public string RelativeExecutablePath
         {
             get
@@ -219,9 +132,7 @@ namespace CtrlLauncher.ViewModels
                 return Utils.TryGetRelativePath(TargetDirectory, ExecutablePath, out result) ? result : "?";
             }
         }
-        #endregion
 
-        #region RelativeSourceDirectory変更通知プロパティ
         public string RelativeSourceDirectory
         {
             get
@@ -230,43 +141,22 @@ namespace CtrlLauncher.ViewModels
                 return Utils.TryGetRelativePath(TargetDirectory, SourceDirectory, out result) ? result : "?";
             }
         }
-        #endregion
 
-
-        #region IsSaving変更通知プロパティ
         private bool _IsSaving = false;
-
         public bool IsSaving
         {
-            get
-            { return _IsSaving; }
+            get { return _IsSaving; }
             set
             { 
-                if (_IsSaving == value)
-                    return;
-                _IsSaving = value;
-                RaisePropertyChanged();
-                GenerateCommand.RaiseCanExecuteChanged();
+                if (SetProperty(ref _IsSaving, value))
+                    GenerateCommand.RaiseCanExecuteChanged();
             }
         }
-        #endregion
-
 
 
         #region SetTargetDirectoryCommand
         private ListenerCommand<FolderSelectionMessage> _SetTargetDirectoryCommand;
-
-        public ListenerCommand<FolderSelectionMessage> SetTargetDirectoryCommand
-        {
-            get
-            {
-                if (_SetTargetDirectoryCommand == null)
-                {
-                    _SetTargetDirectoryCommand = new ListenerCommand<FolderSelectionMessage>(SetTargetDirectory);
-                }
-                return _SetTargetDirectoryCommand;
-            }
-        }
+        public ListenerCommand<FolderSelectionMessage> SetTargetDirectoryCommand => _SetTargetDirectoryCommand ?? (_SetTargetDirectoryCommand = new ListenerCommand<FolderSelectionMessage>(SetTargetDirectory));
 
         public void SetTargetDirectory(FolderSelectionMessage parameter)
         {
@@ -277,18 +167,7 @@ namespace CtrlLauncher.ViewModels
 
         #region SetScreenshotPathCommand
         private ListenerCommand<OpeningFileSelectionMessage> _SetScreenshotPathCommand;
-
-        public ListenerCommand<OpeningFileSelectionMessage> SetScreenshotPathCommand
-        {
-            get
-            {
-                if (_SetScreenshotPathCommand == null)
-                {
-                    _SetScreenshotPathCommand = new ListenerCommand<OpeningFileSelectionMessage>(SetScreenshotPath);
-                }
-                return _SetScreenshotPathCommand;
-            }
-        }
+        public ListenerCommand<OpeningFileSelectionMessage> SetScreenshotPathCommand => _SetScreenshotPathCommand ?? (_SetScreenshotPathCommand = new ListenerCommand<OpeningFileSelectionMessage>(SetScreenshotPath));
 
         public void SetScreenshotPath(OpeningFileSelectionMessage parameter)
         {
@@ -299,18 +178,7 @@ namespace CtrlLauncher.ViewModels
 
         #region SetExecutablePathCommand
         private ListenerCommand<OpeningFileSelectionMessage> _SetExecutablePathCommand;
-
-        public ListenerCommand<OpeningFileSelectionMessage> SetExecutablePathCommand
-        {
-            get
-            {
-                if (_SetExecutablePathCommand == null)
-                {
-                    _SetExecutablePathCommand = new ListenerCommand<OpeningFileSelectionMessage>(SetExecutablePath);
-                }
-                return _SetExecutablePathCommand;
-            }
-        }
+        public ListenerCommand<OpeningFileSelectionMessage> SetExecutablePathCommand => _SetExecutablePathCommand ?? (_SetExecutablePathCommand = new ListenerCommand<OpeningFileSelectionMessage>(SetExecutablePath));
 
         public void SetExecutablePath(OpeningFileSelectionMessage parameter)
         {
@@ -321,18 +189,7 @@ namespace CtrlLauncher.ViewModels
 
         #region SetSourceDirectoryCommand
         private ListenerCommand<FolderSelectionMessage> _SetSourceDirectoryCommand;
-
-        public ListenerCommand<FolderSelectionMessage> SetSourceDirectoryCommand
-        {
-            get
-            {
-                if (_SetSourceDirectoryCommand == null)
-                {
-                    _SetSourceDirectoryCommand = new ListenerCommand<FolderSelectionMessage>(SetSourceDirectory);
-                }
-                return _SetSourceDirectoryCommand;
-            }
-        }
+        public ListenerCommand<FolderSelectionMessage> SetSourceDirectoryCommand => _SetSourceDirectoryCommand ?? (_SetSourceDirectoryCommand = new ListenerCommand<FolderSelectionMessage>(SetSourceDirectory));
 
         public void SetSourceDirectory(FolderSelectionMessage parameter)
         {
@@ -341,26 +198,11 @@ namespace CtrlLauncher.ViewModels
         }
         #endregion
 
-
         #region GenerateCommand
         private ViewModelCommand _GenerateCommand;
+        public ViewModelCommand GenerateCommand => _GenerateCommand ?? (_GenerateCommand = new ViewModelCommand(Generate, CanGenerate));
 
-        public ViewModelCommand GenerateCommand
-        {
-            get
-            {
-                if (_GenerateCommand == null)
-                {
-                    _GenerateCommand = new ViewModelCommand(Generate, CanGenerate);
-                }
-                return _GenerateCommand;
-            }
-        }
-
-        public bool CanGenerate()
-        {
-            return !IsSaving && !string.IsNullOrEmpty(TargetDirectory);
-        }
+        public bool CanGenerate() => !IsSaving && !string.IsNullOrEmpty(TargetDirectory) && !string.IsNullOrWhiteSpace(Id);
 
         public async void Generate()
         {
@@ -395,8 +237,9 @@ namespace CtrlLauncher.ViewModels
             {
                 IsSaving = true;
 
-                AppSpecViewModel spec = new AppSpecViewModel();
+                var spec = new AppSpecViewModel();
 
+                spec.Id = Id.Trim();
                 spec.Title = Title;
                 spec.Genre = Genre;
                 spec.ScreenshotPath = rels.ElementAt(0);

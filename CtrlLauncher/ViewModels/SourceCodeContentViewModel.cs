@@ -1,151 +1,68 @@
-﻿using System;
+﻿using ICSharpCode.AvalonEdit.Highlighting;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.ComponentModel;
-
-using Livet;
-using Livet.Commands;
-using Livet.Messaging;
-using Livet.Messaging.IO;
-using Livet.EventListeners;
-using Livet.Messaging.Windows;
-
-using ICSharpCode.AvalonEdit.Highlighting;
-
-using CtrlLauncher.Models;
 
 namespace CtrlLauncher.ViewModels
 {
-    public class SourceCodeContentViewModel : ViewModel
+    public class SourceCodeContentViewModel : ViewModelBase
     {
-        #region SourceDirectoryEntry変更通知プロパティ
         private IEnumerable<FileEntryViewModel> _SourceDirectoryEntry;
-
         public IEnumerable<FileEntryViewModel> SourceDirectoryEntry
         {
-            get
-            { return _SourceDirectoryEntry; }
-            set
-            {
-                if (_SourceDirectoryEntry == value)
-                    return;
-                _SourceDirectoryEntry = value;
-                RaisePropertyChanged();
-            }
+            get { return _SourceDirectoryEntry; }
+            set { SetProperty(ref _SourceDirectoryEntry, value); }
         }
-        #endregion
 
-        #region SourceCode変更通知プロパティ
         private string _SourceCode;
-
         public string SourceCode
         {
-            get
-            { return _SourceCode; }
-            set
-            {
-                if (_SourceCode == value)
-                    return;
-                _SourceCode = value;
-                RaisePropertyChanged();
-            }
+            get { return _SourceCode; }
+            set { SetProperty(ref _SourceCode, value); }
         }
-        #endregion
 
-        #region HighlightingDefinition変更通知プロパティ
         private IHighlightingDefinition _HighlightingDefinition;
-
         public IHighlightingDefinition HighlightingDefinition
         {
-            get
-            { return _HighlightingDefinition; }
-            set
-            {
-                if (_HighlightingDefinition == value)
-                    return;
-                _HighlightingDefinition = value;
-                RaisePropertyChanged();
-            }
+            get { return _HighlightingDefinition; }
+            set { SetProperty(ref _HighlightingDefinition, value); }
         }
-        #endregion
 
-        #region FlyoutHeader変更通知プロパティ
-        public string FlyoutHeader
-        {
-            get
-            {
-                return "ソースコードビューア" + (AppInfoViewModel == null ? "" : string.IsNullOrEmpty(AppInfoViewModel.AppSpec.Title) ? "" : " - " + AppInfoViewModel.AppSpec.Title);
-            }
-        }
-        #endregion
+        public string FlyoutHeader => "ソースコードビューア" + (AppInfoViewModel == null ? "" : string.IsNullOrEmpty(AppInfoViewModel.AppSpec.Title) ? "" : " - " + AppInfoViewModel.AppSpec.Title);
 
-        #region FileName変更通知プロパティ
         private string _FileName;
-
         public string FileName
         {
-            get
-            { return _FileName; }
-            set
-            { 
-                if (_FileName == value)
-                    return;
-                _FileName = value;
-                RaisePropertyChanged();
-            }
+            get { return _FileName; }
+            set { SetProperty(ref _FileName, value); }
         }
-        #endregion
 
-        #region IsLoading変更通知プロパティ
         private bool _IsLoading;
-
         public bool IsLoading
         {
-            get
-            { return _IsLoading; }
-            set
-            {
-                if (_IsLoading == value)
-                    return;
-                _IsLoading = value;
-                RaisePropertyChanged();
-            }
+            get { return _IsLoading; }
+            set { SetProperty(ref _IsLoading, value); }
         }
-        #endregion
 
-        #region ErrorMessage変更通知プロパティ
         private string _ErrorMessage;
-
         public string ErrorMessage
         {
-            get
-            { return _ErrorMessage; }
+            get { return _ErrorMessage; }
             set
             {
-                if (_ErrorMessage == value)
-                    return;
-                _ErrorMessage = value;
-                RaisePropertyChanged();
-                RaisePropertyChanged(nameof(IsVisibleErrorMessage));
+                if (SetProperty(ref _ErrorMessage, value))
+                    RaisePropertyChanged(nameof(IsVisibleErrorMessage));
             }
         }
-        #endregion
 
-        #region IsVisibleErrorMessage変更通知プロパティ
-        public bool IsVisibleErrorMessage { get { return !string.IsNullOrEmpty(ErrorMessage); } }
-        #endregion
+        public bool IsVisibleErrorMessage => !string.IsNullOrEmpty(ErrorMessage);
 
-        #region AppInfoViewModel変更通知プロパティ
         private AppInfoViewModel _AppInfoViewModel;
-
         public AppInfoViewModel AppInfoViewModel
         {
-            get
-            { return _AppInfoViewModel; }
+            get { return _AppInfoViewModel; }
             set
             {
                 _AppInfoViewModel = value;
@@ -159,7 +76,6 @@ namespace CtrlLauncher.ViewModels
                 RaisePropertyChanged(nameof(FlyoutHeader));
             }
         }
-        #endregion
 
         public async void ItemSelected(FileEntryViewModel entry)
         {
@@ -216,10 +132,6 @@ namespace CtrlLauncher.ViewModels
             {
                 IsLoading = false;
             }
-        }
-
-        public SourceCodeContentViewModel()
-        {
         }
     }
 }

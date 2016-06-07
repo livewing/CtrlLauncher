@@ -1,49 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.ComponentModel;
-using System.Windows.Media.Imaging;
-
-using Livet;
-using Livet.Commands;
-using Livet.Messaging;
-using Livet.Messaging.IO;
+﻿using CtrlLauncher.Models;
 using Livet.EventListeners;
-using Livet.Messaging.Windows;
-
-using CtrlLauncher.Models;
+using System;
+using System.Windows.Media.Imaging;
 
 namespace CtrlLauncher.ViewModels
 {
-    public class AppInfoViewModel : ViewModel
+    public class AppInfoViewModel : ViewModelBase<AppInfo>
     {
-        private AppInfo model;
+        public AppSpecViewModel AppSpec { get; }
 
-        #region AppSpecプロパティ
-        public AppSpecViewModel AppSpec { get; private set; }
-        #endregion
+        public string Path => Model.Path;
 
-        #region Pathプロパティ
-        public string Path { get { return model.Path; } }
-        #endregion
-
-        #region StartCount変更通知プロパティ
-        public int StartCount { get { return model.StartCount; } }
-        #endregion
+        public int StartCount => Model.StartCount;
 
 
-        public BitmapImage ScreenshotImage { get { return model.ScreenshotImage; } }
+        public BitmapImage ScreenshotImage => Model.ScreenshotImage;
 
-        public bool IsAvailableExecutable { get { return !string.IsNullOrEmpty(AppSpec.ExecutablePath); } }
+        public bool IsAvailableExecutable => !string.IsNullOrEmpty(AppSpec.ExecutablePath);
 
-        public bool IsAvailableSourceCode { get { return !string.IsNullOrEmpty(AppSpec.SourcePath); } }
+        public bool IsAvailableSourceCode => !string.IsNullOrEmpty(AppSpec.SourcePath);
 
-        public string SourceAbsolutePath { get { return model.SourceAbsolutePath; } }
+        public string SourceAbsolutePath => Model.SourceAbsolutePath;
 
-        public AppInfoViewModel(AppInfo model)
+        public AppInfoViewModel(AppInfo model) : base(model, false)
         {
-            this.model = model;
             AppSpec = new AppSpecViewModel(model.AppSpec);
 
             CompositeDisposable.Add(new PropertyChangedEventListener(model, (sender, e) =>
@@ -53,14 +33,8 @@ namespace CtrlLauncher.ViewModels
             }));
         }
 
-        public void Start(Action timeoutHandler)
-        {
-            model.Start(timeoutHandler);
-        }
+        public void Start(Action timeoutHandler) => Model.Start(timeoutHandler);
 
-        public void OpenDirectory()
-        {
-            model.OpenDirectory();
-        }
+        public void OpenDirectory() => Model.OpenDirectory();
     }
 }

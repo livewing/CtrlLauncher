@@ -55,6 +55,7 @@
         <RowDefinition />
         <RowDefinition />
         <RowDefinition />
+        <RowDefinition />
       </Grid.RowDefinitions>
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="Auto" />
@@ -76,20 +77,23 @@
         </i:Interaction.Triggers>
       </Button>
 
-      <TextBlock Grid.Row="1" Grid.Column="0" Text="タイトル:" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="4" />
-      <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="4" />
+      <TextBlock Grid.Row="1" Grid.Column="0" Text="アプリケーション ID:" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="4" />
+      <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Id, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="4" />
 
-      <TextBlock Grid.Row="2" Grid.Column="0" Text="ジャンル:" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="4" />
-      <ComboBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" SelectedIndex="0" Text="{Binding Genre}" VerticalAlignment="Center" Margin="4">
+      <TextBlock Grid.Row="2" Grid.Column="0" Text="タイトル:" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="4" />
+      <TextBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="4" />
+
+      <TextBlock Grid.Row="3" Grid.Column="0" Text="ジャンル:" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="4" />
+      <ComboBox Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" SelectedIndex="0" Text="{Binding Genre}" VerticalAlignment="Center" Margin="4">
         <ComboBoxItem Content="ゲーム" />
         <ComboBoxItem Content="ツール" />
         <ComboBoxItem Content="Web アプリケーション" />
         <ComboBoxItem Content="その他" />
       </ComboBox>
 
-      <TextBlock Grid.Row="3" Grid.Column="0" Text="スクリーンショット:" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="4" />
-      <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding ScreenshotPath, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="4" />
-      <Button Grid.Row="3" Grid.Column="2" Content="..." VerticalAlignment="Center" Margin="4" Style="{DynamicResource SquareButtonStyle}">
+      <TextBlock Grid.Row="4" Grid.Column="0" Text="スクリーンショット:" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="4" />
+      <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding ScreenshotPath, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="4" />
+      <Button Grid.Row="4" Grid.Column="2" Content="..." VerticalAlignment="Center" Margin="4" Style="{DynamicResource SquareButtonStyle}">
         <i:Interaction.Triggers>
           <i:EventTrigger EventName="Click">
             <l:OpenFileDialogInteractionMessageAction>
@@ -101,12 +105,12 @@
         </i:Interaction.Triggers>
       </Button>
 
-      <TextBlock Grid.Row="4" Grid.Column="0" Text="相対パス:" Foreground="Gray" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="4" />
-      <TextBlock Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding RelativeScreenshotPath}" FontFamily="Segoe UI, Lucida Sans Unicode, Verdana" Foreground="Gray" VerticalAlignment="Center" Margin="4" />
+      <TextBlock Grid.Row="5" Grid.Column="0" Text="相対パス:" Foreground="Gray" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="4" />
+      <TextBlock Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding RelativeScreenshotPath}" FontFamily="Segoe UI, Lucida Sans Unicode, Verdana" Foreground="Gray" VerticalAlignment="Center" Margin="4" />
       
-      <TextBlock Grid.Row="5" Grid.Column="0" Text="実行ファイル:" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="4" />
-      <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding ExecutablePath, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="4" />
-      <Button Grid.Row="5" Grid.Column="2" Content="..." VerticalAlignment="Center" Margin="4" Style="{DynamicResource SquareButtonStyle}">
+      <TextBlock Grid.Row="6" Grid.Column="0" Text="実行ファイル:" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="4" />
+      <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding ExecutablePath, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="4" />
+      <Button Grid.Row="6" Grid.Column="2" Content="..." VerticalAlignment="Center" Margin="4" Style="{DynamicResource SquareButtonStyle}">
         <i:Interaction.Triggers>
           <i:EventTrigger EventName="Click">
             <l:OpenFileDialogInteractionMessageAction>
@@ -118,15 +122,15 @@
         </i:Interaction.Triggers>
       </Button>
 
-      <TextBlock Grid.Row="6" Grid.Column="0" Text="相対パス:" Foreground="Gray" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="4" />
-      <TextBlock Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding RelativeExecutablePath}" FontFamily="Segoe UI, Lucida Sans Unicode, Verdana" Foreground="Gray" VerticalAlignment="Center" Margin="4" />
+      <TextBlock Grid.Row="7" Grid.Column="0" Text="相対パス:" Foreground="Gray" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="4" />
+      <TextBlock Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding RelativeExecutablePath}" FontFamily="Segoe UI, Lucida Sans Unicode, Verdana" Foreground="Gray" VerticalAlignment="Center" Margin="4" />
 
-      <TextBlock Grid.Row="7" Grid.Column="0" Text="引数:" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="4" />
-      <TextBox Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Argument, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="4" />
+      <TextBlock Grid.Row="8" Grid.Column="0" Text="引数:" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="4" />
+      <TextBox Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Argument, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="4" />
 
-      <TextBlock Grid.Row="8" Grid.Column="0" Text="ソースディレクトリ:" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="4" />
-      <TextBox Grid.Row="8" Grid.Column="1" Text="{Binding SourceDirectory, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="4" />
-      <Button Grid.Row="8" Grid.Column="2" Content="..." VerticalAlignment="Center" Margin="4" Style="{DynamicResource SquareButtonStyle}">
+      <TextBlock Grid.Row="9" Grid.Column="0" Text="ソースディレクトリ:" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="4" />
+      <TextBox Grid.Row="9" Grid.Column="1" Text="{Binding SourceDirectory, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="4" />
+      <Button Grid.Row="9" Grid.Column="2" Content="..." VerticalAlignment="Center" Margin="4" Style="{DynamicResource SquareButtonStyle}">
         <i:Interaction.Triggers>
           <i:EventTrigger EventName="Click">
             <l:FolderBrowserDialogInteractionMessageAction>
@@ -138,11 +142,11 @@
         </i:Interaction.Triggers>
       </Button>
 
-      <TextBlock Grid.Row="9" Grid.Column="0" Text="相対パス:" Foreground="Gray" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="4" />
-      <TextBlock Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding RelativeSourceDirectory}" FontFamily="Segoe UI, Lucida Sans Unicode, Verdana" Foreground="Gray" VerticalAlignment="Center" Margin="4" />
+      <TextBlock Grid.Row="10" Grid.Column="0" Text="相対パス:" Foreground="Gray" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="4" />
+      <TextBlock Grid.Row="10" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding RelativeSourceDirectory}" FontFamily="Segoe UI, Lucida Sans Unicode, Verdana" Foreground="Gray" VerticalAlignment="Center" Margin="4" />
       
-      <TextBlock Grid.Row="10" Grid.Column="0" Text="制限時間:" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="4" />
-      <Grid Grid.Row="10" Grid.Column="1" Grid.ColumnSpan="2" Margin="4">
+      <TextBlock Grid.Row="11" Grid.Column="0" Text="制限時間:" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="4" />
+      <Grid Grid.Row="11" Grid.Column="1" Grid.ColumnSpan="2" Margin="4">
         <Grid.ColumnDefinitions>
           <ColumnDefinition />
           <ColumnDefinition Width="Auto" />
@@ -156,10 +160,10 @@
         <TextBlock Grid.Column="3" Text="秒" Margin="4, 0" VerticalAlignment="Center" />
       </Grid>
       
-      <TextBlock Grid.Row="11" Grid.Column="1" Text="0 分 0 秒に設定すると制限時間を設けません" Foreground="Gray" VerticalAlignment="Center" Margin="4" />
+      <TextBlock Grid.Row="12" Grid.Column="1" Text="0 分 0 秒に設定すると制限時間を設けません" Foreground="Gray" VerticalAlignment="Center" Margin="4" />
       
-      <TextBlock Grid.Row="12" Grid.Column="0" Text="説明文:" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="4" />
-      <TextBox Grid.Row="12" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" Height="50" VerticalAlignment="Center" Margin="4" />
+      <TextBlock Grid.Row="13" Grid.Column="0" Text="説明文:" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="4" />
+      <TextBox Grid.Row="13" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" Height="50" VerticalAlignment="Center" Margin="4" />
     </Grid>
     <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
       <Button Content="生成" Width="100" Margin="4" Command="{Binding GenerateCommand}" Style="{StaticResource AccentedSquareButtonStyle}" />

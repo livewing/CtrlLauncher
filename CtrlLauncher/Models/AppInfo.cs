@@ -1,29 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Reactive.Linq;
 using System.Windows.Media.Imaging;
 
-using Livet;
-
 namespace CtrlLauncher.Models
 {
-    public class AppInfo : NotificationObject
+    public class AppInfo : BindableBase
     {
         private LauncherCore core;
 
-        public AppSpec AppSpec { get; private set; }
+        public AppSpec AppSpec { get; }
 
-        public string Path { get; private set; }
+        public string Path { get; }
 
-        public BitmapImage ScreenshotImage { get; private set; }
+        public BitmapImage ScreenshotImage { get; }
 
-        public int StartCount { get { return core.GetCount(this); } }
+        public int StartCount => core.GetCount(this);
 
-        public string SourceAbsolutePath { get { return toAbsolutePath(AppSpec.SourcePath); } }
+        public string SourceAbsolutePath => toAbsolutePath(AppSpec.SourcePath);
 
         public AppInfo(LauncherCore core, AppSpec spec, string path)
         {
@@ -51,7 +47,24 @@ namespace CtrlLauncher.Models
             core.SetCount(this, core.GetCount(this) + 1);
             RaisePropertyChanged(nameof(StartCount));
 
-            if (AppSpec.TimeLimit > TimeSpan.Zero)
+            TimeSpan timeLimit;
+            switch (core.Settings.GlobalTimeLimitMode)
+            {
+                case Settings.TimeLimitMode.Default:
+                    timeLimit = (AppSpec.TimeLimit == TimeSpan.Zero) ? core.Settings.GlobalTimeLimit : AppSpec.TimeLimit;
+                    break;
+                case Settings.TimeLimitMode.Enabled:
+                    timeLimit = (AppSpec.TimeLimit == TimeSpan.Zero || AppSpec.TimeLimit > core.Settings.GlobalTimeLimit) ? core.Settings.GlobalTimeLimit : AppSpec.TimeLimit;
+                    break;
+                case Settings.TimeLimitMode.Forced:
+                    timeLimit = core.Settings.GlobalTimeLimit;
+                    break;
+                default:
+                    timeLimit = AppSpec.TimeLimit;
+                    break;
+            }
+
+            if (timeLimit > TimeSpan.Zero)
             {
                 IDisposable d = null;
                 var s = Observable.Interval(TimeSpan.FromMilliseconds(100)).Where(_ =>
@@ -69,7 +82,7 @@ namespace CtrlLauncher.Models
                 });
                 d = s.Subscribe(_ =>
                 {
-                    var remaining = AppSpec.TimeLimit - (DateTime.Now - process.StartTime);
+                    var remaining = timeLimit - (DateTime.Now - process.StartTime);
                     if (remaining < TimeSpan.Zero)
                     {
                         process.Kill();
@@ -107,9 +120,6 @@ namespace CtrlLauncher.Models
             catch { }
         }
 
-        private string toAbsolutePath(string relative)
-        {
-            return new Uri(new Uri(Path + "\\"), relative).LocalPath;
-        }
+        private string toAbsolutePath(string relative) => new Uri(new Uri(Path + "\\"), relative).LocalPath;
     }
 }

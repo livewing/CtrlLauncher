@@ -1,17 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
-
-using Livet;
 using YamlDotNet.Serialization;
-using System.IO;
 
 namespace CtrlLauncher.Models
 {
-    public class AppSpec : NotificationObject
+    public class AppSpec
     {
+        public string Id { get; set; }
+
         public string Title { get; set; }
 
         public string Genre { get; set; }
@@ -28,10 +26,7 @@ namespace CtrlLauncher.Models
 
         public string Description { get; set; }
 
-        public AppSpec()
-        {
-
-        }
+        public bool IsLate { get; set; } = false;
 
         public static async Task<AppSpec> LoadAsync(string path)
         {

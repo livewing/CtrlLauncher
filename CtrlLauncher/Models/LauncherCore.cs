@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.IO.Compression;
@@ -9,51 +8,34 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-using Livet;
-
 namespace CtrlLauncher.Models
 {
-    public class LauncherCore : NotificationObject
+    public class LauncherCore : BindableBase
     {
-        public string DataDirectoryPath
-        {
-            get
-            {
-                return Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Data");
-            }
-        }
+        public string DataDirectoryPath => Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Data");
 
-        public string CountFilePath
-        {
-            get
-            {
-                return Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "count.dat");
-            }
-        }
+        public string CountFilePath => Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "count.dat");
 
-        #region Apps変更通知プロパティ
-        private ObservableCollection<AppInfo> _Apps = new ObservableCollection<AppInfo>();
+        public string SettingsFilePath => Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "settings.yml");
 
-        public ObservableCollection<AppInfo> Apps
-        {
-            get
-            { return _Apps; }
-            set
-            {
-                if (_Apps == value)
-                    return;
-                _Apps = value;
-                RaisePropertyChanged();
-            }
-        }
-        #endregion
+        public Settings Settings { get; private set; }
+
+        public ObservableCollection<AppInfo> Apps { get; } = new ObservableCollection<AppInfo>();
 
         private List<CountData> countData = new List<CountData>();
 
-        public LauncherCore()
+        public async Task LoadSettingsAsync()
         {
-
+            if (File.Exists(SettingsFilePath))
+                Settings = await Settings.LoadAsync(SettingsFilePath);
+            else
+            {
+                Settings = new Settings();
+                await SaveSettingsAsync();
+            }
         }
+
+        public async Task SaveSettingsAsync() => await Settings.SaveAsync(SettingsFilePath);
 
         public async Task LoadAppsAsync()
         {
@@ -80,7 +62,7 @@ namespace CtrlLauncher.Models
                 {
                     try
                     {
-                        var yamlPath = new[] { "spec.yml", "spec.yaml" }.Select(p => Path.Combine(dir, p)).FirstOrDefault(p => File.Exists(p));
+                        var yamlPath = new[] { "spec.yml", "spec.yaml" }.Select(p => Path.Combine(dir, p)).FirstOrDefault(File.Exists);
                         if (!string.IsNullOrEmpty(yamlPath))
                         {
                             var spec = await AppSpec.LoadAsync(yamlPath);
@@ -97,8 +79,7 @@ namespace CtrlLauncher.Models
             var data = countData.FirstOrDefault(d => d.DirectoryNameHash == Path.GetFileName(info.Path).GetHashCode() && d.Title == info.AppSpec.Title);
             if (data != null)
                 return data.Count;
-            else
-                return 0;
+            return 0;
         }
 
         public void SetCount(AppInfo info, int value)
@@ -120,6 +101,14 @@ namespace CtrlLauncher.Models
                 {
                     await sw.WriteLineAsync(item.Title + " " + item.Count.ToString());
                 }
+            }
+        }
+
+        public async Task ExportApplicationIdAsync(string path)
+        {
+            using (var sw = new StreamWriter(path, false, Encoding.UTF8))
+            {
+                await sw.WriteLineAsync(Apps.Select(a => a.AppSpec.Id.Replace(" ", "").Replace("　", "").Replace("\t", "")).OrderBy(s => s).Aggregate((str, s) => $"{str} {s}"));
             }
         }
 
@@ -146,9 +135,9 @@ namespace CtrlLauncher.Models
 
         private class CountData
         {
-            public int DirectoryNameHash { get; private set; }
+            public int DirectoryNameHash { get; }
 
-            public string Title { get; private set; }
+            public string Title { get; }
 
             public int Count { get; set; }
 
@@ -165,14 +154,10 @@ namespace CtrlLauncher.Models
                 Count = int.Parse(e.Attribute("Count").Value);
             }
 
-            public XElement ToXElement()
-            {
-                return new XElement("Data",
+            public XElement ToXElement() => new XElement("Data",
                     new XAttribute("Hash", DirectoryNameHash),
                     new XAttribute("Title", Title ?? ""),
-                    new XAttribute("Count", Count)
-                );
-            }
+                    new XAttribute("Count", Count));
         }
     }
 }
