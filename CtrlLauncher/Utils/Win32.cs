@@ -47,5 +47,36 @@ namespace CtrlLauncher
             uint cbSizeFileInfo,
             uint uFlags
         );
+
+        public static readonly IntPtr HWND_TOPMOST = new IntPtr(-1);
+        public const uint SWP_NOSIZE = 0x1;
+        public const uint SWP_NOMOVE = 0x2;
+        public const uint SWP_SHOWWINDOW = 0x40;
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        public static extern int SetWindowPos(
+            IntPtr hWnd,
+            IntPtr hWndInsertAfter,
+            int x,
+            int y,
+            int cx,
+            int cy,
+            uint uFlags
+        );
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        public static extern int IsIconic(
+            IntPtr hWnd
+        );
+
+        public const int SW_SHOW = 0x5;
+        public const int SW_SHOWNORMAL = 0x1;
+        public const int SW_RESTORE = 0x9;
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        public static extern int ShowWindow(
+            IntPtr hWnd,
+            int nCmdShow
+        );
     }
 }
