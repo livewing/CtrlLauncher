@@ -109,6 +109,25 @@ namespace CtrlLauncher.Models
                         d.Dispose();
                 };
             }
+
+            IDisposable dispose = null;
+            var o = Observable.Timer(TimeSpan.FromMilliseconds(100), TimeSpan.FromSeconds(1)).Where(_ =>
+            {
+                try
+                {
+                    return !process.HasExited;
+                }
+                catch
+                {
+                    if (dispose != null)
+                        dispose.Dispose();
+                    return false;
+                }
+            });
+            dispose = o.Subscribe(_ =>
+            {
+                Utils.SetForgroundWindow(process.MainWindowHandle);
+            });
         }
 
         public void OpenDirectory()
