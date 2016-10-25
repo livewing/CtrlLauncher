@@ -21,11 +21,11 @@
 ```
 
 ## 3. spec.yml ファイルを作成する
-CTRL Launcer に表示される情報を定義する`spec.yml`ファイルを以下の`3.1.`もしくは`3.2.`の方法で作成します。
+CTRL Launcher に表示される情報を定義する`spec.yml`ファイルを以下の`3.1.`もしくは`3.2.`の方法で作成します。
 
 ### 3.1. CTRL Launcher を使用して作成する (推奨)
-1. [Releases](https://github.com/gssequence/CtrlLauncher/releases) から CTRL Launcer をダウンロードします。
-2. ダウンロードした zip ファイルを適当な場所に解凍し、 **Shift キーを押しながら**  `CtrlLauncer.exe`を実行します。
+1. [Releases](https://github.com/gssequence/CtrlLauncher/releases) から CTRL Launcher をダウンロードします。
+2. ダウンロードした zip ファイルを適当な場所に解凍し、 **Shift キーを押しながら**  `CtrlLauncher.exe`を実行します。
 3. メニューの`ツール(T)`→`spec.yml ファイルの生成(S)...`をクリックします。
 4. `ターゲットディレクトリ`に、`2.`で作成したディレクトリ(`(A)`のディレクトリ)を指定します。
 5. `アプリケーション ID`に、アプリケーションを一意に識別できるIDを入力します。
